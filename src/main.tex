@@ -1,0 +1,37 @@
+\documentclass[a4paper,fontsize=12pt]{scrbook}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+
+\title{A Study on Application-aware Dynamic Interconnects}
+\author{Keichi Takahashi}
+
+\renewcommand{\baselinestretch}{1.25}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+
+\input{src/publications}
+\input{src/summary}
+
+\tableofcontents
+
+\newpage
+\thispagestyle{empty}
+
+\pagenumbering{arabic}
+
+\include{src/chapter1}
+\include{src/chapter2}
+\include{src/chapter3}
+\include{src/chapter4}
+\include{src/chapter5}
+\include{src/chapter6}
+\include{src/acknowledgements}
+
+\end{document}
