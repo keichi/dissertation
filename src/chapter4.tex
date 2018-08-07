@@ -106,21 +106,21 @@ The main contributions of this paper are summarized as follows:
   to evaluate the overhead incurred by the proposed mechanism.
 \end{itemize}
 
-The remainder of this paper is organized as follows. Section
-~\ref{research-objective} introduces SDN-enhanced MPI and its key
+The remainder of this paper is organized as follows.
+Section~\ref{research-objective} introduces SDN-enhanced MPI and its key
 technologies. Subsequently, the challenge to realize SDN-enhanced MPI is
 derived. Section~\ref{proposal} describes our proposed mechanism and its
-implementation. Section~\ref{evaluation} shows the result of the
-experiments conducted to demonstrate the feasibility of the proposal.
+implementation. Section~\ref{evaluation} shows the result of the experiments
+conducted to demonstrate the feasibility of the proposal.
 Section~\ref{related-work} reviews related literature and clarifies the
-contributions of this paper. Finally, section~\ref{conclusion} discusses
+contributions of this paper. Finally, Section~\ref{conclusion} discusses
 future issues to be tackled and concludes this paper.
 
 \hypertarget{research-objective}{%
 \section{Research Objective}\label{research-objective}}
 
 This section first briefly describes the two key technologies of
-SDN-enhanced MPI: the Message Passing Interface (MPI) and Software
+SDN-enhanced MPI:\@ the Message Passing Interface (MPI) and Software
 Defined Networking (SDN). After outlining the current development status
 of SDN-enhanced MPI, the central challenge in realizing a practical
 SDN-enhanced MPI is clarified.
@@ -144,7 +144,7 @@ representative examples of MPI primitives.
 
 \begin{table}[htbp]
     \centering
-    \caption{Examples of MPI primitives}
+    \caption{Examples of MPI primitives}%
     \label{tbl:mpi-primitives}
     \begin{tabular}{lll}
         \hline
@@ -242,7 +242,7 @@ switch.
         ff:ff:ff:ff:ff:ff &            &             & Output to port 1 and 2   \\
         72:42:c1:e4:75:8c &            &             & Drop
     \end{tabular}
-    \caption{An example of a flow table}
+    \caption{An example of a flow table}%
     \label{tbl:flow-table}
 \end{figure}
 
@@ -250,13 +250,13 @@ switch.
 \subsection{SDN-enhanced MPI}\label{sdn-enhanced-mpi}}
 
 The basic idea of SDN-enhanced MPI is to incorporate the flexible
-network controllability of SDN into MPI\@. As described in section
-~\ref{message-passing-interface-mpi}, MPI mainly focuses on hiding the
-complexity of the underlying network architecture. Therefore, MPI does
-not provide any functionality for explicitly controlling the network.
-Integrating SDN into MPI could complement such lack of a network control
-feature in MPI and allow MPI to optimize the traffic flow in the network
-in accordance with the communication pattern of applications.
+network controllability of SDN into MPI\@. As described in
+Section~\ref{message-passing-interface-mpi}, MPI mainly focuses on hiding the
+complexity of the underlying network architecture. Therefore, MPI does not
+provide any functionality for explicitly controlling the network. Integrating
+SDN into MPI could complement such lack of a network control feature in MPI
+and allow MPI to optimize the traffic flow in the network in accordance with
+the communication pattern of applications.
 
 At the time of writing this paper, we have applied the above described
 basic idea to two collective MPI primitives, MPI\_Bcast and
@@ -278,7 +278,7 @@ The central challenge in realizing a practical SDN-enhanced MPI lies in
 a coordination mechanism between the application and network control.
 Although the previous works on SDN-enhanced MPI have shown the
 feasibility of accelerating individual primitives as described in
-section~\ref{sdn-enhanced-mpi}, actual MPI applications have not yet
+Section~\ref{sdn-enhanced-mpi}, actual MPI applications have not yet
 taken advantage of network programmability brought by SDN, since each of
 the distinct network control algorithms designed for an MPI primitive
 cannot be activated along with the execution of an MPI application. In
@@ -339,13 +339,13 @@ flow control.
 
 In detail, the tag is embedded into the destination MAC address field of
 the packet header field. The location of the destination MAC address
-field in a packet and the binary layout of a tag are shown in Fig.
-~\ref{fig:binary-layout}.
+field in a packet and the binary layout of a tag are shown in
+Fig.~\ref{fig:binary-layout}.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics{binary-layout}
-    \caption{Tag information embedded in a packet}
+    \caption{Tag information embedded in a packet}%
     \label{fig:binary-layout}
 \end{figure}
 
@@ -376,7 +376,7 @@ nodes is assumed to be Linux.
 \begin{figure}[htbp]
     \centering
     \includegraphics{overall-arch}
-    \caption{Overall architecture of UnisonFlow}
+    \caption{Overall architecture of UnisonFlow}%
     \label{fig:overall-arch}
 \end{figure}
 
@@ -441,7 +441,7 @@ between software modules.
 \begin{figure}[htbp]
     \centering
     \includegraphics{intra-node-flow}
-    \caption{Intra-node packet flow}
+    \caption{Intra-node packet flow}%
     \label{fig:intra-node-flow}
 \end{figure}
 
@@ -526,7 +526,7 @@ generated and then installed to relevant switches (step 4).
 \begin{figure}[htbp]
     \centering
     \includegraphics{inter-node-flow}
-    \caption{Inter-node packet flow}
+    \caption{Inter-node packet flow}%
     \label{fig:inter-node-flow}
 \end{figure}
 
@@ -569,7 +569,7 @@ interconnect controller was also prepared.
 \begin{figure}[htbp]
     \centering
     \includegraphics{cluster-topology}
-    \caption{Overview of the experimental environment}
+    \caption{Overview of the experimental environment}%
     \label{fig:cluster-topology}
 \end{figure}
 
@@ -582,7 +582,7 @@ Table~\ref{tbl:node-spec}.
 
 \begin{table}[htbp]
     \centering
-    \caption{Computing node specifications}
+    \caption{Computing node specifications}%
     \label{tbl:node-spec}
     \begin{tabular}{ll}
         \hline
@@ -926,11 +926,10 @@ research in terms that a technical design to extract communication
 patterns from applications and convey such information to the network
 controller in real-time is exhibited.
 
-A software-defined multicasting mechanism for MPI has been presented in
-~\autocite{Arap2014}. This mechanism offloads collective MPI primitives
-to programmable NICs and OpenFlow switches. This method heavily depends
-on specialized hardware such as NetFPGA, whereas our proposal is
-software-based.
+A software-defined multicasting mechanism for MPI has been presented
+in~\autocite{Arap2014}. This mechanism offloads collective MPI primitives to
+programmable NICs and OpenFlow switches. This method heavily depends on
+specialized hardware such as NetFPGA, whereas our proposal is software-based.
 
 Multi-Protocol Label Switching (MPLS) and UnisonFlow share the similar
 idea of eliminating the need to examine packet payloads by encoding

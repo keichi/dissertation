@@ -117,8 +117,7 @@ describes the design and implementation of PFAnalyzer.
 Section~\ref{evaluation} presents the simulation results for NAS CG
 benchmark and MILC obtained with our proposed simulator. Furthermore,
 results of a verification experiment on a physical cluster are shown.
-Section\\
-\ref{conclusion} concludes this paper and outlines our future work.
+Section~\ref{conclusion} concludes this paper and outlines our future work.
 
 \hypertarget{research-objective}{%
 \section{Research Objective}\label{research-objective}}
@@ -308,7 +307,7 @@ the traffic matrix.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=.9]{tracer_block}
-    \caption{Block Diagram of PFProf}
+    \caption{Block Diagram of PFProf}%
     \label{fig:profiler-block}
 \end{figure}
 
@@ -335,7 +334,7 @@ pattern.
 \begin{figure}[htbp]
     \centering
     \includegraphics{traffic_matrix}
-    \caption{Traffic Matrix for MILC}
+    \caption{Traffic Matrix for MILC}%
     \label{fig:traffic-matrix}
 \end{figure}
 
@@ -377,12 +376,12 @@ described in GraphML~\autocite{Brandes2013}, an XML-based markup
 language for graphs. Popular graph visualization tools such as Cytoscape
 and Gephi can be used to view and edit GraphML files. Communication
 pattern files are obtained from applications using PFProf described in
-the previous section \ref{pfprof-mpi-profiler}.
+the previous section~\ref{pfprof-mpi-profiler}.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=.9]{simulator_block}
-    \caption{Block Diagram of PFSim}
+    \caption{Block Diagram of PFSim}%
     \label{fig:simulator-block}
 \end{figure}
 
@@ -447,7 +446,7 @@ jobs:
 \begin{figure}[h]
     \centering
     \includegraphics{simulator_flowchart}
-    \caption{Life Cycle of a Simulated Job}
+    \caption{Life Cycle of a Simulated Job}%
     \label{fig:simulator-flowchart}
 \end{figure}
 
@@ -504,7 +503,7 @@ topology as illustrated in Fig.~\ref{fig:cluster-config}.
 \begin{figure}[htbp]
     \centering
     \includegraphics{cluster_config}
-    \caption{Simulated Cluster with Fat-Tree Interconnect}
+    \caption{Simulated Cluster with Fat-Tree Interconnect}%
     \label{fig:cluster-config}
 \end{figure}
 
@@ -592,7 +591,7 @@ pattern.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=.9]{nersc_milc_multi_congestion}
-    \caption{Comparison of Maximum Traffic (MILC)}
+    \caption{Comparison of Maximum Traffic (MILC)}%
     \label{fig:nersc-milc-multi-congestion}
 \end{figure}
 
@@ -608,7 +607,7 @@ reduction of the maximum link load was 18\%.
 
 To investigate the impact of traffic load on the application performance
 of an actual environment, we reproduced the configuration described in
-the previous section \ref{simulation-results} on a physical cluster and
+the previous Section~\ref{simulation-results} on a physical cluster and
 then measured the execution time of each benchmark. This cluster was
 equipped with switches that support OpenFlow, which is a de facto
 standard implementation of SDN\@. The routing algorithms were implemented
@@ -638,10 +637,10 @@ by using indicators such as maximum traffic load.
     \begin{subfigure}[t]{.47\linewidth}
         \centering
         \includegraphics[scale=.9]{nersc_milc_execution_time}
-        \caption{MILC}
+        \caption{MILC}%
         \label{fig:nersc-milc-time}
     \end{subfigure}
-    \caption{Comparison of Execution Time}
+    \caption{Comparison of Execution Time}%
     \label{fig:single-job-time}
 \end{figure}
 
@@ -663,14 +662,14 @@ overhead for latency.
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=.9]{bandwidth_overhead}
-    \caption{Throughput of MPI\_Send/Recv Between Two Nodes}
+    \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:bandwidth-overhead}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=.9]{latency_overhead}
-    \caption{Latency of MPI\_Send/Recv Between Two Nodes}
+    \caption{Latency of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:latency-overhead}
 \end{figure}
 
