@@ -1,9 +1,41 @@
 \documentclass[a4paper,fontsize=12pt]{scrbook}
 
 \usepackage[english]{babel}
+\usepackage[maxnames=99,giveninits=true]{biblatex}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
 \usepackage[utf8]{inputenc}
+\usepackage{listings}
 \usepackage{newtxtext}
 \usepackage{newtxmath}
+\usepackage[format=hang,caption=false]{subfig}
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\graphicspath{{./img/}}
+
+% Source code
+\lstset{%
+  language={C},
+  basicstyle={\small\ttfamily},%
+  identifierstyle={\small\ttfamily},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small\ttfamily},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=none,%
+  xrightmargin=0em,%
+  xleftmargin=0em,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1em,%
+  lineskip=-0.5ex,%
+  mathescape%
+}
+
+\addbibresource{references.bib}
 
 \title{A Study on Application-aware Dynamic Interconnects}
 \author{Keichi Takahashi}
@@ -33,5 +65,7 @@
 \include{src/chapter5}
 \include{src/chapter6}
 \include{src/acknowledgements}
+
+\printbibliography[heading=bibintoc,title={References}]
 
 \end{document}
