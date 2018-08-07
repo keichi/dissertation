@@ -624,30 +624,53 @@ finish of the MPI\_Reduce iteration (\(t_3\)). This timing information
 is used to investigate the relationship between the execution of the MPI
 application and the traffic change in the interconnect.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
     \centering
-    \subfloat[At port 0xa00 (spine1) \newline towards port 0xa00 (leaf1)]
-        { \label{fig:spine1-leaf1-conv}
-          \includegraphics[scale=0.5]{coll-conv-1-2560} }
-    \subfloat[At port 0xb00 (spine1) \newline towards port 0xa00 (leaf2)]
-        { \includegraphics[scale=0.5]{coll-conv-1-2816} }
-    \subfloat[At port 0xc00 (spine1) \newline towards port 0xa00 (leaf3)]
-        { \includegraphics[scale=0.5]{coll-conv-1-3072} }
-    \subfloat[At port 0xd00 (spine1) \newline towards port 0xa00 (leaf4)]
-        { \includegraphics[scale=0.5]{coll-conv-1-3328} }
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-1-2560}
+        \caption{At port 0xa00 (spine1) \newline towards port 0xa00 (leaf1)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-1-2816}
+        \caption{At port 0xb00 (spine1) \newline towards port 0xa00 (leaf2)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-1-3072}
+        \caption{At port 0xc00 (spine1) \newline towards port 0xa00 (leaf3)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-1-3328}
+        \caption{At port 0xd00 (spine1) \newline towards port 0xa00 (leaf4)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
     \caption{Throughput measured at ports on switch spine1 (conventional)}
     \label{fig:coll-spine1-conv}
-    \subfloat[At port 0xa00 (spine2) \newline towards port 0xb00 (leaf1)]
-        { \includegraphics[scale=0.5]{coll-conv-2-2560} }
-    \subfloat[At port 0xb00 (spine2) \newline towards port 0xb00 (leaf2)]
-        { \includegraphics[scale=0.5]{coll-conv-2-2816} }
-    \subfloat[At port 0xc00 (spine2) \newline towards port 0xb00 (leaf3)]
-        { \includegraphics[scale=0.5]{coll-conv-2-3072} }
-    \subfloat[At port 0xd00 (spine2) \newline towards port 0xb00 (leaf4)]
-        { \includegraphics[scale=0.5]{coll-conv-2-3328} }
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-2-2560}
+        \caption{At port 0xa00 (spine2) \newline towards port 0xa00 (leaf1)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-2-2816}
+        \caption{At port 0xb00 (spine2) \newline towards port 0xa00 (leaf2)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-2-3072}
+        \caption{At port 0xc00 (spine2) \newline towards port 0xa00 (leaf3)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-conv-2-3328}
+        \caption{At port 0xd00 (spine2) \newline towards port 0xa00 (leaf4)}%
+        \label{fig:spine1-leaf1-conv}
+    \end{subfigure}
     \caption{Throughput measured at ports on switch spine2 (conventional)}
     \label{fig:coll-spine2-conv}
-\end{figure*}
+\end{figure}
 
 Each MPI primitive is repetitively executed because a single invocation
 of these primitives completes too quickly to observe the traffic change.
@@ -732,29 +755,54 @@ computing nodes under leaf2, leaf3 and leaf4 to the computing nodes
 under leaf1. In contrast, RX shows the aggregated traffic from computing
 nodes under leaf1 to other computing nodes under leaf2, leaf3 and leaf4.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
     \centering
-    \subfloat[At port 0xa00 (spine1) \newline towards port 0xa00 (leaf1)]
-        { \includegraphics[scale=0.5]{coll-prop-1-2560} }
-    \subfloat[At port 0xb00 (spine1) \newline towards port 0xa00 (leaf2)]
-        { \includegraphics[scale=0.5]{coll-prop-1-2816} }
-    \subfloat[At port 0xc00 (spine1) \newline towards port 0xa00 (leaf3)]
-        { \includegraphics[scale=0.5]{coll-prop-1-3072} }
-    \subfloat[At port 0xd00 (spine1) \newline towards port 0xa00 (leaf4)]
-        { \includegraphics[scale=0.5]{coll-prop-1-3328} }
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-1-2560}
+        \caption{At port 0xa00 (spine1) \newline towards port 0xa00 (leaf1)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-1-2816}
+        \caption{At port 0xb00 (spine1) \newline towards port 0xa00 (leaf2)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-1-3072}
+        \caption{At port 0xc00 (spine1) \newline towards port 0xa00 (leaf3)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-1-3328}
+        \caption{At port 0xd00 (spine1) \newline towards port 0xa00 (leaf4)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
     \caption{Throughput measured at ports on switch spine1 (proposed)}
     \label{fig:coll-spine1-prop}
-    \subfloat[At port 0xa00 (spine2) \newline towards port 0xb00 (leaf1)]
-        { \includegraphics[scale=0.5]{coll-prop-2-2560} }
-    \subfloat[At port 0xb00 (spine2) \newline towards port 0xb00 (leaf2)]
-        { \includegraphics[scale=0.5]{coll-prop-2-2816} }
-    \subfloat[At port 0xc00 (spine2) \newline towards port 0xb00 (leaf3)]
-        { \includegraphics[scale=0.5]{coll-prop-2-3072} }
-    \subfloat[At port 0xd00 (spine2) \newline towards port 0xb00 (leaf4)]
-        { \includegraphics[scale=0.5]{coll-prop-2-3328} }
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-2-2560}
+        \caption{At port 0xa00 (spine2) \newline towards port 0xa00 (leaf1)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-2-2816}
+        \caption{At port 0xb00 (spine2) \newline towards port 0xa00 (leaf2)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-2-3072}
+        \caption{At port 0xc00 (spine2) \newline towards port 0xa00 (leaf3)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
+    \begin{subfigure}[b]{.24\linewidth}
+        \includegraphics[scale=0.5]{coll-prop-2-3328}
+        \caption{At port 0xd00 (spine2) \newline towards port 0xa00 (leaf4)}%
+        \label{fig:spine1-leaf1-prop}
+    \end{subfigure}
     \caption{Throughput measured at ports on switch spine2 (proposed)}
     \label{fig:coll-spine2-prop}
-\end{figure*}
+\end{figure}
+
 
 Figures~\ref{fig:coll-spine1-prop} and \ref{fig:coll-spine2-prop} show
 the change of throughput when using the proposed mechanism. In these
