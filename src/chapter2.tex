@@ -304,7 +304,7 @@ finalization. During the execution of an application, the total number
 of bytes transferred from a process to another is aggregated to compute
 the traffic matrix.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[scale=.9]{tracer_block}
     \caption{Block Diagram of PFProf}%
@@ -331,7 +331,7 @@ processes is shown in Fig.~\ref{fig:traffic-matrix}. This visualization
 clearly reveals the spatial locality and sparsity of the communication
 pattern.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics{traffic_matrix}
     \caption{Traffic Matrix for MILC}%
@@ -378,7 +378,7 @@ and Gephi can be used to view and edit GraphML files. Communication
 pattern files are obtained from applications using PFProf described in
 the previous section~\ref{pfprof-mpi-profiler}.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[scale=.9]{simulator_block}
     \caption{Block Diagram of PFSim}%
@@ -443,7 +443,7 @@ jobs:
 ...
 \end{lstlisting}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics{simulator_flowchart}
     \caption{Life Cycle of a Simulated Job}%
@@ -500,7 +500,7 @@ our institution. It was composed of 20 computing nodes, each equipped
 with 8 cores. Computing nodes were interconnected with a fat-tree
 topology as illustrated in Fig.~\ref{fig:cluster-config}.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics{cluster_config}
     \caption{Simulated Cluster with Fat-Tree Interconnect}%
@@ -581,14 +581,14 @@ to block process placement because neighboring ranks were placed on
 different computing nodes despite the locality of the communication
 pattern.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[scale=.9]{nas_cg_multi_congestion}
     \caption{Comparison of Maximum Traffic (NAS CG)}
     \label{fig:nas-cg-multi-congestion}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[scale=.9]{nersc_milc_multi_congestion}
     \caption{Comparison of Maximum Traffic (MILC)}%
@@ -627,14 +627,14 @@ our toolset to simulate different packet flow controlling algorithms and
 assess their performance improvement effect on real-world applications
 by using indicators such as maximum traffic load.
 
-\begin{figure}[htbp]
-    \begin{subfigure}[t]{.47\linewidth}
+\begin{figure}
+    \begin{subfigure}{.47\linewidth}
         \centering
         \includegraphics[scale=.9]{nas_cg_execution_time}
         \caption{NAS CG}
         \label{fig:nas-cg-time}
     \end{subfigure}%
-    \begin{subfigure}[t]{.47\linewidth}
+    \begin{subfigure}{.47\linewidth}
         \centering
         \includegraphics[scale=.9]{nersc_milc_execution_time}
         \caption{MILC}%
@@ -659,14 +659,14 @@ overhead was incurred. Benchmark results for latency, as shown in
 Fig.~\ref{fig:latency-overhead}, suggest that there is almost no
 overhead for latency.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[scale=.9]{bandwidth_overhead}
     \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:bandwidth-overhead}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[scale=.9]{latency_overhead}
     \caption{Latency of MPI\_Send/Recv Between Two Nodes}%
