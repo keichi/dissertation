@@ -296,8 +296,8 @@ Figure~\ref{fig:profiler-block} illustrates how PFProf, MPI library and
 MPI application interact with each other. PFProf hooks MPI\_Init and
 MPI\_Finalize to perform initialization and finalization. During the
 initialization, PFProf subscribes to two PERUSE events:
-\lstinline!PERUSE\_COMM\_REQ\_XFER\_BEGIN! and
-\lstinline!PERUSE\_COMM\_REQ\_XFER\_END!. These events are
+\lstinline!PERUSE_COMM_REQ_XFER_BEGIN! and
+\lstinline!PERUSE_COMM_REQ_XFER_END!. These events are
 emitted each time a transfer of a message begins and ends, respectively.
 Profiling results are written out as a JSON file during the
 finalization. During the execution of an application, the total number
@@ -313,7 +313,7 @@ the traffic matrix.
 
 Furthermore, PFProf hooks several MPI functions to create and destroy
 communicators to maintain a mapping between global ranks (rank number
-within \lstinline!MPI\_COMM\_WORLD!) and local ranks (rank
+within \lstinline!MPI_COMM_WORLD!) and local ranks (rank
 number within communicators created by users). This mapping is necessary
 because PERUSE events are reported with local ranks, while profiling
 results should be described with global ranks for the ease of analysis.
@@ -322,7 +322,7 @@ PFProf is provided in the form of a shared library, which can be
 integrated into applications either when building the application or
 running the application. The preferred way is to use run-time
 integration, because it requires neither recompilation nor relinking of
-the application. The \lstinline!LD\_PRELOAD! environment
+the application. The \lstinline!LD_PRELOAD! environment
 variable is used to load the shared library before the execution of the
 application.
 
@@ -513,7 +513,7 @@ from the NAS Parallel Benchmark Suite~\autocite{Bailey1991}. The CG
 benchmark estimates the largest eigenvalue of a sparse matrix using the
 inverse power method. Internally it uses the conjugate gradient method,
 which frequently appears in irregular mesh applications. The second
-application (\lstinline!ks\_imp\_dyn!) is from MIMD
+application (\lstinline!ks_imp_dyn!) is from MIMD
 Lattice Computation (MILC)~\autocite{milc}, a collection of applications
 used to study Quantum Chromodynamics (QCD). We used the input dataset
 provided by NERSC as a part of the NERSC MILC benchmark. These two
