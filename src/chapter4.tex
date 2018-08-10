@@ -142,7 +142,7 @@ one receiver. On the other hand, collective communication involves a
 group of multiple processes. Table~\ref{tbl:mpi-primitives} shows some
 representative examples of MPI primitives.
 
-\begin{table}[htbp]
+\begin{table}
     \centering
     \caption{Examples of MPI primitives}%
     \label{tbl:mpi-primitives}
@@ -344,7 +344,7 @@ Fig.~\ref{fig:binary-layout}.
 
 \begin{figure}
     \centering
-    \includegraphics{binary-layout}
+    \includegraphics[width=0.8\linewidth]{binary-layout}
     \caption{Tag information embedded in a packet}%
     \label{fig:binary-layout}
 \end{figure}
@@ -375,7 +375,7 @@ nodes is assumed to be Linux.
 
 \begin{figure}
     \centering
-    \includegraphics{overall-arch}
+    \includegraphics[width=0.8\linewidth]{overall-arch}
     \caption{Overall architecture of UnisonFlow}%
     \label{fig:overall-arch}
 \end{figure}
@@ -440,7 +440,7 @@ between software modules.
 
 \begin{figure}
     \centering
-    \includegraphics{intra-node-flow}
+    \includegraphics[width=0.8\linewidth]{intra-node-flow}
     \caption{Intra-node packet flow}%
     \label{fig:intra-node-flow}
 \end{figure}
@@ -525,7 +525,7 @@ generated and then installed to relevant switches (step 4).
 
 \begin{figure}
     \centering
-    \includegraphics{inter-node-flow}
+    \includegraphics[width=0.8\linewidth]{inter-node-flow}
     \caption{Inter-node packet flow}%
     \label{fig:inter-node-flow}
 \end{figure}
@@ -568,7 +568,7 @@ interconnect controller was also prepared.
 
 \begin{figure}
     \centering
-    \includegraphics{cluster-topology}
+    \includegraphics[width=0.8\linewidth]{cluster-topology}
     \caption{Overview of the experimental environment}%
     \label{fig:cluster-topology}
 \end{figure}
@@ -681,7 +681,7 @@ MPI\_Bcast or MPI\_Reduce finishes in the order of milliseconds, we
 repeat each primitive to make its total execution time longer so that we
 can observe the traffic change using port counters.
 
-\begin{lstlisting}[caption={Source code of MPI application}, float=htbp, label=lst:sync-mpi-app]
+\begin{lstlisting}[caption={Source code of MPI application}, label=lst:sync-mpi-app, float=htbp]
 #include <mpi.h>
 #define BUF_SIZE     (1000)
 #define REPEAT_COUNT (10000)
@@ -755,7 +755,7 @@ computing nodes under leaf2, leaf3 and leaf4 to the computing nodes
 under leaf1. In contrast, RX shows the aggregated traffic from computing
 nodes under leaf1 to other computing nodes under leaf2, leaf3 and leaf4.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{subfigure}{.24\linewidth}
         \includegraphics[scale=0.5]{coll-prop-1-2560}
@@ -828,21 +828,21 @@ control is synchronized with the execution of the MPI application.
 
 \begin{figure}
     \centering
-    \includegraphics{overhead-bandwidth}
-    \caption{Comparison of bandwidth}
+    \includegraphics[width=0.6\linewidth]{overhead-bandwidth}
+    \caption{Comparison of bandwidth}%
     \label{fig:overhead-bandwidth}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics{overhead-latency}
-    \caption{Comparison of latency}
+    \includegraphics[width=0.6\linewidth]{overhead-latency}
+    \caption{Comparison of latency}%
     \label{fig:overhead-latency}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics{overhead-latency2}
+    \includegraphics[width=0.6\linewidth]{overhead-latency2}
     \caption{Absolute overhead to latency}
     \label{fig:overhead-latency-2}
 \end{figure}
