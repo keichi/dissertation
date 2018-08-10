@@ -232,7 +232,6 @@ switch.
 
 \begin{figure}
     \centering
-    \footnotesize
     \begin{tabular}{lllll}
         \hline
         \multicolumn{3}{c}{Header Fields}            &  Action                  \\ \hline
@@ -293,7 +292,7 @@ application. Furthermore, the following technical requirements must be
 met by the mechanism:
 
 \begin{itemize}
-\setlength{\itemsep}{1em}
+% \setlength{\itemsep}{1em}
 \item
   \emph{Low overhead}: The overhead incurred by the proposed coordination
   mechanism should not degrade the communication performance of MPI, since the
@@ -448,7 +447,7 @@ between software modules.
 Once the tagging kernel module is loaded into the kernel space at the
 boot time of the Linux operating system, the kernel module registers its
 own protocol handler to the kernel using the
-\lstinline!dev\_add\_pack! API\@. This protocol handler is
+\lstinline!dev_add_pack! API\@. This protocol handler is
 called every time a packet is sent out from the network stack to the
 Network Interface Card (NIC). Intercepted packets sequentially undergo
 three major phases of packet processing, which are performed by the
@@ -482,7 +481,7 @@ Fig.~\ref{fig:intra-node-flow}), respectively:
   components of MPI context information into the binary format shown in
   Fig.~\ref{fig:binary-layout}. Technically, the MAC addresses of
   packets can be modified by simply overwriting the specific position of
-  the \lstinline!sk\_buff! structure, which is the
+  the \lstinline!sk_buff! structure, which is the
   internal representation of network packets in the kernel.
 \end{enumerate}
 
