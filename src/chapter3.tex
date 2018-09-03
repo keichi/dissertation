@@ -12,7 +12,7 @@ computations which makes research and development that require those
 computations feasible.
 
 A HPC system is mostly built as a cluster system to achieve its massive
-processing speed~\cite{top500}. A cluster system is an integrated system
+processing speed~\autocite{top500}. A cluster system is an integrated system
 of multiple computers connected on networks. Those computers are often
 called ``computing nodes'' and the networks are called
 ``interconnects''. The topology of the interconnect can be composed
@@ -21,11 +21,11 @@ available. Today, in particular, the interconnect of the cluster system
 tends to be more complex and have redundant links between computing
 nodes to assure communication performance, accompanied with the recent
 scale-up of cluster systems. Examples of interconnect topology include
-\emph{Fat-tree}~\cite{Leiserson1985}, torus~\cite{Adiga2005} and
-hypercube~\cite{Dally2003}.
+\emph{Fat-tree}~\autocite{Leiserson1985}, torus~\autocite{Adiga2005} and
+hypercube~\autocite{Dally2003}.
 
 Currently, in writing a computing program on such a cluster system, Message
-Passing Interface (MPI)~\cite{Gropp1999,MessagePassingInterfaceForum2012} has
+Passing Interface (MPI)~\autocite{Gropp1999,MessagePassingInterfaceForum2012} has
 been widely adopted and utilized. MPI has been a \emph{de facto} standard
 specification for \emph{message-passing} programming. With this parallel
 programming model, multiple processes cooperate together through the exchange
@@ -37,7 +37,7 @@ communication between two processes, while the latter is communication
 among multiple processes. In particular, collective communication is
 important in determining the performance of scientific numerical
 calculation applications, since most of of such applications use
-collective communication during their execution~\cite{Rabenseifner2000}.
+collective communication during their execution~\autocite{Rabenseifner2000}.
 Thus, reducing the time of collective communication is of great
 importance.
 
@@ -82,22 +82,22 @@ Collective Operations}
 
 Researchers have attempted to elaborate algorithms for MPI collective
 operations. Optimized algorithms have been proposed for
-MPI\_Alltoall~\cite{Bruck1997}, MPI\_Reduce\_scatter~\cite{Iannello1997},
-MPI\_Reduce and MPI\_Allreduce~\cite{Rabenseifner1997}. Most of the optimized
+MPI\_Alltoall~\autocite{Bruck1997}, MPI\_Reduce\_scatter~\autocite{Iannello1997},
+MPI\_Reduce and MPI\_Allreduce~\autocite{Rabenseifner1997}. Most of the optimized
 algorithms are specialized either for latency or throughput, so switching
 multiple algorithms depending on the message size or process number makes the
 MPI implementation behave faster for various message sizes and process
-numbers~\cite{Thakur2005}.
+numbers~\autocite{Thakur2005}.
 
 Another approach is to offload the communication or computation of
 collective communication operations to hardware. For example, the
-\emph{K-computer}~\cite{Yokokawa2011} has a hardware module called \emph{Tofu
-Barrier Interface}~\cite{Ajima2012} on all nodes. This module executes
+\emph{K-computer}~\autocite{Yokokawa2011} has a hardware module called \emph{Tofu
+Barrier Interface}~\autocite{Ajima2012} on all nodes. This module executes
 Barrier, Broadcast, Reduce and Allreduce collective operations in hardware
 instead of software.
 
 There has been an attempt to apply SDN (Software-Defined Networking) to
-MPI\_Bcast~\cite{Dashdavaa2013}. The simplest implementation of MPI\_Bcast has
+MPI\_Bcast~\autocite{Dashdavaa2013}. The simplest implementation of MPI\_Bcast has
 been to repeat one-to-one communication for each target process. However, this
 method cannot scale out to increase the number of processes. The SDN-enhanced
 MPI\_Bcast allows SDN-enabled switches to copy incoming packets and output
@@ -119,7 +119,7 @@ pairs. When the underlying network of the cluster system that
 interconnects with the computing nodes has a full-bisection bandwidth,
 the bias of source and destination in communication should not be a
 problem although structuring this type of a network is hard to scale out
-due to economic and physical restrictions~\cite{Al-Fares2008}. On the
+due to economic and physical restrictions~\autocite{Al-Fares2008}. On the
 assumption that the network is oversubscribed, the shortage of available
 bandwidth could give rise to a serious problem.
 
@@ -154,7 +154,7 @@ avoided.
 \end{figure}
 
 Various algorithms for balancing traffic in a network with redundant
-routes have been proposed. Equal-Cost Multi-Path routing (ECMP)~\cite{ecmp} is
+routes have been proposed. Equal-Cost Multi-Path routing (ECMP)~\autocite{ecmp} is
 a standardized load balancing strategy mainly used in L3 switches. For each
 communication between two hosts, if multiple equal cost routes are available,
 ECMP selects one route from among them. The decision of which route to use is
@@ -163,7 +163,7 @@ each packet. A hash function is applied to the header fields to generate the
 corresponding hash value for the header fields, where every value in the hash
 value space are evenly assigned to one of the equal cost routes.
 
-InfiniBand~\cite{infiniband} is a computer network communication link
+InfiniBand~\autocite{infiniband} is a computer network communication link
 commonly used in the area of HPC and a data center. InfiniBand supports
 multiple routing methods. One of those methods is a min-hop routing
 algorithm, which calculates the minimum hop route between every
@@ -205,7 +205,7 @@ described.
 
 \subsection{Software-Defined Networking}
 
-Software-Defined Networking (SDN)~\cite{sdn} is an emerging networking
+Software-Defined Networking (SDN)~\autocite{sdn} is an emerging networking
 architecture that physically separates networking functions to control
 planes and data planes. In conventional networking architecture before
 SDN was introduced, the functionality of controlling how traffic is
@@ -220,7 +220,7 @@ the control data plane interface. SDN architecture delivers benefits
 such as centralized control, programmability and abstraction of the
 network.
 
-OpenFlow~\cite{sdn} protocol is the first control data plane interface
+OpenFlow~\autocite{sdn} protocol is the first control data plane interface
 standard. It specifies the communication protocol between the control
 and data planes of OpenFlow-enabled network devices. Control plane
 devices that support the OpenFlow protocol are called OpenFlow
@@ -320,10 +320,10 @@ implementation of these three modules.
 \subsubsection{LLDP Daemon}
 
 Each of the computing nodes runs a LLDP (Link Layer Discovery
-Protocol)~\cite{lldp} daemon in the background. This daemon is designed to
+Protocol)~\autocite{lldp} daemon in the background. This daemon is designed to
 emit LLDP packets containing hardware information periodically, which are
 received by the SDN-enabled switches and used for topology discovery. Some
-LLDP daemon implementations~\cite{lldpd,openlldpd} already exist. However we
+LLDP daemon implementations~\autocite{lldpd,openlldpd} already exist. However we
 have developed a new, minimal daemon to easily add and tweak features so that
 it can cooperate with the other programs composing the whole system.
 
@@ -352,8 +352,8 @@ link contention and to install this routing to SDN-enabled switches. The
 controller is also responsible for detecting the topology and use of the
 interconnect, responding to Address Resolution Protocol (ARP) requests
 from computing nodes and the routing of non-MPI traffic. This controller
-is coded with the Trema framework~\cite{trema}, a framework designed for
-easily developing OpenFlow controllers in the Ruby~\cite{ruby} language.
+is coded with the Trema framework~\autocite{trema}, a framework designed for
+easily developing OpenFlow controllers in the Ruby~\autocite{ruby} language.
 
 The first functionality is topology detection. How detection is
 performed is as follows. The controller periodically requests every
@@ -390,7 +390,7 @@ When the MPI application starts the proposed MPI\_Allreduce, the rank 0
 process calculates the \emph{communication plan} of the MPI\_Allreduce.
 
 The route searching algorithm used here for its speed and simplicity is
-the \emph{Dijkstra} algorithm~\cite{Dijkstra1959}. The Dijkstra
+the \emph{Dijkstra} algorithm~\autocite{Dijkstra1959}. The Dijkstra
 algorithm solves the shortest route problem for a graph with
 non-negative link weights. In this proposed mechanism, link weights are
 considered the number of total routes that go through that link. Under
@@ -447,7 +447,7 @@ which is a set of sender process and receiver process pairs during the
 communication in MPI\_Allreduce.
 
 Several algorithms to realize the Allreduce operation have been proposed. This
-paper focuses on \emph{recursive doubling}~\cite{Thakur2005}, since it
+paper focuses on \emph{recursive doubling}~\autocite{Thakur2005}, since it
 requires more inter-node communication compared with other algorithms, which
 means more possibility of optimization in terms of communication.
 Figure~\ref{fig-recursive-doubling} shows how the recursive doubling algorithm
@@ -495,10 +495,10 @@ experiment.
 
 CentOS 6.4 was installed on all computers including the computing nodes and
 SDN controller. The SDN controller was developed using a SDN controller
-framework Trema~\cite{trema} 0.4.6 and Ruby~\cite{ruby} 1.9.3. The SDN
+framework Trema~\autocite{trema} 0.4.6 and Ruby~\autocite{ruby} 1.9.3. The SDN
 MPI\_Allreduce Library and the benchmark application were written in C and
 compiled with gcc 4.4.7. As a representative of a conventional MPI,
-OpenMPI~\cite{Gabriel2004} 1.5.4 was used.
+OpenMPI~\autocite{Gabriel2004} 1.5.4 was used.
 
 \begin{figure}[htbp]
     \centering
@@ -564,13 +564,13 @@ There have been many research works related to MPI\@. Since MPI is just a
 specification for standard APIs for parallel programming, several algorithms
 for collective operations have been proposed and implemented targeting several
 network technology. As a representative example of such works,
-MVAPICH~\cite{mvapich} can be raised. MVAPICH is an MPI implementation
+MVAPICH~\autocite{mvapich} can be raised. MVAPICH is an MPI implementation
 targeting InfiniBand, which most of high-performance computing systems ranked
-in TOP500 has adopted. In literature~\cite{PjesivacGrbovic2011}, Sur \emph{et
+in TOP500 has adopted. In literature~\autocite{PjesivacGrbovic2011}, Sur \emph{et
 al.} designed MPI library by leveraging novel InfiniBand-offered features.
 They explored new architectures from system point of view and new programming
 paradigms from application point of view for keep scaling out applications on
-more powerful computing systems. Literature~\cite{Jiuxing2004} also
+more powerful computing systems. Literature~\autocite{Jiuxing2004} also
 investigated MPI communication protocol focusing on RDMA operations in
 InfiniBand. Our approach has some points in common in terms that our research
 also aims to benefit from the features of the underlying network, while our
@@ -583,7 +583,7 @@ in switching between multiple algorithms depending on message size, node
 number, \emph{etc.} to accelerate collective communication of MPI\@. Using
 such a mechanism, estimation of the threshold value for parameters like
 message size, node number, \emph{etc.} is essential. Pjesivac-Grbovic \emph{et
-al.}~\cite{PjesivacGrbovic} compared several parallel communication models
+al.}~\autocite{PjesivacGrbovic} compared several parallel communication models
 that are frequently used for dynamically estimating the threshold values. In
 contrast, our current implementation always uses recursive doubling for
 executing MPI\_Allreduce. Therefore, our system has a disadvantage in the
@@ -592,7 +592,7 @@ is more respected than the bandwidth. For this disadvantage, we introduce
 automatic algorithm switching leveraging estimation models mentioned in the
 work of Pjesivac-Grbovic \emph{et al.}, depending on the situations.
 
-The Fabric Collective Accelerator (FCA)~\cite{fca} is a product by
+The Fabric Collective Accelerator (FCA)~\autocite{fca} is a product by
 Mellanox Technologies with the target of accelerating collective
 communication on clusters with InfiniBand interconnect. FCA accelerates
 collective communication by offloading computations to an InfiniBand
@@ -604,9 +604,9 @@ which is more flexible. FCA also requires InfiniBand hardware, but we
 focus on a commodity Ethernet network.
 
 Furthermore, there have been many research reports focusing on adaptive
-use of networks for high-performance computing. Literature~\cite{Geoffray2008}
+use of networks for high-performance computing. Literature~\autocite{Geoffray2008}
 proposed an adaptive routing method on Myrinet and the above mentioned
-literature~\cite{Jiuxing2004} explored the adaptive use of multiple
+literature~\autocite{Jiuxing2004} explored the adaptive use of multiple
 independent networks on InfiniBand. Our research also aims for a dynamic use
 of the underlying interconnection network, but differs in that we attempted to
 use a different interconnection network.
@@ -625,12 +625,12 @@ solved.
 In addition, on modern computing platforms where multiple cores exist in
 a single computing node, the assumption set in this preliminary stage of
 our research is neither practical nor realistic. Therefore, by
-integrating kernel-assisted communication such as KNEM~\cite{Goglin2013}
-or CMA~\cite{cma} with our proposed method, we need to consider
+integrating kernel-assisted communication such as KNEM~\autocite{Goglin2013}
+or CMA~\autocite{cma} with our proposed method, we need to consider
 intra-node communication for pure MPI jobs. Also, computing paradigms
 such as the hybrid use of OpenMP with MPI must be considered for
 enhancing practicality. Also, other implementations of MPI such as
-MVAPICH~\cite{mvapich} are essential for investigating the practicality
+MVAPICH~\autocite{mvapich} are essential for investigating the practicality
 and usefulness of SDN\@.
 
 The second issue is the handling of the small data size.
@@ -642,7 +642,7 @@ our work. Under the current implementation of MPI\_Allreduce,
 our MPI\_Allreduce would be problematic due to the incurred
 overhead. Therefore, the introduction of automatic algorithm switching
 leveraging estimation models summarized in Pjesivac-Grabovic et
-al.,~\cite{PjesivacGrbovic} may be explored after careful evaluation through
+al.,~\autocite{PjesivacGrbovic} may be explored after careful evaluation through
 measurement experiments of MPI\_Allreduce for a small data size.
 
 The third issue regards the necessity of additional experiments on a
