@@ -1,1 +1,25 @@
-\chapter*{List of Publications the Author}
+\chapter*{List of Publications by the Author}
+
+\pagestyle{plain}
+
+\begin{refsection}[article.bib]
+    \nocite{*}
+    \newrefcontext[sorting=ydnt]
+    \printbibliography[heading=subbibliography,title={Journal}]
+\end{refsection}
+
+\begin{refsection}[proceedings.bib]
+    \nocite{*}
+    \newrefcontext[sorting=ydnt]
+    \printbibliography[heading=subbibliography,title={International Conference (with review)}]
+\end{refsection}
+
+\begin{refsection}[oral.bib]
+    \nocite{*}
+    \newrefcontext[sorting=ydnt]
+    \printbibliography[heading=subbibliography,title={International Conference (without review)}]
+\end{refsection}
+
+\clearpage
+
+\pagestyle{headings}
