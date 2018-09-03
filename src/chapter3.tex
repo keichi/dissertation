@@ -1,7 +1,6 @@
 \chapter{SDN-enhanced MPI Collective}
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{iii-introduction}
 
 Recently, the demand for High Performance Computing (HPC) has been
 increasing. HPC allows users to solve complex problems, such as a large
@@ -62,27 +61,24 @@ having SDN dynamically interact with MPI applications. In this paper we
 summarize and report the preliminary result of the research we have achieved.
 
 The rest of this paper is as follows. In
-Section~\ref{necessity-of-dynamic-control-of-the-network-in-mpi_allreduce},
+Section~\ref{iii-background},
 after a short description of MPI, past works on performance tuning and
 optimization of collective communication operations in MPI are reviewed.
 Subsequently, the technical issue is explained and the research goal is
-clarified. In Section~\ref{sdn-enhanced-mpi_allreduce}, the design and
+clarified. In Section~\ref{iii-proposal}, the design and
 implementation of the proposed architecture of SDN-enhanced MPI\_Allreduce is
-presented. In Section~\ref{evaluation}, an evaluation on a cluster system is
+presented. In Section~\ref{iii-evaluation}, an evaluation on a cluster system is
 conducted to verify the feasibility of the proposed mechanism.
-Section~\ref{related-work} discusses related works. In
-Section~\ref{future-issue}, issues remained for the realization of practical
+Section~\ref{iii-related-work} discusses related works. In
+Section~\ref{iii-future-issue}, issues remained for the realization of practical
 and useful MPI\_Allreduce leveraging SDN are described.
-Section~\ref{conclusion} summarizes and concludes this paper.
+Section~\ref{iii-conclusion} summarizes and concludes this paper.
 
-\hypertarget{necessity-of-dynamic-control-of-the-network-in-mpi_allreduce}{%
 \section{Necessity of Dynamic Control of the Network in
-MPI\_Allreduce}\label{necessity-of-dynamic-control-of-the-network-in-mpi_allreduce}}
+MPI\_Allreduce}\label{iii-background}
 
-\hypertarget{related-works-on-optimization-and-performance-tuning-of-mpi-collective-operations}{%
 \subsection{Related Works on Optimization and Performance Tuning of MPI
-Collective
-Operations}\label{related-works-on-optimization-and-performance-tuning-of-mpi-collective-operations}}
+Collective Operations}
 
 Researchers have attempted to elaborate algorithms for MPI collective
 operations. Optimized algorithms have been proposed for
@@ -114,9 +110,7 @@ This paper explores the feasibility of Software Defined Networking for
 MPI\_Allreduce for an SDN-enhanced MPI where the network is dynamically
 controlled, based on MPI communication patterns.
 
-\hypertarget{problems-in-conventional-traffic-balancing-methods}{%
-\subsection{Problems in Conventional Traffic Balancing
-Methods}\label{problems-in-conventional-traffic-balancing-methods}}
+\subsection{Problems in Conventional Traffic Balancing Methods}
 
 MPI collective operations require much simultaneous communication among
 multiple process pairs. However, while some computing node pairs
@@ -187,8 +181,7 @@ decreases bandwidth between computing nodes. Ultimately, this decrease
 of available bandwidth can lead to performance degradation of MPI
 applications.
 
-\hypertarget{research-goals}{%
-\subsection{Research Goals}\label{research-goals}}
+\subsection{Research Goals}
 
 From our discussion above, we believe that an intelligent network control
 mechanism which recognizes the communication pattern needed by MPI\_Allreduce
@@ -202,8 +195,7 @@ interconnect. This study integrates the dynamic network control ability of SDN
 with MPI in order to avoid link contention and evaluates the performance of
 MPI\_Allreduced based on our proposed mechanism.
 
-\hypertarget{sdn-enhanced-mpi_allreduce}{%
-\section{SDN-enhanced MPI\_Allreduce}\label{sdn-enhanced-mpi_allreduce}}
+\section{SDN-enhanced MPI\_Allreduce}\label{iii-proposal}
 
 In this section, we present our proposed mechanism for
 MPI\_Allreduce. First, we briefly explain the architecture of
@@ -211,9 +203,7 @@ SDN, a core concept of our approach. After that, the proposed mechanism
 is detailed. Lastly, the implementation of the proposed mechanism is
 described.
 
-\hypertarget{software-defined-networking}{%
-\subsection{Software-Defined
-Networking}\label{software-defined-networking}}
+\subsection{Software-Defined Networking}
 
 Software-Defined Networking (SDN)~\cite{sdn} is an emerging networking
 architecture that physically separates networking functions to control
@@ -253,13 +243,9 @@ corresponding switch.
     \label{fig-sdn-architecture}
 \end{figure}
 
-\hypertarget{proposed-mpi_allreduce-using-sdn}{%
-\subsection{Proposed MPI\_Allreduce Using
-SDN}\label{proposed-mpi_allreduce-using-sdn}}
+\subsection{Proposed MPI\_Allreduce Using SDN}
 
-\hypertarget{the-basic-idea-behind-the-proposed-solution}{%
-\subsubsection{The Basic Idea Behind the Proposed
-Solution}\label{the-basic-idea-behind-the-proposed-solution}}
+\subsubsection{The Basic Idea Behind the Proposed Solution}
 
 The basic idea behind the proposed solution is to improve the
 inefficient communication in MPI in order to enhance the performance of
@@ -275,9 +261,7 @@ inequality of link usage, based on an assumption that the cluster system has a
 fat-tree interconnect. Through this traffic distribution, contention in the
 links is expected to ease, which speeds up communication.
 
-\hypertarget{blueprint-of-proposed-sdn-enhanced-mpi_allreduce}{%
-\subsubsection{Blueprint of Proposed SDN-enhanced
-MPI\_Allreduce}\label{blueprint-of-proposed-sdn-enhanced-mpi_allreduce}}
+\subsubsection{Blueprint of Proposed SDN-enhanced MPI\_Allreduce}
 
 The proposed mechanism is composed of three modules. These three modules are
 the SDN controller, LLDP daemon and the SDN MPI\_Allreduce library. They are
@@ -327,16 +311,13 @@ that the MPI packets are routed along the pre-generated route. After the
 entire communication plan is processed, MPI\_Allreduce is called to start the
 actual data transfer and calculation of the MPI\_Allreduce operation.
 
-\hypertarget{implementation-of-sdn-mpi_allreduce}{%
-\subsection{Implementation of SDN
-MPI\_Allreduce}\label{implementation-of-sdn-mpi_allreduce}}
+\subsection{Implementation of SDN MPI\_Allreduce}
 
 To realize the proposed mechanism, we have developed three modules which
 work as an integrated system. This section explains the detailed
 implementation of these three modules.
 
-\hypertarget{lldp-daemon}{%
-\subsubsection{LLDP Daemon}\label{lldp-daemon}}
+\subsubsection{LLDP Daemon}
 
 Each of the computing nodes runs a LLDP (Link Layer Discovery
 Protocol)~\cite{lldp} daemon in the background. This daemon is designed to
@@ -363,8 +344,7 @@ communication. Generation of such LLDP packets is also not difficult
 work for the computer, so we consider the impact to the application is
 not severe.
 
-\hypertarget{sdn-controller}{%
-\subsubsection{SDN Controller}\label{sdn-controller}}
+\subsubsection{SDN Controller}
 
 The SDN controller has four functionalities. The main feature of the SDN
 controller is to prepare a route for MPI\_Allreduce that avoids
@@ -452,9 +432,7 @@ non-MPI traffic. For non-MPI traffic such as ICMP and SSH packets, the
 SDN controller generates the minimum hop routes between computing nodes
 and installs them on demand.
 
-\hypertarget{sdn-mpi_allreduce-library}{%
-\subsubsection{SDN MPI\_Allreduce
-Library}\label{sdn-mpi_allreduce-library}}
+\subsubsection{SDN MPI\_Allreduce Library}
 
 An MPI application that wants to use the proposed MPI\_Allreduce must be
 linked with the SDN MPI\_Allreduce library. This library contains two
@@ -492,11 +470,9 @@ pairs, the library notifies the SDN controller to prepare each route.
     \label{fig-recursive-doubling}
 \end{figure}
 
-\hypertarget{evaluation}{%
-\section{Evaluation}\label{evaluation}}
+\section{Evaluation}\label{iii-evaluation}
 
-\hypertarget{experimental-environment}{%
-\subsection{Experimental Environment}\label{experimental-environment}}
+\subsection{Experimental Environment}
 
 An experiment was conducted to compare the execution time of the
 proposed MPI\_Allreduce and conventional
@@ -531,8 +507,7 @@ OpenMPI~\cite{Gabriel2004} 1.5.4 was used.
     \label{fig-experiment-environment}
 \end{figure}
 
-\hypertarget{measurement-result}{%
-\subsection{Measurement Result}\label{measurement-result}}
+\subsection{Measurement Result}
 
 An MPI benchmark application that repeats MPI\_Allreduce 20
 times and calculates the average execution time of the function was used
@@ -583,8 +558,7 @@ MPI\_Allreduce for 36\% at most.
     \label{fig-evaluation-16nodes-normalized}
 \end{figure}
 
-\hypertarget{related-work}{%
-\section{Related Work}\label{related-work}}
+\section{Related Work}\label{iii-related-work}
 
 There have been many research works related to MPI\@. Since MPI is just a
 specification for standard APIs for parallel programming, several algorithms
@@ -637,8 +611,7 @@ independent networks on InfiniBand. Our research also aims for a dynamic use
 of the underlying interconnection network, but differs in that we attempted to
 use a different interconnection network.
 
-\hypertarget{future-issue}{%
-\section{Future Issue}\label{future-issue}}
+\section{Future Issue}\label{iii-future-issue}
 
 Several issues to tackle have remained for the realization of practical
 and useful MPI\_Allreduce leveraging SDN\@. The first issue to
@@ -693,8 +666,7 @@ Furthermore, we enhance our implementation so that only the root process
 interacts with the SDN controller and conveys information of all
 participating processes in the collective communication.
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{Conclusion}\label{iii-conclusion}
 
 We have attempted to reduce the execution time of
 MPI\_Allreduce by combining Software-Defined Networking (SDN)
@@ -710,6 +682,6 @@ over conventional methods.
 
 Refining this prototypical implementation in terms of both execution
 performance and usability for developers is our future work. Also, the
-future issues listed in Section~\ref{future-issue} must be solved for
+future issues listed in Section~\ref{iii-future-issue} must be solved for
 practical and useful MPI\_Allreduce. We would like to verify
 the effectiveness of applying SDN to MPI even further.

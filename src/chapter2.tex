@@ -1,7 +1,6 @@
 \chapter{Toolset for Analyzing Application-aware Dynamic Interconnects}
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{ii-introduction}
 
 Inter-node communication performance of High Performance Computing (HPC)
 clusters heavily affects the total performance of
@@ -110,17 +109,16 @@ The contributions of this paper are summarized as follows:
 \end{itemize}
 
 The rest of this paper is organized as follows.
-Section~\ref{research-objective} examines the requirements of an
+Section~\ref{ii-objective} examines the requirements of an
 interconnect simulator for dynamic and application-aware interconnects.
-Section~\ref{related-work} reviews related work. Section~\ref{proposal}
+Section~\ref{ii-related-work} reviews related work. Section~\ref{ii-proposal}
 describes the design and implementation of PFAnalyzer.
-Section~\ref{evaluation} presents the simulation results for NAS CG
+Section~\ref{ii-evaluation} presents the simulation results for NAS CG
 benchmark and MILC obtained with our proposed simulator. Furthermore,
 results of a verification experiment on a physical cluster are shown.
-Section~\ref{conclusion} concludes this paper and outlines our future work.
+Section~\ref{ii-conclusion} concludes this paper and outlines our future work.
 
-\hypertarget{research-objective}{%
-\section{Research Objective}\label{research-objective}}
+\section{Research Objective}\label{ii-objective}
 
 In this paper, we aim to realize an interconnect simulator specialized
 for application-aware dynamic interconnects to facilitate the research
@@ -171,8 +169,7 @@ to carry out a large number of simulations with different parameters in
 a reasonable amount of time. If necessary, appropriate approximation
 should be introduced to improve simulation performance.
 
-\hypertarget{related-work}{%
-\section{Related Work}\label{related-work}}
+\section{Related Work}\label{ii-related-work}
 
 Several interconnect simulators have been proposed in past research.
 PSINS~\autocite{Tikir2009} is a trace-driven simulator for HPC
@@ -223,8 +220,7 @@ administrators to diagnose the performance issues of interconnects, it
 is not suitable for studying diverse interconnects since it only
 supports physical clusters.
 
-\hypertarget{proposal}{%
-\section{Proposal}\label{proposal}}
+\section{Proposal}\label{ii-proposal}
 
 We propose \emph{PFAnalyzer}, a toolset for analyzing the performance
 characteristics of application-aware dynamic interconnects. PFAnalyzer
@@ -232,9 +228,7 @@ is composed of \emph{PFProf}, a profiler to extract communication
 patterns from applications, and \emph{PFSim}, a simulator capable of
 simulating application-aware dynamic interconnects.
 
-\hypertarget{representation-of-a-communication-pattern}{%
-\subsection{Representation of a Communication
-Pattern}\label{representation-of-a-communication-pattern}}
+\subsection{Representation of a Communication Pattern}
 
 In this paper, we represent the communication pattern of an application
 using the traffic matrix of the application. For an application composed
@@ -260,8 +254,7 @@ phases, which could then be simulated individually to further improve
 the accuracy of simulation for applications with significantly
 time-varying communication patterns.
 
-\hypertarget{pfprof-mpi-profiler}{%
-\subsection{PFProf (MPI Profiler)}\label{pfprof-mpi-profiler}}
+\subsection{PFProf (MPI Profiler)}\label{ii-pfprof}
 
 Initially, we tried to reuse existing MPI performance analysis tools
 such as \mbox{Score-P}~\autocite{Knupfer2012},
@@ -338,9 +331,7 @@ pattern.
     \label{fig:traffic-matrix}
 \end{figure}
 
-\hypertarget{pfsim-interconnect-simulator}{%
-\subsection{PFSim (Interconnect
-Simulator)}\label{pfsim-interconnect-simulator}}
+\subsection{PFSim (Interconnect Simulator)}\label{ii-pfsim}
 
 PFSim uses a set of communication patterns of applications and a cluster
 configuration as its input and then simulates the packet flow generated
@@ -376,7 +367,7 @@ described in GraphML~\autocite{Brandes2013}, an XML-based markup
 language for graphs. Popular graph visualization tools such as Cytoscape
 and Gephi can be used to view and edit GraphML files. Communication
 pattern files are obtained from applications using PFProf described in
-the previous section~\ref{pfprof-mpi-profiler}.
+the previous Section~\ref{ii-pfprof}.
 
 \begin{figure}
     \centering
@@ -470,8 +461,7 @@ finished. Then, the traffic for each link that was utilized by the job
 is decreased. Finally, computing nodes are deallocated and the job is
 marked as completed.
 
-\hypertarget{evaluation}{%
-\section{Evaluation}\label{evaluation}}
+\section{Evaluation}\label{ii-evaluation}
 
 In this section, we first simulate the traffic load of a fat-tree
 interconnect when using static interconnect control and dynamic
@@ -480,8 +470,7 @@ physical cluster are used to investigate the impact of traffic load on
 the application performance. Lastly, we assess the overhead incurred by
 our profiler.
 
-\hypertarget{simulation-results}{%
-\subsection{Simulation Results}\label{simulation-results}}
+\subsection{Simulation Results}\label{ii-simulation-results}
 
 In this experiment, communication-intensive MPI applications were
 executed on our simulator. The maximum traffic load observed on links
@@ -602,12 +591,11 @@ largest when random node selection and cyclic process placement was
 adopted. When using linear node selection and block process placement,
 reduction of the maximum link load was 18\%.
 
-\hypertarget{benchmark-results}{%
-\subsection{Benchmark Results}\label{benchmark-results}}
+\subsection{Benchmark Results}
 
 To investigate the impact of traffic load on the application performance
 of an actual environment, we reproduced the configuration described in
-the previous Section~\ref{simulation-results} on a physical cluster and
+the previous Section~\ref{ii-simulation-results} on a physical cluster and
 then measured the execution time of each benchmark. This cluster was
 equipped with switches that support OpenFlow, which is a de facto
 standard implementation of SDN\@. The routing algorithms were implemented
@@ -644,8 +632,7 @@ by using indicators such as maximum traffic load.
     \label{fig:single-job-time}
 \end{figure}
 
-\hypertarget{profiling-overhead}{%
-\subsection{Profiling Overhead}\label{profiling-overhead}}
+\subsection{Profiling Overhead}
 
 In this experiment, the performance of point-to-point communication
 between two processes with and without PFProf were compared to inspect
@@ -673,8 +660,7 @@ overhead for latency.
     \label{fig:latency-overhead}
 \end{figure}
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{Conclusion}\label{ii-conclusion}
 
 This paper described the design and implementation of PFAnalyzer, a
 toolset for analyzing the performance characteristics of

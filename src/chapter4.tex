@@ -1,7 +1,6 @@
 \chapter{Coordination Mechanism of Communication and Computation}
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{iv-introduction}
 
 Recent scientific research has been taking major advantage of
 computational analysis and simulation. Sustained growth in the volume of
@@ -107,17 +106,16 @@ The main contributions of this paper are summarized as follows:
 \end{itemize}
 
 The remainder of this paper is organized as follows.
-Section~\ref{research-objective} introduces SDN-enhanced MPI and its key
+Section~\ref{iv-objective} introduces SDN-enhanced MPI and its key
 technologies. Subsequently, the challenge to realize SDN-enhanced MPI is
-derived. Section~\ref{proposal} describes our proposed mechanism and its
-implementation. Section~\ref{evaluation} shows the result of the experiments
+derived. Section~\ref{iv-proposal} describes our proposed mechanism and its
+implementation. Section~\ref{iv-evaluation} shows the result of the experiments
 conducted to demonstrate the feasibility of the proposal.
-Section~\ref{related-work} reviews related literature and clarifies the
-contributions of this paper. Finally, Section~\ref{conclusion} discusses
+Section~\ref{iv-related-work} reviews related literature and clarifies the
+contributions of this paper. Finally, Section~\ref{iv-conclusion} discusses
 future issues to be tackled and concludes this paper.
 
-\hypertarget{research-objective}{%
-\section{Research Objective}\label{research-objective}}
+\section{Research Objective}\label{iv-objective}
 
 This section first briefly describes the two key technologies of
 SDN-enhanced MPI:\@ the Message Passing Interface (MPI) and Software
@@ -125,9 +123,7 @@ Defined Networking (SDN). After outlining the current development status
 of SDN-enhanced MPI, the central challenge in realizing a practical
 SDN-enhanced MPI is clarified.
 
-\hypertarget{message-passing-interface-mpi}{%
-\subsection{Message Passing Interface
-(MPI)}\label{message-passing-interface-mpi}}
+\subsection{Message Passing Interface (MPI)}\label{iv-mpi}
 
 Message Passing Interface (MPI)~\autocite{MPIForum2012} is a \emph{de
 facto} standard specification for inter-process communication libraries
@@ -180,9 +176,7 @@ optimizing the performance of MPI communications. For this reason,
 researchers have extensively investigated methods to improve the
 communication performance of MPI from various aspects.
 
-\hypertarget{software-defined-networking-sdn}{%
-\subsection{Software Defined Networking
-(SDN)}\label{software-defined-networking-sdn}}
+\subsection{Software Defined Networking (SDN)}
 
 Software Defined Networking (SDN) is a novel networking architecture
 that separates the control plane and data plane into different devices.
@@ -245,12 +239,11 @@ switch.
     \label{tbl:flow-table}
 \end{figure}
 
-\hypertarget{sdn-enhanced-mpi}{%
-\subsection{SDN-enhanced MPI}\label{sdn-enhanced-mpi}}
+\subsection{SDN-enhanced MPI}\label{iv-sdn-mpi}
 
 The basic idea of SDN-enhanced MPI is to incorporate the flexible
 network controllability of SDN into MPI\@. As described in
-Section~\ref{message-passing-interface-mpi}, MPI mainly focuses on hiding the
+Section~\ref{iv-mpi}, MPI mainly focuses on hiding the
 complexity of the underlying network architecture. Therefore, MPI does not
 provide any functionality for explicitly controlling the network. Integrating
 SDN into MPI could complement such lack of a network control feature in MPI
@@ -269,15 +262,13 @@ SDN-enhanced MPI\_Allreduce~\autocite{Takahashi2014} dynamically
 reconfigures the path allocation based on the communication pattern of
 MPI\_Allreduce so that congestion in links is minimized.
 
-\hypertarget{central-challenge-of-sdn-enhanced-mpi}{%
-\subsection{Central Challenge of SDN-enhanced
-MPI}\label{central-challenge-of-sdn-enhanced-mpi}}
+\subsection{Central Challenge of SDN-enhanced MPI}
 
 The central challenge in realizing a practical SDN-enhanced MPI lies in
 a coordination mechanism between the application and network control.
 Although the previous works on SDN-enhanced MPI have shown the
 feasibility of accelerating individual primitives as described in
-Section~\ref{sdn-enhanced-mpi}, actual MPI applications have not yet
+Section~\ref{iv-sdn-mpi}, actual MPI applications have not yet
 taken advantage of network programmability brought by SDN, since each of
 the distinct network control algorithms designed for an MPI primitive
 cannot be activated along with the execution of an MPI application. In
@@ -310,11 +301,9 @@ met by the mechanism:
   essential for the portability of applications.
 \end{itemize}
 
-\hypertarget{proposal}{%
-\section{Proposal}\label{proposal}}
+\section{Proposal}\label{iv-proposal}
 
-\hypertarget{basic-idea}{%
-\subsection{Basic Idea}\label{basic-idea}}
+\subsection{Basic Idea}\label{iv-basic-idea}
 
 The basic idea of UnisonFlow is to embed MPI context information as a
 \emph{tag} into each packet released through the MPI library and handle
@@ -360,11 +349,9 @@ equipped with a special hardware dedicated for L2 header field lookups.
 As a result, more flow entries that include only L2 header fields can be
 stored than the flow entries with other header fields.
 
-\hypertarget{architecture}{%
-\subsection{Architecture}\label{architecture}}
+\subsection{Architecture}
 
-\hypertarget{overview}{%
-\subsubsection{Overview}\label{overview}}
+\subsubsection{Overview}
 
 Figure~\ref{fig:overall-arch} illustrates an overview of UnisonFlow. At
 this stage of research, it is assumed that a computer cluster executes a
@@ -395,8 +382,7 @@ an implementation of MPI, was extended so that it meets our needs.
 Specifically, it was enhanced to communicate with the tagging kernel
 module and to send active connection information to the kernel module.
 
-\hypertarget{intra-node-architecture}{%
-\subsubsection{Intra-node architecture}\label{intra-node-architecture}}
+\subsubsection{Intra-node architecture}
 
 On each computing node, the tagging kernel module and MPI library work
 together to embed MPI context information as a tag into each packet. The
@@ -404,7 +390,7 @@ kernel module performs the actual tagging procedure, whereas the MPI
 library provides the kernel module with supplementary information used
 for filtering out non-MPI traffic.
 
-As described in section~\ref{basic-idea}, UnisonFlow exploits the
+As described in section~\ref{iv-basic-idea}, UnisonFlow exploits the
 destination MAC address field of a packet as a place to store the
 corresponding tag. To implement this, a functional component that
 dynamically rewrites MAC address fields of packets is essential.
@@ -496,8 +482,7 @@ channel between the MPI library and kernel module, the
 modifications have been made so that functional compatibility with the
 original MPI library was guaranteed.
 
-\hypertarget{inter-node-architecture}{%
-\subsubsection{Inter-node architecture}\label{inter-node-architecture}}
+\subsubsection{Inter-node architecture}
 
 Switches composing the interconnect forward packets based on their tag
 value. These forwarding rules are stored in the form of flow entries and
@@ -536,8 +521,7 @@ restored to the true MAC address of its receiver node. This restoration
 is achieved by appending an action for changing the MAC address field to
 the flow entry installed on the switch adjacent to the receiver node.
 
-\hypertarget{evaluation}{%
-\section{Evaluation}\label{evaluation}}
+\section{Evaluation}\label{iv-evaluation}
 
 Two experiments were conducted to examine the feasibility of UnisonFlow.
 In the first experiment, the control of the interconnect is investigated
@@ -545,8 +529,7 @@ in terms of whether it is properly synchronized with the execution of
 the application. In the second experiment, the overhead imposed by
 UnisonFlow is evaluated.
 
-\hypertarget{experimental-environment}{%
-\subsection{Experimental environment}\label{experimental-environment}}
+\subsection{Experimental environment}
 
 Both of the two experiments were conducted on the SDN-enabled computer
 cluster shown in Fig.~\ref{fig:cluster-topology}. For the topology of
@@ -595,9 +578,7 @@ Table~\ref{tbl:node-spec}.
     \end{tabular}
 \end{table}
 
-\hypertarget{verification-of-coordination-mechanism}{%
-\subsection{Verification of coordination
-mechanism}\label{verification-of-coordination-mechanism}}
+\subsection{Verification of coordination mechanism}
 
 The first experiment was conducted to verify whether the dynamic control
 of packet flows on the interconnect was performed in synchronization
@@ -828,8 +809,7 @@ that only spine2 was utilized during the execution of MPI\_Reduce. Based
 on these observations, it is confirmed and verified that the network
 control is synchronized with the execution of the MPI application.
 
-\hypertarget{evaluation-of-overhead}{%
-\subsection{Evaluation of overhead}\label{evaluation-of-overhead}}
+\subsection{Evaluation of overhead}
 
 \begin{figure}
     \centering
@@ -887,8 +867,7 @@ primitives~\autocites{Squyres2005}{Huang2006} implies that the overhead
 of the proposed mechanism is negligible for collective primitives as
 well.
 
-\hypertarget{related-work}{%
-\section{Related Work}\label{related-work}}
+\section{Related Work}\label{iv-related-work}
 
 Several studies~\autocites{Mekky2014}{Cheng2014} have been carried out
 to incorporate application-awareness into SDN\@. An extension to Open
@@ -942,8 +921,7 @@ upper layer information into fixed-length tags that are processable by
 hardware. However, to the best of our knowledge, no work has tackled to
 integrate MPI with label switching networks.
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{Conclusion}\label{iv-conclusion}
 
 In this paper, we have proposed UnisonFlow, a software-defined
 coordination mechanism for SDN-enhanced MPI that performs network
