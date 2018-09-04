@@ -7,12 +7,19 @@
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
 \usepackage[utf8]{inputenc}
+% csquotes must be included after inputenc
+\usepackage{csquotes}
 \usepackage{listings}
 \usepackage{newtxtext}
 \usepackage{newtxmath}
+% Suppress warning about \float@addtolists
+\usepackage{scrhack}
 \usepackage[labelformat=simple,format=hang]{subcaption}
 \usepackage{tabularx}
 \RequirePackage[l2tabu, orthodox]{nag}
+
+% Suppress warning about multiple PDFs with page group
+\pdfsuppresswarningpagegroup=1
 
 \graphicspath{{./img/}}
 
