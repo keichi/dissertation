@@ -139,14 +139,14 @@ communications are routed so that they make use of the redundant routes
 as depicted in Fig.~\ref{fig-problem-routing2}, link contention can be
 avoided.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{problem-routing1.png}
     \caption{Link Contention on Fat-tree.}%
     \label{fig-problem-routing1}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{problem-routing2.png}
     \caption{Load Balancing Routes on Fat-tree.}%
@@ -236,7 +236,7 @@ entries and querying for packet statistics to the OpenFlow switches.
 These requests are transferred via OpenFlow protocol messages to the
 corresponding switch.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{sdn-architecture.png}
     \caption{Software Defined Networking Architecture.}%
@@ -276,7 +276,7 @@ applications at compile time. Each computing node can run one or more MPI
 processes, but in this paper, we assume each computing node runs only one MPI
 process.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{proposal-placement.png}
     \caption{Placement of the Modules Composing SDN-enhanced MPI\_Allreduce.}%
@@ -293,7 +293,7 @@ processes notify their own IP address and MPI \emph{rank} number to the SDN
 controller. This information obtained from MPI processes are held by the
 controller until the execution of the MPI application finishes.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{proposal-sequence.png}
     \caption{Sequence Diagram of Proposed Mechanism.}%
@@ -462,7 +462,7 @@ library memorizes all process pairs that have to communicate and exchange data
 by following each step of the recursive doubling algorithm. For each of those
 pairs, the library notifies the SDN controller to prepare each route.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{recursive-doubling.png}
     \caption{Recursive Doubling Algorithm.}%
@@ -499,7 +499,7 @@ MPI\_Allreduce Library and the benchmark application were written in C and
 compiled with gcc 4.4.7. As a representative of a conventional MPI,
 OpenMPI~\autocite{Gabriel2004} 1.5.4 was used.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{experiment-environment.png}
     \caption{Experimental Environment.}%
@@ -523,14 +523,14 @@ normalized performance improvement of the proposed mechanism in
 comparison with the OpenMPI implementation. The maximum of performance
 improvement is 29\%.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{evaluation-8nodes.png}
     \caption{Comparison of Execution Time of MPI\_Allreduce on 8 Computing Nodes.}%
     \label{fig-evaluation-8nodes}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{evaluation-8nodes-normalized.png}
     \caption{Normalized Performance Improvement of Proposed MPI\_Allreduce on 8 Computing Nodes.}%
@@ -543,14 +543,14 @@ performance improvement of the proposed MPI\_Allreduce. It
 shows how the proposed mechanism reduces the execution time of
 MPI\_Allreduce for 36\% at most.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=7.0cm]{evaluation-16nodes.png}
     \caption{Comparison of Execution Time of MPI\_Allreduce on 16 Computing Nodes.}%
     \label{fig-evaluation-16nodes}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{evaluation-16nodes-normalized.png}
     \caption{Normalized Performance Improvement of Proposed MPI\_Allreduce on 16 Computing Nodes.}%
