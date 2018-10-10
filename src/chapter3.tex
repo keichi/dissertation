@@ -610,7 +610,19 @@ independent networks on InfiniBand. Our research also aims for a dynamic use
 of the underlying interconnection network, but differs in that we attempted to
 use a different interconnection network.
 
-\section{Future Issue}\label{iii-future-issue}
+\section{Conclusion}\label{iii-conclusion}
+
+We have attempted to reduce the execution time of
+MPI\_Allreduce by combining Software-Defined Networking (SDN)
+with MPI\@. By using SDN, we have proposed a new network control mechanism
+that can effectively make use of redundant routes by having SDN interact
+with an MPI application communication pattern. We have designed and
+implemented a system of three modules cooperating together to realize
+our proposed mechanism. The evaluation showed that the proposed
+MPI\_Allreduce decreased the execution time for 36\% at most
+compared with a conventional implementation of MPI\_Allreduce.
+As a result, we have confirmed the superiority of the proposed mechanism
+over conventional methods.
 
 Several issues to tackle have remained for the realization of practical
 and useful MPI\_Allreduce leveraging SDN\@. The first issue to
@@ -664,23 +676,3 @@ and MPI rank numbers for each process in the SDN controller.
 Furthermore, we enhance our implementation so that only the root process
 interacts with the SDN controller and conveys information of all
 participating processes in the collective communication.
-
-\section{Conclusion}\label{iii-conclusion}
-
-We have attempted to reduce the execution time of
-MPI\_Allreduce by combining Software-Defined Networking (SDN)
-with MPI\@. By using SDN, we have proposed a new network control mechanism
-that can effectively make use of redundant routes by having SDN interact
-with an MPI application communication pattern. We have designed and
-implemented a system of three modules cooperating together to realize
-our proposed mechanism. The evaluation showed that the proposed
-MPI\_Allreduce decreased the execution time for 36\% at most
-compared with a conventional implementation of MPI\_Allreduce.
-As a result, we have confirmed the superiority of the proposed mechanism
-over conventional methods.
-
-Refining this prototypical implementation in terms of both execution
-performance and usability for developers is our future work. Also, the
-future issues listed in Section~\ref{iii-future-issue} must be solved for
-practical and useful MPI\_Allreduce. We would like to verify
-the effectiveness of applying SDN to MPI even further.
