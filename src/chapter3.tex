@@ -204,45 +204,45 @@ SDN, a core concept of our approach. After that, the proposed mechanism
 is detailed. Lastly, the implementation of the proposed mechanism is
 described.
 
-\subsection{Software-Defined Networking}
-
-Software-Defined Networking (SDN)~\autocite{sdn} is an emerging networking
-architecture that physically separates networking functions to control
-planes and data planes. In conventional networking architecture before
-SDN was introduced, the functionality of controlling how traffic is
-routed and transferred and the functionality of actually handling
-traffic are integrated into a single device such as a router or a
-switch. SDN splits these two functionalities into different devices.
-Figure~\ref{fig-sdn-architecture} shows the architecture of SDN\@. A
-logically centralized SDN controller provides network services to
-applications through APIs. The SDN control software also communicates
-with the networking devices that compose the underlying network through
-the control data plane interface. SDN architecture delivers benefits
-such as centralized control, programmability and abstraction of the
-network.
-
-OpenFlow~\autocite{sdn} protocol is the first control data plane interface
-standard. It specifies the communication protocol between the control
-and data planes of OpenFlow-enabled network devices. Control plane
-devices that support the OpenFlow protocol are called OpenFlow
-controllers, whereas such data plane devices are called OpenFlow
-switches. Each of these switches hold a flow table, which is basically a
-collection of packet handling rules. Each rule has a packet match
-condition pertaining to L2 address, L3 address and L4 port number.
-Packets that match a particular rule are handled with the action defined
-in the rule. Examples of allowed actions are drop packet, output to
-ports, rewriting packet header fields and so on. The OpenFlow controller
-can request operations such as adding/updating/removing flow table
-entries and querying for packet statistics to the OpenFlow switches.
-These requests are transferred via OpenFlow protocol messages to the
-corresponding switch.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=.6\linewidth]{sdn-architecture.png}
-    \caption{Software Defined Networking Architecture.}%
-    \label{fig-sdn-architecture}
-\end{figure}
+% \subsection{Software-Defined Networking}
+%
+% Software-Defined Networking (SDN)~\autocite{sdn} is an emerging networking
+% architecture that physically separates networking functions to control
+% planes and data planes. In conventional networking architecture before
+% SDN was introduced, the functionality of controlling how traffic is
+% routed and transferred and the functionality of actually handling
+% traffic are integrated into a single device such as a router or a
+% switch. SDN splits these two functionalities into different devices.
+% Figure~\ref{fig-sdn-architecture} shows the architecture of SDN\@. A
+% logically centralized SDN controller provides network services to
+% applications through APIs. The SDN control software also communicates
+% with the networking devices that compose the underlying network through
+% the control data plane interface. SDN architecture delivers benefits
+% such as centralized control, programmability and abstraction of the
+% network.
+%
+% OpenFlow~\autocite{sdn} protocol is the first control data plane interface
+% standard. It specifies the communication protocol between the control
+% and data planes of OpenFlow-enabled network devices. Control plane
+% devices that support the OpenFlow protocol are called OpenFlow
+% controllers, whereas such data plane devices are called OpenFlow
+% switches. Each of these switches hold a flow table, which is basically a
+% collection of packet handling rules. Each rule has a packet match
+% condition pertaining to L2 address, L3 address and L4 port number.
+% Packets that match a particular rule are handled with the action defined
+% in the rule. Examples of allowed actions are drop packet, output to
+% ports, rewriting packet header fields and so on. The OpenFlow controller
+% can request operations such as adding/updating/removing flow table
+% entries and querying for packet statistics to the OpenFlow switches.
+% These requests are transferred via OpenFlow protocol messages to the
+% corresponding switch.
+%
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=.6\linewidth]{sdn-architecture.png}
+%     \caption{Software Defined Networking Architecture.}%
+%     \label{fig-sdn-architecture}
+% \end{figure}
 
 \subsection{Proposed MPI\_Allreduce Using SDN}
 
