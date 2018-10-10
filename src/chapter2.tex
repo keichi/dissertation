@@ -111,11 +111,12 @@ The contributions of this paper are summarized as follows:
 The rest of this paper is organized as follows.
 Section~\ref{ii-objective} examines the requirements of an
 interconnect simulator for dynamic and application-aware interconnects.
-Section~\ref{ii-related-work} reviews related work. Section~\ref{ii-proposal}
+Section~\ref{ii-proposal}
 describes the design and implementation of PFAnalyzer.
 Section~\ref{ii-evaluation} presents the simulation results for NAS CG
 benchmark and MILC obtained with our proposed simulator. Furthermore,
 results of a verification experiment on a physical cluster are shown.
+Section~\ref{ii-related-work} reviews related work.
 Section~\ref{ii-conclusion} concludes this paper and outlines our future work.
 
 \section{Research Objective}\label{ii-objective}
@@ -168,57 +169,6 @@ Furthermore, the simulator should be designed to be lightweight and fast
 to carry out a large number of simulations with different parameters in
 a reasonable amount of time. If necessary, appropriate approximation
 should be introduced to improve simulation performance.
-
-\section{Related Work}\label{ii-related-work}
-
-Several interconnect simulators have been proposed in past research.
-PSINS~\autocite{Tikir2009} is a trace-driven simulator for HPC
-applications. Traces obtained from applications are used to predict the
-performance of applications on a variety of HPC clusters with different
-configurations. LogGOPSim~\autocite{Hoefler2010} simulates the execution
-of MPI applications based on the LogGOP network model. Both simple
-synthetic communication patterns and communication patterns converted
-from traces of MPI applications can be fed into the simulator. A
-limitation of LogGOPSim is that the interconnect is assumed to have full
-bisection bandwidth and congestion is not simulated. These two
-simulators can provide accurate performance predictions owing to their
-per-message simulation capability. However, the topology and the routing
-algorithm of interconnects are abstracted in the network models of PSINS
-and LogGOPSim. Therefore, these simulators cannot be used for predicting
-and comparing the performance of different topologies or routing
-algorithms. In contrast, the simulator targeted in this paper allows
-users to compare the performance characteristic of different topologies
-and routing algorithms.
-
-ORCS~\autocite{Schneider2009} simulates the traffic load of each link in
-the interconnect for a given topology, communication pattern and routing
-algorithm. The simulated traffic load of links can be summarized into
-various performance metrics and used for further analysis. A limitation
-of ORCS is that only pre-defined communication patterns can be used as
-its input. Moreover, ORCS assumes static routing as in InfiniBand. On
-the contrary, our simulator can handle dynamic routing algorithms that
-use communication patterns of applications and interconnect usage to
-make routing decisions.
-
-In \autocite{Jo2015}, simulations are carried out to examine the
-performance characteristics of an SDN-based multipath routing algorithm
-for data center networks. A simulator is developed based on MiniSSF to
-simulate the throughput and delay of a packet flow under diverse
-settings. However, communication patterns are randomly generated and not
-based on real-world applications. Our proposed simulator is designed to
-accept arbitrary communication patterns obtained from real-world
-applications using our custom profiler.
-
-\(\mathit{INAM}^2\) \autocite{Subramoni2016} is a comprehensive tool to
-monitor and analyze network activities in an InfiniBand network. The
-tight integration with the job scheduler and a co-designed MPI library
-allows \(\mathit{INAM}^2\) to associate network activities with jobs and
-MPI processes. For instance, it can identify hot spots in the
-interconnect and inspect which node, job, and process is causing the
-congestion. Although \(\mathit{INAM}^2\) is a useful tool for system
-administrators to diagnose the performance issues of interconnects, it
-is not suitable for studying diverse interconnects since it only
-supports physical clusters.
 
 \section{Proposal}\label{ii-proposal}
 
@@ -659,6 +609,57 @@ overhead for latency.
     \caption{Latency of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:latency-overhead}
 \end{figure}
+
+\section{Related Work}\label{ii-related-work}
+
+Several interconnect simulators have been proposed in past research.
+PSINS~\autocite{Tikir2009} is a trace-driven simulator for HPC
+applications. Traces obtained from applications are used to predict the
+performance of applications on a variety of HPC clusters with different
+configurations. LogGOPSim~\autocite{Hoefler2010} simulates the execution
+of MPI applications based on the LogGOP network model. Both simple
+synthetic communication patterns and communication patterns converted
+from traces of MPI applications can be fed into the simulator. A
+limitation of LogGOPSim is that the interconnect is assumed to have full
+bisection bandwidth and congestion is not simulated. These two
+simulators can provide accurate performance predictions owing to their
+per-message simulation capability. However, the topology and the routing
+algorithm of interconnects are abstracted in the network models of PSINS
+and LogGOPSim. Therefore, these simulators cannot be used for predicting
+and comparing the performance of different topologies or routing
+algorithms. In contrast, the simulator targeted in this paper allows
+users to compare the performance characteristic of different topologies
+and routing algorithms.
+
+ORCS~\autocite{Schneider2009} simulates the traffic load of each link in
+the interconnect for a given topology, communication pattern and routing
+algorithm. The simulated traffic load of links can be summarized into
+various performance metrics and used for further analysis. A limitation
+of ORCS is that only pre-defined communication patterns can be used as
+its input. Moreover, ORCS assumes static routing as in InfiniBand. On
+the contrary, our simulator can handle dynamic routing algorithms that
+use communication patterns of applications and interconnect usage to
+make routing decisions.
+
+In \autocite{Jo2015}, simulations are carried out to examine the
+performance characteristics of an SDN-based multipath routing algorithm
+for data center networks. A simulator is developed based on MiniSSF to
+simulate the throughput and delay of a packet flow under diverse
+settings. However, communication patterns are randomly generated and not
+based on real-world applications. Our proposed simulator is designed to
+accept arbitrary communication patterns obtained from real-world
+applications using our custom profiler.
+
+\(\mathit{INAM}^2\) \autocite{Subramoni2016} is a comprehensive tool to
+monitor and analyze network activities in an InfiniBand network. The
+tight integration with the job scheduler and a co-designed MPI library
+allows \(\mathit{INAM}^2\) to associate network activities with jobs and
+MPI processes. For instance, it can identify hot spots in the
+interconnect and inspect which node, job, and process is causing the
+congestion. Although \(\mathit{INAM}^2\) is a useful tool for system
+administrators to diagnose the performance issues of interconnects, it
+is not suitable for studying diverse interconnects since it only
+supports physical clusters.
 
 \section{Conclusion}\label{ii-conclusion}
 
