@@ -15,7 +15,119 @@
 
 \subsection{Message Passing Interface (MPI)}
 
+Message Passing Interface (MPI)~\autocite{MPIForum2012} is a \emph{de
+facto} standard specification for inter-process communication libraries
+used to develop parallel distributed applications. MPI defines a suite
+of communication primitives that helps programmers to develop
+applications that require complex communications among computing nodes.
+
+The communication primitives defined in MPI can be roughly categorized
+into point-to-point communication and collective communication.
+Point-to-point communication is a communication between one sender and
+one receiver. On the other hand, collective communication involves a
+group of multiple processes. Table~\ref{tbl:mpi-primitives} shows some
+representative examples of MPI primitives.
+
+\begin{table}
+    \centering
+    \caption{Examples of MPI primitives}%
+    \label{tbl:mpi-primitives}
+    \begin{tabular}{lll}
+        \hline
+        Name & Category & Description \\ \hline
+        MPI\_Send/MPI\_Recv & Point-to-point & Blocking send/receive \\
+        MPI\_Isend/MPI\_Irecv & Point-to-point & Non-blocking send/receive \\
+        MPI\_Bcast & Collective & Broadcast \\
+        MPI\_Reduce & Collective & Reduction \\
+        MPI\_Allreduce & Collective & Broadcast result of reduction \\
+        MPI\_Gather & Collective & \begin{tabular}[c]{@{}l@{}}Aggregate pieces of data from\\ processes into a single process\end{tabular} \\
+        MPI\_Alltoall & Collective & \begin{tabular}[c]{@{}l@{}}Perform MPI\_Gather from all\\ processes\end{tabular}
+    \end{tabular}
+\end{table}
+
+A remarkable feature of MPI is that it abstracts the underlying network
+of high-performance computer clusters. This abstraction allows
+programmers to develop applications without forcing them to study the
+detailed architecture or structure of the underlying network. In MPI,
+every process is identified by a \emph{rank} number, a non-negative
+integer. The mapping between rank numbers and network addresses is
+automatically handled by the MPI library. Communication can be
+restricted into a certain group of processes, which is called a
+\emph{communicator} in MPI\@. This abstraction makes MPI applications
+portable and easy to port to different computer clusters.
+
+Until today, countless scientific applications have been developed by
+utilizing the communication primitives in MPI\@. The execution time of
+these MPI primitives is an important performance factor because its
+impact to the total application performance appears significantly
+accompanied with the recent scale-out of computer clusters. In other
+words, the total performance of MPI applications can be improved by
+optimizing the performance of MPI communications. For this reason,
+researchers have extensively investigated methods to improve the
+communication performance of MPI from various aspects.
+
 \subsection{Software-Defined Networking (SDN)}
+
+Software Defined Networking (SDN) is a novel networking architecture
+that separates the control plane and data plane into different devices.
+In conventional networking architectures, the decision on how to handle
+packets (control plane) and the packet transfer (data plane) are
+implemented as unified and inseparable features. The separation of the
+control plane and data plane has allowed SDN to deliver the following
+three benefits:
+
+\begin{itemize}
+\item
+  \emph{Programmable}: The control plane can be handled by a software
+  controller. Network operators can program controllers tailored for
+  their needs.
+\item
+  \emph{Dynamic}: SDN allows the controller to quickly reconfigure the
+  network. For instance, it is possible to dynamically optimize traffic
+  flow in the network based on the real-time traffic pattern.
+\item
+  \emph{Centralized}: A centralized controller configures the entire
+  SDN-enabled network, thus reducing efforts to administer and manage
+  the network. In conventional networking architectures, the operators
+  need to configure each network device separately because the control
+  plane is distributed on individual devices.
+\end{itemize}
+
+\emph{OpenFlow}~\autocite{McKeown2008} is a widely accepted open
+standard of SDN\@. In an OpenFlow-enabled network, the data plane is
+handled by OpenFlow switches. Every OpenFlow switch holds a logical
+construct called \emph{flow table}, which is a collection of \emph{flow
+entries}. Each flow entry defines what kind of packet control should be
+performed on what kind of packets (Fig.~\ref{tbl:flow-table}). Every
+time a packet arrives at an OpenFlow switch, the switch looks up a
+matching flow entry in its flow table using the header fields of the
+packet. Once a matching flow entry is found, the action of the matched
+flow entry is applied to the packet.
+
+The OpenFlow controller is responsible for the control plane. It manages
+the flow table of switches by adding, removing and modifying flow
+entries. The controller and switches communicate with each other by
+asynchronously exchanging messages defined in the OpenFlow protocol. One
+of the frequently used messages is the \emph{packet-in} message, which
+is sent out from a switch to the controller when no matching flow entry
+is found for an incoming packet. In response, the controller can send a
+\emph{modify flow entry} message to install a new flow entry on the
+switch.
+
+\begin{figure}
+    \centering
+    \begin{tabular}{lllll}
+        \hline
+        \multicolumn{3}{c}{Header Fields}            &  Action                  \\ \hline
+        Dst MAC           & Src IP     & Dst IP      &                          \\ \hline
+                          & 192.0.2.12 & 192.0.2.34  & Output to port 1         \\
+                          & 192.0.2.34 & 192.0.2.56  & Output to port 2         \\
+        ff:ff:ff:ff:ff:ff &            &             & Output to port 1 and 2   \\
+        72:42:c1:e4:75:8c &            &             & Drop
+    \end{tabular}
+    \caption{An example of a flow table}%
+    \label{tbl:flow-table}
+\end{figure}
 
 \subsection{Related Work}
 
