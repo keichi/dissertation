@@ -55,12 +55,12 @@ without any control of communication.
 
 In this research, we try to accelerate MPI\_Allreduce by targeting a cluster
 system with interconnect that contains multiple redundant routes. Particularly
-for this paper, we focus on fat-tree interconnect. We design and implement a
+for this chapter, we focus on fat-tree interconnect. We design and implement a
 network control mechanism that can effectively make use of redundant routes by
-having SDN dynamically interact with MPI applications. In this paper we
+having SDN dynamically interact with MPI applications. In this chapter we
 summarize and report the preliminary result of the research we have achieved.
 
-The rest of this paper is as follows. In
+The rest of this chapter is as follows. In
 Section~\ref{iii-background},
 after a short description of MPI, past works on performance tuning and
 optimization of collective communication operations in MPI are reviewed.
@@ -71,7 +71,7 @@ presented. In Section~\ref{iii-evaluation}, an evaluation on a cluster system is
 conducted to verify the feasibility of the proposed mechanism.
 Section~\ref{iii-related-work} discusses related works.
 
-Section~\ref{iii-conclusion} concludes this paper and discusses issues
+Section~\ref{iii-conclusion} concludes this chapter and discusses issues
 remained for the realization of practical and useful MPI\_Allreduce leveraging
 SDN\@.
 
@@ -107,7 +107,7 @@ The root process node only has to send data once, even if the number of
 processes increases. This method can statically prepare and install the
 network control rules on the startup of the application.
 
-This paper explores the feasibility of Software Defined Networking for
+This chapter explores the feasibility of Software Defined Networking for
 MPI\_Allreduce for an SDN-enhanced MPI where the network is dynamically
 controlled, based on MPI communication patterns.
 
@@ -212,12 +212,12 @@ The basic idea behind the proposed solution is to improve the
 inefficient communication in MPI in order to enhance the performance of
 MPI applications. The fact that the MPI application cannot retrieve
 usage information of the underlying network results in a potential
-inefficiency in terms of communication. In this paper, we focus on the
+inefficiency in terms of communication. In this chapter, we focus on the
 inequality of the link usage among the interconnect of a cluster system. Since
 the bandwidth of links is limited, such inequality results in contention in
 heavy traffic links.
 
-In this paper, we use redundant routes of the interconnect to ease the
+In this chapter, we use redundant routes of the interconnect to ease the
 inequality of link usage, based on an assumption that the cluster system has a
 fat-tree interconnect. Through this traffic distribution, contention in the
 links is expected to ease, which speeds up communication.
@@ -234,7 +234,7 @@ cluster system such as in deploying jobs to the system. LLDP daemon runs in
 the background on all computing nodes. The SDN MPI\_Allreduce library is not a
 stand-alone application, but a static library that must be linked to MPI
 applications at compile time. Each computing node can run one or more MPI
-processes, but in this paper, we assume each computing node runs only one MPI
+processes, but in this chapter, we assume each computing node runs only one MPI
 process.
 
 \begin{figure}
@@ -337,7 +337,7 @@ responding functionality.
 The second functionality is replying to ARP requests. An ARP request is
 a L2 broadcast packet, so it causes a \emph{broadcast storm} problem
 inside a network that contains a loop inside it. Since the target of
-this paper is a network that has redundant routes, it always has a loop
+this chapter is a network that has redundant routes, it always has a loop
 in it. Thus, the controller instructs the switches to reply to the
 received ARP request, instead of the computing node that has the
 corresponding IP address. The IP address that corresponds to the MAC
@@ -408,7 +408,7 @@ which is a set of sender process and receiver process pairs during the
 communication in MPI\_Allreduce.
 
 Several algorithms to realize the Allreduce operation have been proposed. This
-paper focuses on \emph{recursive doubling}~\autocite{Thakur2005}, since it
+chapter focuses on \emph{recursive doubling}~\autocite{Thakur2005}, since it
 requires more inter-node communication compared with other algorithms, which
 means more possibility of optimization in terms of communication.
 Figure~\ref{fig-recursive-doubling} shows how the recursive doubling algorithm
