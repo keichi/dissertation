@@ -11,7 +11,7 @@
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
 set terminal pdfcairo  transparent enhanced fontscale 0.75 size 13.00cm, 8.00cm font ",12"
-set output "top500_rpeak.pdf"
+set output "top500_rmax.pdf"
 unset clip points
 set clip one
 unset clip two
@@ -36,7 +36,7 @@ set format z "% h"
 set format cb "% h"
 set format r "% h"
 set ttics format "% h"
-set timefmt "%Y-%m"
+set timefmt "%Y/%m"
 set angles radians
 set tics back
 unset grid
