@@ -2,12 +2,45 @@
 
 \section{Background}
 
-\subsection{High Performance Computing}
+\subsection{High Performance Computing (HPC)}
+
+% HPCとはなにか
+Recent advancement in science has significantly benefited from High Performance
+Computing~(HPC). Scientists are able to simulate nature on HPC systems. HPC
+helps scientists to develop a better understanding of nature and answer
+fundamental questions about our surrounding environment by executing
+high-resolution computational models of natural phenomena.
+
+% HPCの応用分野
+A wide spectrum of science has taken advantage of the massive computing
+capability provided by HPC\@. Various phenomena ranging from atomic scale to
+cosmological scale intractable to experimentally observe or reproduce are
+simulated on HPC systems. For instance, molecular dynamics simulation reveals
+the molecular-level structure and property of matter and their interaction.
+This knowledge is used to design better drugs and materials. Earthquake and
+Tsunami simulation allows us to predict the impact of seismic activities and
+prepare for natural disasters. In addition to simulation applications, data
+analysis and machine learning applications are also starting to leverage HPC
+systems.
+
+% HPCシステムの計算性能の推移
+Scientists are trying to tackle increasingly larger and more complex problems.
+This continuous demand from domain scientists has kept pushing the performance
+HPC systems forward. Figure~\ref{fig:top500-rpeak} shows the development of
+computing performance of HPC systems based on the data published by the
+Top500~\cite{top500} list. The Top500 list is a biannual list of 500 most
+powerful HPC systems measured by the maximal LINPACK benchmark performance
+achieved. The plot clearly indicates the exponential increase in performance
+over the past 20 years. Researchers and engineers are striving to sustain this
+exponential growth in performance and exascale~(Exa FLOPS) in the near future.
+To achieve this daunting technological challenge, every aspect of the HPC
+system including hardware, operating system, middleware and application need
+to be greatly improved, optimized and even redesigned.
 
 \begin{figure}
     \centering
     \includegraphics{top500_rpeak}
-    \caption{Performane Development of Top500 HPC Systems}%
+    \caption{Performane Development of Top500 HPC Systems~\cite{top500}}%
     \label{fig:top500-rpeak}
 \end{figure}
 
