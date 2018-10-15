@@ -335,20 +335,21 @@ completed.
 \begin{table}
     \centering
     \normalsize
-    \caption{List of Configurable Algorithms}
+    \caption{List of Configurable Algorithms}%
     \label{tbl:simulator-algorithm}
     \begin{tabularx}{\linewidth}{lX}
-        \hline
+        \toprule
         Algorithm         & Description                                                 \\
-        \hline \hline
+        \midrule
         Job Scheduling    & Selects the job to execute from the job queue.
-                            (\emph{e.g.} FCFS, Backfill)                                \\ \hline
+                            (\emph{e.g.} FCFS, Backfill)                                \\
         Node Selection    & Selects which computing nodes to assign for a job.
-                            (\emph{e.g.} Linear, Random, Topology-aware algorithms)     \\ \hline
+                            (\emph{e.g.} Linear, Random, Topology-aware algorithms)     \\
         Process Placement & Determines on which computing node to place a process.
-                            (\emph{e.g.} Block, Cyclic, Application-aware algorithms)   \\ \hline
+                            (\emph{e.g.} Block, Cyclic, Application-aware algorithms)   \\
         Routing           & Computes a route between a pair of processes.
-                            (\emph{e.g.} D-mod-K, S-mod-K, Random, Dynamic algorithms)  \\ \hline
+                            (\emph{e.g.} D-mod-K, S-mod-K, Random, Dynamic algorithms)  \\
+        \bottomrule
     \end{tabularx}
 \end{table}
 

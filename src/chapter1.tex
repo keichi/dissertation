@@ -66,15 +66,16 @@ representative examples of MPI primitives.
     \caption{Examples of MPI primitives}%
     \label{tbl:mpi-primitives}
     \begin{tabular}{lll}
-        \hline
-        Name & Category & Description \\ \hline
+        \toprule
+        Name & Category & Description \\ \midrule
         MPI\_Send/MPI\_Recv & Point-to-point & Blocking send/receive \\
         MPI\_Isend/MPI\_Irecv & Point-to-point & Non-blocking send/receive \\
         MPI\_Bcast & Collective & Broadcast \\
         MPI\_Reduce & Collective & Reduction \\
         MPI\_Allreduce & Collective & Broadcast result of reduction \\
         MPI\_Gather & Collective & \begin{tabular}[c]{@{}l@{}}Aggregate pieces of data from\\ processes into a single process\end{tabular} \\
-        MPI\_Alltoall & Collective & \begin{tabular}[c]{@{}l@{}}Perform MPI\_Gather from all\\ processes\end{tabular}
+        MPI\_Alltoall & Collective & \begin{tabular}[c]{@{}l@{}}Perform MPI\_Gather from all\\ processes\end{tabular} \\
+        \midrule
     \end{tabular}
 \end{table}
 
@@ -157,13 +158,14 @@ switch.
 \begin{figure}
     \centering
     \begin{tabular}{lllll}
-        \hline
-        \multicolumn{3}{c}{Header Fields}            &  Action                  \\ \hline
-        Dst MAC           & Src IP     & Dst IP      &                          \\ \hline
+        \toprule
+        \multicolumn{3}{c}{Header Fields}            &  Action                  \\ \midrule
+        Dst MAC           & Src IP     & Dst IP      &                          \\ \midrule
                           & 192.0.2.12 & 192.0.2.34  & Output to port 1         \\
                           & 192.0.2.34 & 192.0.2.56  & Output to port 2         \\
         ff:ff:ff:ff:ff:ff &            &             & Output to port 1 and 2   \\
-        72:42:c1:e4:75:8c &            &             & Drop
+        72:42:c1:e4:75:8c &            &             & Drop                     \\
+        \bottomrule
     \end{tabular}
     \caption{An example of a flow table}%
     \label{tbl:flow-table}
