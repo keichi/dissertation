@@ -4,7 +4,7 @@ IMAGE_OBJS=$(wildcard ./img/*.obj)
 IMAGES=$(IMAGE_OBJS:.obj=.pdf)
 REFERENCES=references.bib
 
-.PHONY: all clean open
+.PHONY: all clean open watch
 
 all: main.pdf
 
@@ -26,6 +26,9 @@ clean:
 
 open: main.pdf
 	latexmk -pdf -pv $(MAIN)
+
+watch: main.pdf
+	latexmk -pdf -pvc $(MAIN)
 
 release: main.pdf
 	gs -q -dNOPAUSE -dBATCH -dPDFSETTINGS=/printer -sDEVICE=pdfwrite -dCompressFonts=true -dSubsetFonts=true -sOutputFile=dissertation-$(shell date +"%m%d").pdf main.pdf
