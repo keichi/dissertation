@@ -125,7 +125,7 @@ assumption that the network is oversubscribed, the shortage of available
 bandwidth could give rise to a serious problem.
 
 Suppose a cluster system of 4 computing nodes interconnected with a
-2-level Fat-tree topology as illustrated in Fig.~\ref{fig-problem-routing1}.
+2-level Fat-tree topology as illustrated in Fig.~\ref{fig:problem-routing1}.
 Fat-tree is a network topology that has multiple redundant routes between the
 upper layer switches and lower layer switches. By scattering traffic among
 these redundant routes, it is possible to gain more bandwidth compared with
@@ -135,23 +135,23 @@ The load balancing algorithm becomes important. For example, suppose
 computing node 1 is sending data to node 3, and node 2 is sending
 different data to node 4 at the same moment. If those two communications
 are routed within the exact same route, link contention could happen, as
-depicted in Fig.~\ref{fig-problem-routing1}. When these two
+depicted in Fig.~\ref{fig:problem-routing1}. When these two
 communications are routed so that they make use of the redundant routes
-as depicted in Fig.~\ref{fig-problem-routing2}, link contention can be
+as depicted in Fig.~\ref{fig:problem-routing2}, link contention can be
 avoided.
 
 \begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{problem-routing1.png}
     \caption{Link Contention on Fat-tree}%
-    \label{fig-problem-routing1}
+    \label{fig:problem-routing1}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=.6\linewidth]{problem-routing2.png}
     \caption{Load Balancing Routes on Fat-tree}%
-    \label{fig-problem-routing2}
+    \label{fig:problem-routing2}
 \end{figure}
 
 Various algorithms for balancing traffic in a network with redundant
@@ -227,7 +227,7 @@ links is expected to ease, which speeds up communication.
 The proposed mechanism is composed of three modules. These three modules are
 the SDN controller, LLDP daemon and the SDN MPI\_Allreduce library. They are
 deployed onto a cluster system as illustrated in
-Fig.~\ref{fig-proposal-placement}. The SDN controller is deployed onto a
+Fig.~\ref{fig:proposal-placement}. The SDN controller is deployed onto a
 management node, which is a computer that is not involved in the actual
 computation of the MPI application, but is used for controlling the whole
 cluster system such as in deploying jobs to the system. LLDP daemon runs in
@@ -241,12 +241,12 @@ process.
     \centering
     \includegraphics[width=.6\linewidth]{proposal-placement.png}
     \caption{Placement of the Modules Composing SDN-enhanced MPI\_Allreduce}%
-    \label{fig-proposal-placement}
+    \label{fig:proposal-placement}
 \end{figure}
 
 The interaction among these modules is composed of two phases: the
 initialization phase at the MPI application startup and the main phase at the
-MPI\_Allreduce call. Figure~\ref{fig-proposal-sequence} is a UML sequence
+MPI\_Allreduce call. Figure~\ref{fig:proposal-sequence} is a UML sequence
 diagram that illustrates how the modules cooperate with each other. MPI\_Init
 is an MPI function that initializes the MPI execution environment, which must
 be called on the application startup. After MPI\_Init finishes, all MPI
@@ -258,7 +258,7 @@ controller until the execution of the MPI application finishes.
     \centering
     \includegraphics[width=.6\linewidth]{proposal-sequence.png}
     \caption{Sequence Diagram of Proposed Mechanism}%
-    \label{fig-proposal-sequence}
+    \label{fig:proposal-sequence}
 \end{figure}
 
 When MPI\_Allreduce is called, the rank 0 process generates the
@@ -411,7 +411,7 @@ Several algorithms to realize the Allreduce operation have been proposed. This
 chapter focuses on \emph{recursive doubling}~\autocite{Thakur2005}, since it
 requires more inter-node communication compared with other algorithms, which
 means more possibility of optimization in terms of communication.
-Figure~\ref{fig-recursive-doubling} shows how the recursive doubling algorithm
+Figure~\ref{fig:recursive-doubling} shows how the recursive doubling algorithm
 works. In this context, the \emph{distance} between two MPI processes is
 defined as the absolute value of the difference of rank numbers. In the first
 step, processes that are 1 distance apart exchange their data and perform the
@@ -427,7 +427,7 @@ pairs, the library notifies the SDN controller to prepare each route.
     \centering
     \includegraphics[width=.6\linewidth]{recursive-doubling.png}
     \caption{Recursive Doubling Algorithm}%
-    \label{fig-recursive-doubling}
+    \label{fig:recursive-doubling}
 \end{figure}
 
 \section{Evaluation}\label{iii-evaluation}
@@ -437,7 +437,7 @@ pairs, the library notifies the SDN controller to prepare each route.
 An experiment was conducted to compare the execution time of the
 proposed MPI\_Allreduce and conventional
 MPI\_Allreduce. The experimental environment is illustrated in
-Fig.~\ref{fig-experiment-environment}. This experiment was performed on
+Fig.~\ref{fig:experiment-environment}. This experiment was performed on
 a real cluster system consisting of 28 computing nodes and 6 SDN-enabled
 switches, which forms a 2-level fat-tree topology. The computing nodes
 and SDN-enabled switches were all connected with 1 Gigabit Ethernet
@@ -464,7 +464,7 @@ OpenMPI~\autocite{Gabriel2004} 1.5.4 was used.
     \centering
     \includegraphics[width=.6\linewidth]{experiment-environment.png}
     \caption{Experimental Environment}%
-    \label{fig-experiment-environment}
+    \label{fig:experiment-environment}
 \end{figure}
 
 \subsection{Measurement Result}
@@ -474,12 +474,12 @@ times and calculates the average execution time of the function was used
 for comparing the execution time of the proposed MPI\_Allreduce
 with its OpenMPI counterpart.
 
-Figure~\ref{fig-evaluation-8nodes} shows the measurement results using 8
+Figure~\ref{fig:evaluation-8nodes} shows the measurement results using 8
 nodes, where the horizontal axis indicates the message size and the
 vertical axis shows the average time taken to execute
 MPI\_Allreduce. The solid line and dashed line represent the
 execution time of the proposed mechanism and OpenMPI implementation,
-respectively. Figure~\ref{fig-evaluation-8nodes-normalized} shows the
+respectively. Figure~\ref{fig:evaluation-8nodes-normalized} shows the
 normalized performance improvement of the proposed mechanism in
 comparison with the OpenMPI implementation. The maximum of performance
 improvement is 29\%.
@@ -488,18 +488,18 @@ improvement is 29\%.
     \centering
     \includegraphics{allreduce_8nodes}
     \caption{Comparison of Execution Time of MPI\_Allreduce on 8 Computing Nodes}%
-    \label{fig-evaluation-8nodes}
+    \label{fig:evaluation-8nodes}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics{allreduce_8nodes_speedup}
     \caption{Normalized Performance Improvement of Proposed MPI\_Allreduce on 8 Computing Nodes}%
-    \label{fig-evaluation-8nodes-normalized}
+    \label{fig:evaluation-8nodes-normalized}
 \end{figure}
 
-Figure~\ref{fig-evaluation-16nodes} shows the result of using 16 nodes.
-Figure~\ref{fig-evaluation-16nodes-normalized} indicates the normalized
+Figure~\ref{fig:evaluation-16nodes} shows the result of using 16 nodes.
+Figure~\ref{fig:evaluation-16nodes-normalized} indicates the normalized
 performance improvement of the proposed MPI\_Allreduce. It
 shows how the proposed mechanism reduces the execution time of
 MPI\_Allreduce for 36\% at most.
@@ -508,14 +508,14 @@ MPI\_Allreduce for 36\% at most.
     \centering
     \includegraphics{allreduce_16nodes}
     \caption{Comparison of Execution Time of MPI\_Allreduce on 16 Computing Nodes}%
-    \label{fig-evaluation-16nodes}
+    \label{fig:evaluation-16nodes}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics{allreduce_16nodes_speedup}
     \caption{Normalized Performance Improvement of Proposed MPI\_Allreduce on 16 Computing Nodes}%
-    \label{fig-evaluation-16nodes-normalized}
+    \label{fig:evaluation-16nodes-normalized}
 \end{figure}
 
 \section{Related Work}\label{iii-related-work}
