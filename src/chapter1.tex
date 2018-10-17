@@ -46,6 +46,52 @@ to be greatly improved, optimized and even redesigned.
 
 \subsection{Cluster Architecture}
 
+% クラスタとはなにか
+Modern HPC systems mostly adopt \emph{cluster} architecture to achieve their
+massive computing performance. In fact, 87\% of the recent Top500 systems
+(July 2018) are based on cluster architecture. A cluster is an aggregation of
+interconnected computers working cooperatively. Computers that constitute a
+cluster perform computation in parallel and exchange data with each other to
+required for the computation.
+
+% クラスタの構成要素
+Figure~\ref{fig:cluster} shows the architectural overview of a typical
+cluster. A cluster consists of multiple computers~(\emph{i.e.,\ computing
+nodes}) and a high-performance network that integrates~(\emph{i.e.,\
+interconnect}) them together as a single system. Since many users share a
+single cluster, a \emph{job scheduler} is deployed to effectively manage the
+computing resources in a cluster. A job scheduler accepts jobs from users and
+determines when to run each job. The scheduler is also responsible for
+allocating computing nodes to a job and launching jobs on allocated nodes.
+Furthermore, a shared file systems is usually deployed to store the input and
+output data of applications executed on the cluster.
+
+\begin{figure}
+    \centering
+    \includegraphics{cluster}
+    \caption{Cluster Architecture}%
+    \label{fig:cluster}
+\end{figure}
+
+% クラスタの規模拡大
+There has been an increasing trend in the number of computing nodes that
+compose a cluster. Although the computing performance of a single processor
+and computing node have been steadily improving, the growth is not fast enough
+to meet the high demand for computing power from the users. Therefore, the
+designers of HPC systems need to increase the number of computing nodes to
+further improve the total computing performance of the cluster. As a result, a
+single cluster accommodates up to tens of thousands of computing nodes and
+millions of cores nowadays.
+
+% 相互結合網の重要性
+The performance of communication between computing nodes over the interconnect
+is essential to the scalability of the cluster. In general, computing nodes
+need to frequently communicate with each other during the parallel computation
+to exchange intermediate results. If the communication between computing nodes
+becomes a bottleneck, simply adding more nodes to the cluster does not
+increase the total performance of the cluster. Therefore, great effort has
+been put to the research and development of high-performance interconnects.
+
 \subsection{Message Passing Interface}\label{i-mpi}
 
 Message Passing Interface (MPI)~\autocite{MPIForum2012} is a \emph{de
