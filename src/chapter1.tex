@@ -105,8 +105,9 @@ local area networks and wide are networks. InfiniBand, on the other hand, is a
 network standard specifically designed with HPC in mind. InfiniBand offloads
 most of its protocol stack onto hardware and realizes mechanisms such as
 kernel bypassing and Remote Direct Memory Access~(RDMA) to reduces the
-communication latency. In this dissertation, we assume Ethernet as the
-networking standard.
+communication latency. In addition to Ethernet and InfiniBand, some HPC system
+vendors develop proprietary interconnects for their systems. In this
+dissertation, we assume that Ethernet is being used for the interconnect.
 
 % トポロジ
 Topology is a key factor that determines the performance of an interconnect.
@@ -176,10 +177,10 @@ applications that require complex communications among computing nodes.
 
 The communication primitives defined in MPI can be roughly categorized
 into point-to-point communication and collective communication.
-Point-to-point communication is a communication between one sender and
-one receiver. On the other hand, collective communication involves a
-group of multiple processes. Table~\ref{tbl:mpi-primitives} shows some
-representative examples of MPI primitives.
+Point-to-point communication is a communication between one sender and one
+receiver. On the other hand, collective communication involves a group of
+processes. Table~\ref{tbl:mpi-primitives} shows some representative examples
+of MPI primitives.
 
 \begin{table}
     \centering
@@ -200,15 +201,25 @@ representative examples of MPI primitives.
 \end{table}
 
 A remarkable feature of MPI is that it abstracts the underlying network
-of high-performance computer clusters. This abstraction allows
-programmers to develop applications without forcing them to study the
-detailed architecture or structure of the underlying network. In MPI,
-every process is identified by a \emph{rank} number, a non-negative
+of high-performance computer clusters. As shown in Fig.~\ref{fig:mpi-arch},
+each interconnect technology requires the programmer to use a different set of
+API with different programming models. MPI hides the this incoherence and
+allows programmers to develop applications without forcing them to study the
+detailed architecture or structure of the underlying network.
+
+\begin{figure}
+    \centering
+    \includegraphics{mpi-arch}
+    \caption{MPI Architecture}%
+    \label{fig:mpi-arch}
+\end{figure}
+
+In MPI, every process is identified by a \emph{rank} number, a non-negative
 integer. The mapping between rank numbers and network addresses is
-automatically handled by the MPI library. Communication can be
-restricted into a certain group of processes, which is called a
-\emph{communicator} in MPI\@. This abstraction makes MPI applications
-portable and easy to port to different computer clusters.
+automatically handled by the MPI library. Communication can be restricted into
+a certain group of processes, which is called a \emph{communicator} in MPI\@.
+This abstraction makes MPI applications portable and easy to port to different
+computer clusters.
 
 Until today, countless scientific applications have been developed by
 utilizing the communication primitives in MPI\@. The execution time of
