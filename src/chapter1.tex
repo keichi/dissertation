@@ -118,8 +118,8 @@ Therefore, various topologies have been proposed that take the balance
 between cost and performance. Figure~\ref{fig:topology} illustrates some of
 the popular topologies. For example, fat-tree~\autocite{Leiserson1985},
 multi-dimensional torus~\autocite{Adiga2005,Ajima2012},
-Dragonfly~\autocite{Kim2008}, and Hypercube have been widely adopted as
-interconnect topologies in HPC systems.
+Dragonfly~\autocite{Kim2008}, and Hypercube~\autocite{Dally2003} have been
+widely adopted as interconnect topologies in HPC systems.
 
 \begin{figure}
     \centering
@@ -231,6 +231,19 @@ optimizing the performance of MPI communications. For this reason,
 researchers have extensively investigated methods to improve the
 communication performance of MPI from various aspects.
 
+\subsection{Problem}
+
+% プロセス間通信パターン:
+% アプリケーションごとに異なり実行中に変化する
+%
+% 相互結合網の設計 (ルーティングやトポロジ):
+% 構築時に決定し柔軟な変更が困難
+%
+% -> 相互結合網内のリンクで通信経路の衝突が発生
+%
+% -> プロセス間通信の所要時間が増大し、
+%    アプリケーションの実効性能が低下
+
 \subsection{Software-Defined Networking}
 
 Software-Defined Networking (SDN) is a novel networking architecture
@@ -303,10 +316,8 @@ switch.
     \label{tbl:flow-table}
 \end{figure}
 
-\subsection{Problem}
-
-\subsection{Related Work}
-
 \section{Research Objective}
+
+% 課題と提案を図で示す
 
 \section{Organization of the Dissertation}
