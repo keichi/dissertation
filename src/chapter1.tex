@@ -92,6 +92,80 @@ becomes a bottleneck, simply adding more nodes to the cluster does not
 increase the total performance of the cluster. Therefore, great effort has
 been put to the research and development of high-performance interconnects.
 
+\subsection{Interconnect}
+
+There are mainly two design goals of a high-performance interconnect: high
+bandwidth and low latency.
+
+% 通信規格
+Ethernet~\autocite{Trowbridge2007} and InfiniBand~\autocite{Buyya2001} are
+network technology standards commonly utilized for interconnects. Ethernet is
+a long-standing network technology that has been ubiquitously used in both
+local area networks and wide are networks. InfiniBand, on the other hand, is a
+network standard specifically designed with HPC in mind. InfiniBand offloads
+most of its protocol stack onto hardware and realizes mechanisms such as
+kernel bypassing and Remote Direct Memory Access~(RDMA) to reduces the
+communication latency. In this dissertation, we assume Ethernet as the
+networking standard.
+
+% トポロジ
+Topology is a key factor that determines the performance of an interconnect.
+A fully-connected topology is ideal since it has dedicated links between any
+pair of computing nodes. However, implementing a fully-connected topology in a
+large scale cluster is unrealistic due to extremely high cost and complexity.
+Therefore, various topologies have been proposed that take the balance
+between cost and performance. Figure~\ref{fig:topology} illustrates some of
+the popular topologies. For example, fat-tree~\autocite{Leiserson1985},
+multi-dimensional torus~\autocite{Adiga2005,Ajima2012},
+Dragonfly~\autocite{Kim2008}, and Hypercube have been widely adopted as
+interconnect topologies in HPC systems.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{.45\linewidth}
+        \centering
+        \includegraphics{topology-fattree}
+        \caption{Fat-tree}%
+        \label{fig:topology-fattree}
+    \end{subfigure}
+    \begin{subfigure}{.45\linewidth}
+        \centering
+        \includegraphics{topology-dragonfly}
+        \caption{Dragonfly}%
+        \label{fig:topology-dragonfly}
+    \end{subfigure}
+    \par\bigskip
+    \begin{subfigure}{.45\linewidth}
+        \centering
+        \includegraphics{topology-torus}
+        \caption{2D Torus}%
+        \label{fig:topology-torus}
+    \end{subfigure}
+    \begin{subfigure}{.45\linewidth}
+        \centering
+        \includegraphics{topology-hypercube}
+        \caption{4D Hypercube}%
+        \label{fig:topology-hypercube}
+    \end{subfigure}
+    \caption{Topology}%
+    \label{fig:topology}
+\end{figure}
+
+
+Mostly, the interconnects of computer cluster systems are full-bisection.
+The bisection bandwidth for an interconnect is defined as the minimum
+bandwidth between two counterparts of the interconnect. A full-bisection
+interconnect is an interconnect whose bisection bandwidth is larger or equal
+to the aggregated bandwidth between computing nodes. Interconnects that are
+not full-bisection are referred as oversubscribed. Full-bisection interconnect
+design are preferred since such interconnect does not suffer from network
+contention even in the worst case scenario where all computing nodes
+communicate with each other at maximum speed of their network interfaces. This
+characteristic is beneficial for application since it removes the need to be
+aware of the current contention state of the interconnect. However, there is a
+common problem with full-bisection design: the financial cost to implement
+such a design increases superlinearly as the number of node scales out.
+
 \subsection{Message Passing Interface}\label{i-mpi}
 
 Message Passing Interface (MPI)~\autocite{MPIForum2012} is a \emph{de
