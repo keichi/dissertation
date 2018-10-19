@@ -5,10 +5,10 @@
 \subsection{High Performance Computing}
 
 % HPCとはなにか
-Recent advancement in science has significantly benefited from High Performance
-Computing~(HPC). Scientists are able to simulate nature on HPC systems. HPC
-helps scientists to develop a better understanding of nature and answer
-fundamental questions about our surrounding environment by executing
+Recent advancement in science has significantly benefited from High
+Performance Computing~(HPC). Scientists are able to simulate nature on HPC
+systems. HPC helps scientists to develop a better understanding of nature and
+answer fundamental questions about our surrounding environment by executing
 high-resolution computational models of natural phenomena.
 
 % HPCの応用分野
@@ -169,6 +169,7 @@ such a design increases superlinearly as the number of node scales out.
 
 \subsection{Message Passing Interface}\label{i-mpi}
 
+% MPIとは
 Message Passing Interface (MPI)~\autocite{MPIForum2012} is a \emph{de
 facto} standard specification for inter-process communication libraries
 used to develop parallel applications running on distributed memory system
@@ -176,6 +177,7 @@ such as clusters. MPI defines a suite of communication primitives that helps
 application developers to build parallel distributed applications that require
 complex communications among computing nodes.
 
+% 相互結合網の抽象化
 A remarkable feature of MPI is that it abstracts the underlying network
 of clusters. As shown in Fig.~\ref{fig:mpi-arch}, each interconnect technology
 requires the developers to use a different set of APIs. MPI hides the this
@@ -195,6 +197,7 @@ different computer clusters.
     \label{fig:mpi-arch}
 \end{figure}
 
+% 1対1通信と集団通信
 The communication primitives defined in MPI can be roughly categorized into
 point-to-point communication and collective communication. Point-to-point
 communication is a communication between one sender and one receiver. On the
@@ -221,6 +224,7 @@ examples of MPI primitives.
     \end{tabular}
 \end{table}
 
+% MPIの高速化
 Until today, countless scientific applications have been developed by
 utilizing MPI\@. Accompanied by the recent scale-out of clusters, the
 execution time of MPI primitives has become a critical factor that determines
