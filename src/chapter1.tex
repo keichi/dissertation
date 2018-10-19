@@ -92,7 +92,7 @@ becomes a bottleneck, simply adding more nodes to the cluster does not
 increase the total performance of the cluster. Therefore, great effort has
 been put to the research and development of high-performance interconnects.
 
-\subsection{Interconnect}
+\subsection{Interconnect}\label{i-interconnect}
 
 There are mainly two design goals of a high-performance interconnect: high
 bandwidth and low latency.
@@ -171,16 +171,37 @@ such a design increases superlinearly as the number of node scales out.
 
 Message Passing Interface (MPI)~\autocite{MPIForum2012} is a \emph{de
 facto} standard specification for inter-process communication libraries
-used to develop parallel distributed applications. MPI defines a suite
-of communication primitives that helps programmers to develop
-applications that require complex communications among computing nodes.
+used to develop parallel applications running on distributed memory system
+such as clusters. MPI defines a suite of communication primitives that helps
+application developers to build parallel distributed applications that require
+complex communications among computing nodes.
 
-The communication primitives defined in MPI can be roughly categorized
-into point-to-point communication and collective communication.
-Point-to-point communication is a communication between one sender and one
-receiver. On the other hand, collective communication involves a group of
-processes. Table~\ref{tbl:mpi-primitives} shows some representative examples
-of MPI primitives.
+A remarkable feature of MPI is that it abstracts the underlying network
+of clusters. As shown in Fig.~\ref{fig:mpi-arch}, each interconnect technology
+requires the developers to use a different set of APIs. MPI hides the this
+incoherence and allows developers to build applications without forcing them
+to study the detailed architecture or structure of the underlying network. For
+instance, every process is identified by a \emph{rank} number, a consecutive
+non-negative integer. The mapping between rank numbers and network addresses
+is automatically handled by the MPI library. Communication can be restricted
+into a particular group of processes, which is called a \emph{communicator}.
+These abstractions make MPI applications portable and easy to be ported to
+different computer clusters.
+
+\begin{figure}
+    \centering
+    \includegraphics{mpi-arch}
+    \caption{MPI Architecture}%
+    \label{fig:mpi-arch}
+\end{figure}
+
+The communication primitives defined in MPI can be roughly categorized into
+point-to-point communication and collective communication. Point-to-point
+communication is a communication between one sender and one receiver. On the
+other hand, collective communication involves a group of processes. These
+communication primitives help application developers to implement complex
+parallel algorithms. Table~\ref{tbl:mpi-primitives} shows some representative
+examples of MPI primitives.
 
 \begin{table}
     \centering
@@ -200,36 +221,19 @@ of MPI primitives.
     \end{tabular}
 \end{table}
 
-A remarkable feature of MPI is that it abstracts the underlying network
-of high-performance computer clusters. As shown in Fig.~\ref{fig:mpi-arch},
-each interconnect technology requires the programmer to use a different set of
-API with different programming models. MPI hides the this incoherence and
-allows programmers to develop applications without forcing them to study the
-detailed architecture or structure of the underlying network.
+Until today, countless scientific applications have been developed by
+utilizing MPI\@. Accompanied by the recent scale-out of clusters, the
+execution time of MPI primitives has become a critical factor that determines
+the total performance of these applications using MPI\@. In other words, the
+total performance of MPI applications can be improved by optimizing the
+performance of MPI communications. For this reason, researchers have been
+striving to improve the communication performance of MPI from various aspects.
+
 
 \begin{figure}
     \centering
-    \includegraphics{mpi-arch}
-    \caption{MPI Architecture}%
-    \label{fig:mpi-arch}
 \end{figure}
 
-In MPI, every process is identified by a \emph{rank} number, a non-negative
-integer. The mapping between rank numbers and network addresses is
-automatically handled by the MPI library. Communication can be restricted into
-a certain group of processes, which is called a \emph{communicator} in MPI\@.
-This abstraction makes MPI applications portable and easy to port to different
-computer clusters.
-
-Until today, countless scientific applications have been developed by
-utilizing the communication primitives in MPI\@. The execution time of
-these MPI primitives is an important performance factor because its
-impact to the total application performance appears significantly
-accompanied with the recent scale-out of computer clusters. In other
-words, the total performance of MPI applications can be improved by
-optimizing the performance of MPI communications. For this reason,
-researchers have extensively investigated methods to improve the
-communication performance of MPI from various aspects.
 
 \subsection{Problem}
 
