@@ -125,9 +125,9 @@ assumption that the network is oversubscribed, the shortage of available
 bandwidth could give rise to a serious problem.
 
 Suppose a cluster system of 4 computing nodes interconnected with a
-2-level Fat-tree topology as illustrated in Fig.~\ref{fig:problem-routing1}.
+two-tier Fat-tree topology as illustrated in Fig.~\ref{fig:problem-routing1}.
 Fat-tree is a network topology that has multiple redundant routes between the
-upper layer switches and lower layer switches. By scattering traffic among
+upper layer switches and lower layer switches. By distributing traffic among
 these redundant routes, it is possible to gain more bandwidth compared with
 simple tree topology.
 
@@ -439,7 +439,7 @@ proposed MPI\_Allreduce and conventional
 MPI\_Allreduce. The experimental environment is illustrated in
 Fig.~\ref{fig:experiment-environment}. This experiment was performed on
 a real cluster system consisting of 28 computing nodes and 6 SDN-enabled
-switches, which forms a 2-level fat-tree topology. The computing nodes
+switches, which forms a two-tier fat-tree topology. The computing nodes
 and SDN-enabled switches were all connected with 1 Gigabit Ethernet
 links, which compose a non-full bisection bandwidth network.
 
