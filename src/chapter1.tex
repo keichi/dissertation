@@ -166,6 +166,7 @@ characteristic is beneficial for application since it removes the need to be
 aware of the current contention state of the interconnect. However, there is a
 common problem with full-bisection design: the financial cost to implement
 such a design increases superlinearly as the number of node scales out.
+% OversubscriptionとTapered fat-treeについて触れる
 
 \subsection{Message Passing Interface}\label{i-mpi}
 
@@ -193,7 +194,7 @@ different computer clusters.
 \begin{figure}
     \centering
     \includegraphics{mpi-arch}
-    \caption{MPI Architecture}%
+    \caption{Abstraction Proved by MPI}%
     \label{fig:mpi-arch}
 \end{figure}
 
@@ -233,24 +234,73 @@ total performance of MPI applications can be improved by optimizing the
 performance of MPI communications. For this reason, researchers have been
 striving to improve the communication performance of MPI from various aspects.
 
+\subsection{Problem and Motivation}
+
+% アプリケーションの通信パターン
+The inter-process communication of MPI applications shows a distinctive
+pattern. This pattern varies depending on the application and originates from
+the mathematical model, numerical algorithm, and parallelization strategy.
+Figure~\ref{fig:stencil3d} shows the communication pattern of a
+three-dimensional finite-difference solver that performs nearest neighbor
+communication as an example. In this figure, the total size of messages sent from
+a process to another process is visualized using a heat map. The visual
+representation evidently exhibits a regular and local pattern along the
+diagonal that originates from the nearest neighbor communication required by
+the finite-difference method.
+% 論文中の通信パターンの定義をここで書く?
 
 \begin{figure}
     \centering
+    \includegraphics[width=0.6\linewidth]{stencil3d}
+    \caption{Communication Pattern of an Application}%
+    \label{fig:stencil3d}
 \end{figure}
 
+% 相互結合網は通信パターンを無視している
+The design of an interconnect could be highly optimized for an
+application by taking the communication pattern of applications into account.
+For instance, an interconnect with a three-dimensional torus topology would be
+ideal for an application that performs nearest neighbor communication in 3D
+space. However, this approach is infeasible when designing a real-world
+cluster. This is because HPC systems are shared by many users, where each user
+runs various applications on the cluster. Therefore, in contrast to
+the application-dependent communication pattern, the interconnect is
+inherently application-agnostic.
 
-\subsection{Problem}
+% 問題
+As a result, under a certain combination of communication pattern and
+interconnect, an imbalance of the traffic in the interconnect can occur. The
+imbalance can lead to the concentration of traffic on a link in the
+interconnect and slow down of MPI communication that uses the link. The
+degraded MPI communication can ultimately lead to a serious degradation of
+total application performance.
 
-% プロセス間通信パターン:
-% アプリケーションごとに異なり実行中に変化する
-%
-% 相互結合網の設計 (ルーティングやトポロジ):
-% 構築時に決定し柔軟な変更が困難
-%
-% -> 相互結合網内のリンクで通信経路の衝突が発生
-%
-% -> プロセス間通信の所要時間が増大し、
-%    アプリケーションの実効性能が低下
+% 関連研究
+A  number of previous studies have tried to address the mismatch between
+application application-dependent communication patterns and
+application-agnostic interconnects. A class of approaches tries to adapt
+the communication pattern of applications to the interconnect.
+For instance, interconnect-aware MPI
+collectives~\autocite{Kumar2016,Kumar2014,Gong2015,Adachi2013} have been
+developed to improve the performance of MPI collectives by taking into account
+the interconnect of a cluster. MPI implementation often leverage tree-based
+algorithms to aggregate or distribute messages from or to processes.
+Interconnect-aware MPI collectives use the information on the interconnect to
+build a delivery tree that matches the underlying interconnect of the cluster.
+Another class of approaches tries to optimize the placement of MPI processes
+on the computing nodes~\autocite{Michelogiannakis2017,Hoefler2011,Choi2017}.
+In this approach, the communication pattern of an application is considered as
+a weighted graph where nodes represent processes and edges represent the
+volume of data exchanges between two processes. Various heuristic algorithms
+are proposed to embed the communication pattern graph graph onto the
+interconnect topology.
+
+To this date, however, there has been little studies on adapting the
+interconnect to the communication pattern of applications. This is mostly
+because it has been assumed that flexibly and dynamically reconfiguring the
+interconnect at runtime is infeasible. However, this assumption might not hold
+anymore with the recent emergence of novel networking architecture that allows
+reconfiguring the interconnect on-the-fly.
 
 \subsection{Software-Defined Networking}
 
@@ -279,7 +329,6 @@ three benefits:
   plane is distributed on individual devices.
 \end{itemize}
 
-% TGIFで図を作り直す
 \begin{figure}
     \centering
     \includegraphics{sdn}
@@ -328,4 +377,12 @@ switch.
 
 % 課題と提案を図で示す
 
+% 課題1. 相互結合網内のパケットフローの解析
+% 課題2. 相互結合網の動的 制御による通信の高速化
+% 課題3. アプリの実行と相互結合網の制御の連係
+
 \section{Organization of the Dissertation}
+
+% アプリケーションが相互結合網内に生成するパケット フローの解析手段を実現
+% MPI集団通信を高速化するパケットフロー制御アルゴリズムを配備可能なフレームワークを構築
+% 通信と計算が連係動作する新たなクラスタアーキテクチャを確立

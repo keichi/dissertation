@@ -831,3 +831,93 @@ howpublished = {\\https://lwn.net/Articles/405284/},
 title = {{Mellanox Products: Fabric Collective Accelerator (FCA)}},
 howpublished = {\\http://www.mellanox.com/products/fca/},
 }
+
+@inproceedings{Kumar2016,
+author = {Kumar, Sameer and Sharkawi, Sameh S. and Jan, K. A. Nysal},
+booktitle = {2016 IEEE International Parallel and Distributed Processing Symposium (IPDPS)},
+doi = {10.1109/IPDPS.2016.85},
+file = {:Users/keichi/Documents/paper/kumar2016.pdf:pdf},
+isbn = {978-1-5090-2140-6},
+mendeley-groups = {Dissertation},
+month = may,
+pages = {1031--1040},
+publisher = {IEEE},
+title = {{Optimization and Analysis of MPI Collective Communication on Fat-Tree Networks}},
+url = {http://ieeexplore.ieee.org/document/7516100/},
+year = {2016}
+}
+
+@article{Kumar2014,
+abstract = {The Blue Gene/Q (BG/Q) machine is the latest in the line of IBM massively parallel supercomputers, designed to scale to 262,144 nodes and 16 million threads. Each BG/Q node has 68 hardware threads. Hybrid programming paradigms, which use message passing among nodes and multi-threading within nodes, enable applications to achieve high throughput on BG/Q. In this paper, we present scalable algorithms to optimize MPI collective operations by taking advantage of the various features of the BG/Q torus and collective networks. We achieve an 8 byte double-sum MPI{\_}Allreduce latency of 10.25 ms on 1,572,864 MPI ranks. We accelerate summing of network packets with local buffers by the use of the Quad Processing SIMD unit in the BG/Q cores and executing the sums on multiple communication threads supported by the optimized communication libraries. The achieved net gain is a peak throughput of 6.3 GB/s for double-sum allreduce. We also achieve over 90{\%} of network peak for MPI{\_}Alltoall with 65,536 MPI ranks.},
+author = {Kumar, Sameer and Mamidala, Amith and Heidelberger, Philip and Chen, Dong and Faraj, Daniel},
+doi = {10.1177/1094342014552086},
+file = {:Users/keichi/Documents/paper/1094342014552086.pdf:pdf},
+issn = {1094-3420},
+journal = {The International Journal of High Performance Computing Applications},
+keywords = {Blue Gene/Q,MPI,collective optimization algorithms},
+mendeley-groups = {Dissertation},
+month = nov,
+number = {4},
+pages = {450--464},
+publisher = {SAGE PublicationsSage UK: London, England},
+title = {{Optimization of MPI collective operations on the IBM Blue Gene/Q supercomputer}},
+url = {http://journals.sagepub.com/doi/10.1177/1094342014552086},
+volume = {28},
+year = {2014}
+}
+
+@article{Gong2015,
+author = {Gong, Yifan and He, Bingsheng and Zhong, Jianlong},
+doi = {10.1109/TPDS.2013.96},
+file = {:Users/keichi/Documents/paper/gong2015.pdf:pdf},
+issn = {1045-9219},
+journal = {IEEE Transactions on Parallel and Distributed Systems},
+mendeley-groups = {Dissertation},
+month = nov,
+number = {11},
+pages = {3079--3089},
+title = {{Network Performance Aware MPI Collective Communication Operations in the Cloud}},
+url = {http://ieeexplore.ieee.org/document/6490322/},
+volume = {26},
+year = {2015}
+}
+
+@article{Adachi2013,
+author = {Adachi, Tomoya and Shida, Naoyuki and Miura, Kenichi and Sumimoto, Shinji and Uno, Atsuya and Kurokawa, Motoyoshi and Shoji, Fumiyoshi and Yokokawa, Mitsuo},
+doi = {10.1007/s00450-012-0211-7},
+file = {:Users/keichi/Library/Application Support/Mendeley Desktop/Downloaded/Adachi et al. - 2013 - The design of ultra scalable MPI collective communication on the K computer.pdf:pdf},
+issn = {1865-2034},
+journal = {Computer Science - Research and Development},
+mendeley-groups = {Dissertation},
+month = may,
+number = {2-3},
+pages = {147--155},
+publisher = {Springer-Verlag},
+title = {{The design of ultra scalable MPI collective communication on the K computer}},
+url = {http://link.springer.com/10.1007/s00450-012-0211-7},
+volume = {28},
+year = {2013}
+}
+
+@article{Michelogiannakis2017,
+author = {Michelogiannakis, George and Ibrahim, Khaled Z and Shalf, John and Wilke, Jeremiah J and Knight, Samuel and Kenny, Joseph P and Michelogiannakis, George and Ibrahim, Khaled Z and Shalf, John and Wilke, Jeremiah J and Knight, Samuel and Kenny, Joseph P},
+file = {:Users/keichi/Library/Application Support/Mendeley Desktop/Downloaded/Michelogiannakis et al. - 2017 - APHiD Hierarchical Task Placement to Enable a Tapered Fat Tree Topology for Lower Power and Cost in (3).pdf:pdf},
+mendeley-groups = {JMS,Dissertation},
+title = {{APHiD : Hierarchical Task Placement to Enable a Tapered Fat Tree Topology for Lower Power and Cost in HPC Networks Work at Lawrence Berkeley National Laboratory was supported by the Director , Office of Science , of the U . S . De- partment of Energy ( DO}},
+year = {2017}
+}
+
+@article{Choi2017,
+abstract = {{\textcopyright} 2017 IEEE. Task mapping is an important problem in parallel and distributed computing. The goal in task mapping is to find an optimal layout of the processes of an application (or a task) onto a given network topology. We target this problem in the context of staging applications. A staging application consists of two or more parallel applications (also referred to as staging tasks) which run concurrently and exchange data over the course of computation. Task mapping becomes a more challenging problem in staging applications, because not only data is exchanged between the staging tasks, but also the processes of a staging task may exchange data with each other. We propose a novel method, called Task Graph Embedding (TGE), that harnesses the observable graph structures of parallel applications and network topologies. TGE employs a machine learning based algorithm to find the best representation of a graph, called an embedding, onto a space in which the task-To-processor mapping problem can be solved. We evaluate and demonstrate the effectiveness of TGE experimentally with the communication patterns extracted from runs of XGC, a large-scale fusion simulation code, on Titan.},
+author = {Choi, Jong Youl and Logan, Jeremy and Wolf, Matthew and Ostrouchov, George and Kurc, Tahsin and Liu, Qing and Podhorszki, Norbert and Klasky, Scott and Romanus, Melissa and Sun, Qian and Parashar, Manish and Churchill, Randy Michael and Chang, Cs},
+doi = {10.1109/CLUSTER.2017.67},
+file = {:Users/keichi/Documents/paper/choi2017.pdf:pdf},
+isbn = {9781538623268},
+issn = {15525244},
+journal = {Proceedings - IEEE International Conference on Cluster Computing, ICCC},
+mendeley-groups = {Intern,Dissertation},
+pages = {587--591},
+title = {{TGE: Machine Learning Based Task Graph Embedding for Large-Scale Topology Mapping}},
+volume = {2017-Septe},
+year = {2017}
+}
