@@ -263,14 +263,14 @@ For instance, an interconnect with a three-dimensional torus topology would be
 ideal for an application that performs nearest neighbor communication in 3D
 space. However, this approach is infeasible when designing a real-world
 cluster. This is because HPC systems are shared by many users, where each user
-runs various applications on the cluster. Therefore, in contrast to
-the application-dependent communication pattern, the interconnect is
+runs various applications on the cluster. Furthermore, Therefore, in contrast
+to the application-dependent communication pattern, the interconnect is
 inherently application-agnostic.
 
 % 問題
 As a result, under a certain combination of communication pattern and
-interconnect, an imbalance of the traffic in the interconnect can occur. The
-imbalance can lead to the concentration of traffic on a link in the
+interconnect, an imbalance of the packet flow in the interconnect can occur.
+The imbalance can lead to the concentration of traffic on a link in the
 interconnect and slow down of MPI communication that uses the link. The
 degraded MPI communication can ultimately lead to a serious degradation of
 total application performance.
@@ -295,15 +295,17 @@ volume of data exchanges between two processes. Various heuristic algorithms
 are proposed to embed the communication pattern graph graph onto the
 interconnect topology.
 
+% 相互結合網の動的制御は未だ研究が進んでいない
 To this date, however, there has been little studies on adapting the
 interconnect to the communication pattern of applications. This is mostly
 because it has been assumed that flexibly and dynamically reconfiguring the
 interconnect at runtime is infeasible. However, this assumption might not hold
-anymore with the recent emergence of novel networking architecture that allows
-reconfiguring the interconnect on-the-fly.
+anymore with the recent emergence of programmable networking architecture that
+allows reconfiguring the interconnect on-the-fly.
 
 \subsection{Software-Defined Networking}
 
+% SDN
 Software-Defined Networking (SDN) is a novel networking architecture
 that separates the control plane and data plane into different devices.
 In conventional networking architectures, the decision on how to handle
@@ -319,7 +321,7 @@ three benefits:
   their needs.
 \item
   \emph{Dynamic}: SDN allows the controller to quickly reconfigure the
-  network. For instance, it is possible to dynamically optimize traffic
+  network. For instance, it is possible to dynamically optimize packet
   flow in the network based on the real-time traffic pattern.
 \item
   \emph{Centralized}: A centralized controller configures the entire
@@ -332,10 +334,11 @@ three benefits:
 \begin{figure}
     \centering
     \includegraphics{sdn}
-    \caption{Software Defined Networking Architecture}%
+    \caption{Software-Defined Networking Architecture}%
     \label{fig:sdn-architecture}
 \end{figure}
 
+% OpenFlow
 \emph{OpenFlow}~\autocite{McKeown2008} is a widely accepted open
 standard of SDN\@. In an OpenFlow-enabled network, the data plane is
 handled by OpenFlow switches. Every OpenFlow switch holds a logical
@@ -373,10 +376,16 @@ switch.
     \label{tbl:flow-table}
 \end{figure}
 
+% もう一枚図を追加?
+
 \section{Research Objective}
 
-Based on the background described in Section~\ref{i-background}, the objective
-of this dissertation is xxx.
+As discussed in Section~\ref{sec:i-background}, the mismatch between
+application-dependent communication patterns and application-agnostic
+interconnects have lead to the imbalance of packet flow in the interconnect.
+This dissertation aims to address this problem by establishing a programmable
+interconnect control that dynamically controls the packet flow in the
+interconnect based on the communication pattern of applications.
 
 \begin{figure}
     \centering
@@ -385,14 +394,68 @@ of this dissertation is xxx.
     \label{fig:objective}
 \end{figure}
 
-% 課題と提案を図で示す
+Figure~\ref{fig:objective} illustrates the envisioned interconnect control
+architecture. The overall idea of this architecture is as follows. First, the
+communication pattern of MPI communication is extracted from the application.
+Then, a sequence of interconnect control instructions is generated based on
+the communication pattern. Finally, the interconnect control sequence is
+applied to the interconnect using programmable interconnect technology.
+There are three central challenges in realizing such programmable interconnect:
 
-% 課題1. 相互結合網内のパケットフローの解析
-% 課題2. 相互結合網の動的 制御による通信の高速化
-% 課題3. アプリの実行と相互結合網の制御の連係
+\begin{enumerate}
+\item \emph{Analyzing the Packet Flow in the Interconnect}:
+    To effectively control the packet flow in the interconnect, we first need
+    to analyze and understand the packet flow generated in the interconnect
+    when running an application on the cluster.
+\item \emph{Accelerating MPI Communication by Dynamic Control of Interconnect}:
+    Given a communication pattern of an application and an interconnect,
+    we need to determine how to control the packet flow in the interconnect to
+    mitigate imbalance and improve the performance of MPI communication.
+\item \emph{Coordinating the Execution of Application and Interconnect Control}:
+    The communication pattern of the application changes with the execution of
+    the application. Therefore, the interconnect control must be performed in
+    accordance with the execution of application.
+\end{enumerate}
 
 \section{Organization of the Dissertation}
 
+The rest of this dissertation is organized as follows:
+
 % アプリケーションが相互結合網内に生成するパケット フローの解析手段を実現
+In Chapter~\ref{sec:ii}, we propose PFAnalyzer, a toolset for analyzing packet
+flow in interconnects to address the first challenge. Interconnect simulators
+come in handy especially when investigating the performance characteristics of
+interconnects with different topologies and parameters. However, little effort
+has been put towards the simulation of packet flow in dynamically controlled
+interconnects, while simulators for static interconnects have been extensively
+researched and developed. To facilitate analysis on the performance
+characteristics of dynamic interconnects, we have developed PFAnalyzer.
+PFAnalyzer is a pair of two tools: PFSim, an interconnect simulator
+specialized for dynamic interconnects, and PFProf, a profiler. PFSim allows
+interconnect researchers and designers to investigate congestion in the
+interconnect for an arbitrary cluster configuration and a set of communication
+patterns collected by PFProf. PFAnalyzer is used to demonstrate how
+dynamically controlling the interconnects can reduce congestion and
+potentially improve the performance of applications.
+
 % MPI集団通信を高速化するパケットフロー制御アルゴリズムを配備可能なフレームワークを構築
+In Chapter~\ref{sec:iii}, we address the second challenge by proposing a
+framework that accelerates MPI collectives by controlling the packet flow in
+the interconnect. We integrate the network programmability provided by
+Software-Defined Networking into MPI collectives so that collectives are able
+to effectively utilize the bandwidth of the interconnect. In particular, we
+aim to reduce the execution time of MPI\_Allreduce, a frequently used MPI
+collective communication in many simulation codes. An experiment conducted on
+a cluster system with fat-tree interconnect indicates that our proposed
+MPI\_Allreduce is superior to MPI\_Allreduce in Open MPI implementations.
+
 % 通信と計算が連係動作する新たなクラスタアーキテクチャを確立
+In Chapter~\ref{sec:iv}, the third challenge is addressed. This chapter
+proposes UnisonFlow, a software-defined coordination mechanism that performs
+network control in synchronization with the execution of applications. An
+experiment conducted on a real computer cluster verifies that the interconnect
+control can be successfully performed in synchronization with the execution of
+the application. Furthermore, the synchronization is performed with a low
+overhead and its performance penalty is practically negligible.
+
+Chapter~\ref{sec:v} concludes this dissertation and describes the future work.
