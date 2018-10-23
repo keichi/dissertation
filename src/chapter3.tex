@@ -42,23 +42,32 @@ Thus, reducing the time of collective communication is of great
 importance.
 
 MPI\_Allreduce is one of the most frequently used collective communication
-functions in MPI\@. After this collective communication, values from all
-processes reduced with a specific operation are acquired by every process. Any
-user defined operations or pre-defined operations such as sum, product, or
-maximum can be used for reduction. MPI\_Allreduce requires much communication
-among multiple computing node pairs. However, while some computing node pairs
-communicate less, some pairs have to communicate much more than other pairs.
-Therefore, even in the case that the interconnect of a cluster system has
-multiple redundant routes between processes, simultaneous communication
-derived from MPI\_Allreduce could collide on a single link of the interconnect
-without any control of communication.
+functions in MPI\@. This collective communication reduces values from all
+processes with an operator and broadcasts the result to every process.
+More specifically, suppose there are $n$ processes in a communicator and
+each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
+\dots, x_i^l$. After MPI\_Allreduce is completed, all processes have $y^0,
+y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j \oplus \dots \oplus
+x_{n-1}^j$ and $\oplus$ is the operator used for reduction. The operator can
+be any user-defined associative operator or one of the pre-defined operators
+such as sum, product, or maximum. Figure~\ref{fig:mpi-allreduce} shows an
+example where 4 processes each having 5 values call MPI\_Allreduce with the
+sum operator.
 
 \begin{figure}
     \centering
     \includegraphics{mpi-allreduce}
-    \caption{Link Contention on Fat-tree}%
+    \caption{Effect of MPI\_Allreduce}%
     \label{fig:mpi-allreduce}
 \end{figure}
+
+MPI\_Allreduce requires intensive communication among multiple
+computing node pairs. However, while some computing node pairs communicate
+less, some pairs have to communicate much more than other pairs. Therefore,
+even in the case where the interconnect of a cluster system has multiple
+redundant routes between processes, simultaneous communication derived from
+MPI\_Allreduce could collide on a single link of the interconnect without any
+control of communication.
 
 In this research, we try to accelerate MPI\_Allreduce by targeting a cluster
 system with interconnect that contains multiple redundant routes. Particularly
@@ -67,7 +76,7 @@ network control mechanism that can effectively make use of redundant routes by
 having SDN dynamically interact with MPI applications. In this chapter we
 summarize and report the preliminary result of the research we have achieved.
 
-The rest of this chapter is as follows. In
+The rest of this chapter is organized as follows. In
 Section~\ref{sec:iii-background},
 after a short description of MPI, past works on performance tuning and
 optimization of collective communication operations in MPI are reviewed.
@@ -77,7 +86,6 @@ implementation of the proposed architecture of SDN-enhanced MPI\_Allreduce is
 presented. In Section~\ref{sec:iii-evaluation}, an evaluation on a cluster system is
 conducted to verify the feasibility of the proposed mechanism.
 Section~\ref{sec:iii-related-work} discusses related works.
-
 Section~\ref{sec:iii-conclusion} concludes this chapter and discusses issues
 remained for the realization of practical and useful MPI\_Allreduce leveraging
 SDN\@.
