@@ -317,22 +317,29 @@ is coded with the Trema framework~\autocite{trema}, a framework designed for
 easily developing OpenFlow controllers in the Ruby~\autocite{ruby} language.
 
 The first functionality is topology detection. How detection is
-performed is as follows. The controller periodically requests every
-switch to send out an LLDP packet from each of their physical ports.
-This LLDP packet contains two kinds of information: datapath ID (a
-number that uniquely distinguishes the switches) and port number (port
-index where the packet is sent out). Moreover, all computing nodes also
-emit LLDP packets from the LLDP daemon described above. The controller
-is notified when a LLDP packet arrives at the controller. After that, it
-parses the packet to obtain information on the packet's origin, to
+performed is shown in Fig.~\ref{fig:lldp}. The controller periodically
+requests every switch to send out an LLDP packet from each of their physical
+ports (step 1 in Fig.~\ref{fig:lldp}). This LLDP packet contains two kinds of
+information: datapath ID (a number that uniquely distinguishes the switches)
+and port number (port index where the packet is sent out). Moreover, all
+computing nodes also emit LLDP packets from the LLDP daemon described above.
+The controller is notified when a LLDP packet arrives at the controller. After
+that, it parses the packet to obtain information on the packet's origin, to
 examine whether the packet came from a computing node or an SDN-enabled
-switch, and its MAC address/Datapath ID and Interface index/Port number.
-Using this information from its neighbors, an adjacency list is
-generated. From this adjacency list, a network topology graph is
-constructed, which is used in the route generation and routing. If the
-packet is from a computing node, the source MAC address and IP address
-are registered in a MAC address - IP address table used in the ARP
-responding functionality.
+switch, and its MAC address/Datapath ID and Interface index/Port number (step
+2 in Fig.~\ref{fig:lldp}). Using this information from its neighbors, an
+adjacency list is generated (step 3 in Fig.~\ref{fig:lldp}). From this
+adjacency list, a network topology graph is constructed, which is used in the
+route generation and routing. If the packet is from a computing node, the
+source MAC address and IP address are registered in a MAC address - IP address
+table used in the ARP responding functionality.
+
+\begin{figure}
+    \centering
+    \includegraphics{lldp}
+    \caption{Topology Detection using LLDP}%
+    \label{fig:lldp}
+\end{figure}
 
 The second functionality is replying to ARP requests. An ARP request is
 a L2 broadcast packet, so it causes a \emph{broadcast storm} problem
