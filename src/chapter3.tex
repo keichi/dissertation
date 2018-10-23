@@ -53,6 +53,13 @@ multiple redundant routes between processes, simultaneous communication
 derived from MPI\_Allreduce could collide on a single link of the interconnect
 without any control of communication.
 
+\begin{figure}
+    \centering
+    \includegraphics{mpi-allreduce}
+    \caption{Link Contention on Fat-tree}%
+    \label{fig:mpi-allreduce}
+\end{figure}
+
 In this research, we try to accelerate MPI\_Allreduce by targeting a cluster
 system with interconnect that contains multiple redundant routes. Particularly
 for this chapter, we focus on fat-tree interconnect. We design and implement a
