@@ -46,13 +46,13 @@ functions in MPI\@. This collective communication reduces values from all
 processes with an operator and broadcasts the result to every process.
 More specifically, suppose there are $n$ processes in a communicator and
 each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
-\dots, x_i^l$. After MPI\_Allreduce is completed, all processes have $y^0,
-y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j \oplus \dots \oplus
+\dots, x_i^l$. After MPI\_Allreduce is completed, all processes have values
+$y^0, y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j \oplus \dots \oplus
 x_{n-1}^j$ and $\oplus$ is the operator used for reduction. The operator can
 be any user-defined associative operator or one of the pre-defined operators
 such as sum, product, or maximum. Figure~\ref{fig:mpi-allreduce} shows an
-example where 4 processes each having 5 values call MPI\_Allreduce with the
-sum operator.
+example where four processes each having five values call MPI\_Allreduce with
+the sum operator.
 
 \begin{figure}
     \centering
@@ -60,6 +60,22 @@ sum operator.
     \caption{Effect of MPI\_Allreduce}%
     \label{fig:mpi-allreduce}
 \end{figure}
+
+One of the use cases of MPI\_Allreduce is parallel Conjugate Gradient~(CG)
+method. CG method is an iterative algorithm to solve a system of linear
+equations $Ax = b$ whose coefficient matrix $A$ is positive-definite and
+symmetric. In parallel CG method, a significant amount of time is spent in
+MPI\_Allreduce to compute the inner product of
+vectors~\autocite{Kandalla2012}. Another user case is parallel Stochastic
+Gradient Descent~(SGD). SGD is a continuous optimization algorithm that
+minimizes an objective function $f$ parameterized by $w$ for a given set of
+input $S$. SGD incrementally updates $w$ in the following way: $w^{t+1}=w^t-
+\eta \nabla f(w^t; z^t)$ where $w^t$ is the parameter for the $t$-th
+iteration, $z^t$ is an input data randomly sampled from $S$, and $\eta$ is a
+small constant. In parallel SGD, the gradient $\nabla f(w^t; z^t)$ is computed
+in parallel by each process using different samples. Subsequently,
+MPI\_Allreduce is used to compute the average of the individual gradients
+computed by all processes.
 
 MPI\_Allreduce requires intensive communication among multiple
 computing node pairs. However, while some computing node pairs communicate
