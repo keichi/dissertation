@@ -422,7 +422,7 @@ physical cluster are used to investigate the impact of traffic load on
 the application performance. Lastly, we assess the overhead incurred by
 our profiler.
 
-\subsection{Comparison of PFProf against Conventional Profiler}%
+\subsection{Comparison of PFProf and Conventional Profiler}%
 \label{sec:ii-eval-pfprof}
 
 In this experiment, we verify if PFProf is able to capture the underlying
@@ -430,20 +430,20 @@ point-to-point communication of collective communication. We profiled a simple
 MPI application using  TAU and PFProf, and then compared the extracted
 communication patterns. The source code of the MPI application is shown in
 Listing~\ref{lst:pfprof-example}. This application first executes
-MPI\_Allreduce, one of the collective communications. Then, every process
-performs point-to-point communication with its neighboring process. We
-executed this application with 128 processes.
+MPI\_Allreduce, one of the commonly used collective communications. Then,
+every process performs a point-to-point communication with its neighboring
+process. We executed this application with 128 processes.
 
 Figure~\ref{fig:tau-comm-matrix} shows the communication pattern obtained with
 TAU\@. In this figure, the horizontal and vertical axis indicate the sender and
-receiver rank, respectively. There is a pattern along the diagonal, which is
-generated from the point-to-point communication with the neighbor processes.
-However, the underlying point-to-point communication of MPI\_Allreduce could
-not be observed. Figure~\ref{fig:pfprof-comm-matrix} shows the communication
-pattern obtained with PFProf. This communication pattern clearly reveals the
-MPI communication generated from MPI\_Allreduce in addition to the
-point-to-point communication. From these observations, we conclude that PFProf
-is able to capture the underlying point-to-point communication of collective
+receiver rank, respectively. The point-to-point communication between the
+neighbor processes is clearly visualized as  a pattern along the diagonal.
+However, the underlying point-to-point communication of MPI\_Allreduce was not
+observed. Figure~\ref{fig:pfprof-comm-matrix} shows the communication pattern
+obtained with PFProf. This communication pattern clearly reveals the MPI
+communication generated from MPI\_Allreduce in addition to the point-to-point
+communication. From these observations, we conclude that PFProf is able to
+capture the underlying point-to-point communication of collective
 communication.
 
 \begin{lstlisting}[caption={MPI Application Used for Evaluation},
@@ -501,6 +501,47 @@ int main(int argc, char *argv[])
     \label{fig:profiler-comparison}
 \end{figure}
 
+\subsection{Comparison of PFSim and Actual Cluster}%
+\label{sec:ii-eval-pfsim}
+
+In this experiment, we evaluate the accuracy of the simulation performed by
+PFSim. We compare the traffic estimated by PFSim and the traffic measured
+on a cluster when running an application.
+
+The simulated cluster was modeled after a small-scale cluster installed at our
+institution. The cluster is composed of 20 computing nodes, each equipped with
+two quad-core Intel Xeon E5520 processors. Computing nodes are interconnected
+with a two-tier fat-tree topology as illustrated in
+Fig.~\ref{fig:cluster-config}. A single NEC ProgrammableFlow PF5240 switch is
+logically divided to six switches that constitute the fat-tree topology.
+We refer to the upper-layer two switches as core1--core2 and the lower-layer
+four switches as edge1--edge4, respectively. We ran the CG benchmark from the
+NAS Parallel Benchmark Suite~\autocite{Bailey1991} using 128 processes on 16
+computing nodes. We could not fully utilize all computing nodes because the CG
+benchmark only allows power of two number of processes.
+
+\begin{figure}
+    \centering
+    \includegraphics{pfsim-eval-cluster}
+    \caption{Simulated Cluster with Fat-tree Interconnect}%
+    \label{fig:cluster-config}
+\end{figure}
+
+Figure~\ref{fig:pfsim-accuracy} shows the comparison of simulated traffic
+using PFSim and the measured traffic on the original cluster. The traffic on
+each link between core switches and edge switches are normalized by the
+traffic on the link spine1$\rightarrow$leaf1 and shown in the plot. The plot
+indicates the error of simulation result is small. The largest error was 1.9\%
+and was observed on the link leaf4$\rightarrow$spine1. From these results, we
+conclude that the simulation result is sufficiently accurate to analyze
+performance of dynamic interconnects.
+
+\begin{figure}
+    \centering
+    \includegraphics{pfsim-accuracy}
+    \caption{Simulated Cluster with Fat-tree Interconnect}%
+    \label{fig:pfsim-accuracy}
+\end{figure}
 
 \subsection{Simulation Results}\label{sec:ii-simulation-results}
 
@@ -516,18 +557,6 @@ process needs to wait until the slow communication crossing the hot spot
 link completes. Therefore, mitigating the traffic load on the hot spot
 link could improve the performance of the application.
 
-The simulated cluster was modeled after a physical cluster installed at
-our institution. It was composed of 20 computing nodes, each equipped
-with 8 cores. Computing nodes were interconnected with a fat-tree
-topology as illustrated in Fig.~\ref{fig:cluster-config}.
-
-\begin{figure}
-    \centering
-    \includegraphics{pfsim-eval-cluster}
-    \caption{Simulated Cluster with Fat-Tree Interconnect}%
-    \label{fig:cluster-config}
-\end{figure}
-
 Two applications were selected as representatives of
 communication-intensive applications. The first one is the CG benchmark
 from the NAS Parallel Benchmark Suite~\autocite{Bailey1991}. The CG
@@ -539,7 +568,7 @@ Lattice Computation (MILC)~\autocite{milc}, a collection of applications
 used to study Quantum Chromodynamics (QCD). We used the input dataset
 provided by NERSC as a part of the NERSC MILC benchmark. These two
 applications were executed with 128 MPI processes. Thread parallelism
-was not put in use (\emph{i.e.} a flat MPI model was adopted).
+was not put in use (\emph{i.e.,} flat MPI model was adopted).
 
 To analyze the effect of dynamic interconnect control, simulations were
 carried out either using static routing or dynamic routing. Furthermore,
