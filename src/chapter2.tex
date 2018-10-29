@@ -415,6 +415,7 @@ marked as completed.
 
 \section{Evaluation}\label{sec:ii-evaluation}
 
+% 書き直す IntroとConclusionも同様
 In this section, we first simulate the traffic load of a fat-tree
 interconnect when using static interconnect control and dynamic
 interconnect control. Subsequently, benchmark results obtained from a
@@ -501,7 +502,7 @@ int main(int argc, char *argv[])
     \label{fig:profiler-comparison}
 \end{figure}
 
-\subsection{Comparison of PFSim and Actual Cluster}%
+\subsection{Accuracy of Traffic Estimated by PFSim}%
 \label{sec:ii-eval-pfsim}
 
 In this experiment, we evaluate the accuracy of the simulation performed by
@@ -651,8 +652,6 @@ case of MILC\@. The graph reveals that dynamic routing outperforms
 largest when random node selection and cyclic process placement was
 adopted. When using linear node selection and block process placement,
 reduction of the maximum link load was 18\%.
-
-\subsection{Benchmark Results}
 
 To investigate the impact of traffic load on the application performance
 of an actual environment, we reproduced the configuration described in
