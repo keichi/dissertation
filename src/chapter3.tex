@@ -235,9 +235,7 @@ SDN, a core concept of our approach. After that, the proposed mechanism
 is detailed. Lastly, the implementation of the proposed mechanism is
 described.
 
-\subsection{Proposed MPI\_Allreduce Using SDN}
-
-\subsubsection{The Basic Idea Behind the Proposed Solution}
+\subsection{Basic Idea}
 
 The basic idea behind the proposed solution is to improve the
 inefficient communication in MPI in order to enhance the performance of
@@ -253,7 +251,7 @@ inequality of link usage, based on an assumption that the cluster system has a
 fat-tree interconnect. Through this traffic distribution, contention in the
 links is expected to ease, which speeds up communication.
 
-\subsubsection{Blueprint of Proposed SDN-enhanced MPI\_Allreduce}
+\subsection{Design of Collective Acceleration Framework using SDN}
 
 The proposed mechanism is composed of three modules. These three modules are
 the SDN controller, LLDP daemon and the SDN MPI\_Allreduce library. They are
@@ -303,7 +301,7 @@ that the MPI packets are routed along the pre-generated route. After the
 entire communication plan is processed, MPI\_Allreduce is called to start the
 actual data transfer and calculation of the MPI\_Allreduce operation.
 
-\subsection{Implementation of SDN MPI\_Allreduce}
+\subsection{Implementation of Collective Acceleration Framework using SDN}
 
 To realize the proposed mechanism, we have developed three modules which
 work as an integrated system. This section explains the detailed
