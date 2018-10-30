@@ -5,37 +5,39 @@
 \subsection{High Performance Computing}
 
 % HPCとはなにか
-Recent advancement in science has significantly benefited from High
-Performance Computing~(HPC). Scientists are able to simulate nature on HPC
-systems. HPC helps scientists to develop a better understanding of nature and
-answer fundamental questions about our surrounding environment by executing
-high-resolution computational models of natural phenomena.
+Recent breakthrough in science has significantly benefited from High
+Performance Computing~(HPC). In modern science, computer simulation is heavily
+used because it can substitute experiments that are physically intractable
+or excessively expensive to conduct or observe. HPC allows scientists to
+simulate natural phenomena in an unprecedented scale and resolution, thereby
+helping scientists to develop a better understanding of nature and answer
+fundamental questions about our surrounding environment.
 
 % HPCの応用分野
 A wide spectrum of science has taken advantage of the massive computing
 capability provided by HPC\@. Various phenomena ranging from atomic scale to
-cosmological scale intractable to experimentally observe or reproduce are
-simulated on HPC systems. For instance, molecular dynamics simulation reveals
-the molecular-level structure and property of matter and their interaction.
-This knowledge is used to design better drugs and materials. Earthquake and
-Tsunami simulation allows us to predict the impact of seismic activities and
-prepare for natural disasters. In addition to simulation applications, data
-analysis and machine learning applications are also starting to leverage HPC
-systems.
+cosmological scale are simulated on HPC systems. For instance, molecular
+dynamics simulation reveals the molecular-level structure and property of
+matter and their interaction. This knowledge is used to design better drugs
+and materials. Earthquake and Tsunami simulation allows us to predict the
+impact of seismic activities and prepare for future natural disasters. In
+addition to simulation applications, data analysis and machine learning
+applications are also starting to leverage HPC systems.
 
 % HPCシステムの計算性能の推移
 Scientists are trying to tackle increasingly larger and more complex problems.
-This continuous demand from domain scientists has kept pushing the performance
-HPC systems forward. Figure~\ref{fig:top500-rmax} shows the development of
-computing performance of HPC systems based on the data published by the
-Top500~\autocite{top500} list. The Top500 list is a biannual list of 500 most
-powerful HPC systems measured by the maximal LINPACK benchmark performance
-achieved. The plot clearly indicates the exponential increase in performance
-over the past 20 years. Researchers and engineers are striving to sustain this
-exponential growth in performance and exascale~(Exa FLOPS) in the near future.
-To achieve this daunting technological challenge, every aspect of the HPC
-system including hardware, operating system, middleware and application need
-to be greatly improved, optimized and even redesigned.
+This continuous demand from domain scientists has kept pushing the computing
+performance HPC systems forward. Figure~\ref{fig:top500-rmax} shows the
+development of computing performance of HPC systems based on the data
+published by the Top500~\autocite{top500} list. The Top500 list is a biannual
+list of 500 most powerful HPC systems measured by the maximal LINPACK
+benchmark performance achieved. The plot clearly indicates the exponential
+increase in performance over the past 20 years. Researchers and engineers are
+striving to sustain this exponential growth in performance and exascale~(Exa
+FLOPS) in the near future. To achieve this daunting technological challenge,
+every aspect of the HPC system including hardware, operating system,
+middleware and application need to be greatly improved, optimized and even
+redesigned.
 
 \begin{figure}
     \centering
@@ -59,12 +61,12 @@ Figure~\ref{fig:cluster} shows the architectural overview of a typical
 cluster. A cluster consists of multiple computers~(\emph{i.e.,\ computing
 nodes}) and a high-performance network that integrates~(\emph{i.e.,\
 interconnect}) them together as a single system. Since many users share a
-single cluster, a \emph{job scheduler} is deployed to effectively manage the
-computing resources in a cluster. A job scheduler accepts jobs from users and
-determines when to run each job. The scheduler is also responsible for
-allocating computing nodes to a job and launching jobs on allocated nodes.
-Furthermore, a shared file systems is usually deployed to store the input and
-output data of applications executed on the cluster.
+single cluster, a \emph{job scheduler} is commonly deployed to effectively
+manage the computing resources in a cluster. A job scheduler accepts jobs from
+users and determines when to run each job. The scheduler is also responsible
+for allocating computing nodes to a job and launching the job on the allocated
+nodes. Furthermore, a shared file systems is usually deployed to store the
+input and output data of applications executed on the cluster.
 
 \begin{figure}
     \centering
@@ -78,7 +80,7 @@ There has been an increasing trend in the number of computing nodes that
 compose a cluster. Although the computing performance of a single processor
 and computing node have been steadily improving, the growth is not fast enough
 to meet the high demand for computing power from the users. Therefore, the
-designers of HPC systems need to increase the number of computing nodes to
+designers of HPC systems need to scale out the number of computing nodes to
 further improve the total computing performance of the cluster. As a result, a
 single cluster accommodates up to tens of thousands of computing nodes and
 millions of cores nowadays.
@@ -119,9 +121,9 @@ large scale cluster is unrealistic due to extremely high cost and complexity.
 Therefore, various topologies have been proposed that take the balance
 between cost and performance. Figure~\ref{fig:topology} illustrates some of
 the popular topologies. For example, fat-tree~\autocite{Leiserson1985},
-multi-dimensional torus~\autocite{Adiga2005,Ajima2012},
-dragonfly~\autocite{Kim2008}, and hypercube~\autocite{Dally2003} have been
-widely adopted as interconnect topologies in HPC systems.
+dragonfly~\autocite{Kim2008}, multi-dimensional
+torus~\autocite{Adiga2005,Ajima2012}, and hypercube~\autocite{Dally2003} have
+been widely adopted as interconnect topologies in HPC systems.
 
 \begin{figure}
     \centering
@@ -190,10 +192,10 @@ incoherence and allows developers to build applications without forcing them
 to study the detailed architecture or structure of the underlying network. For
 instance, every process is identified by a \emph{rank} number, a consecutive
 non-negative integer. The mapping between rank numbers and network addresses
-is automatically handled by the MPI library. Communication can be restricted
-into a particular group of processes, which is called a \emph{communicator}.
-These abstractions make MPI applications portable and easy to be ported to
-different computer clusters.
+is automatically handled by the MPI library. MPI communication can be
+restricted into a particular group of processes, which is called a
+\emph{communicator}. These abstractions make MPI applications portable and
+easy to be ported to different computer clusters.
 
 \begin{figure}
     \centering
