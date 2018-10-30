@@ -138,10 +138,6 @@ The root process node only has to send data once, even if the number of
 processes increases. This method can statically prepare and install the
 network control rules on the startup of the application.
 
-This chapter explores the feasibility of Software-Defined Networking for
-MPI\_Allreduce for an SDN-enhanced MPI where the network is dynamically
-controlled, based on MPI communication patterns.
-
 \subsection{Problems in Conventional Traffic Balancing Methods}
 
 MPI collective operations require much simultaneous communication among
@@ -155,7 +151,7 @@ due to economic and physical restrictions~\autocite{Al-Fares2008}. On the
 assumption that the network is oversubscribed, the shortage of available
 bandwidth could give rise to a serious problem.
 
-Suppose a cluster system of 4 computing nodes interconnected with a
+Suppose a cluster system of four computing nodes interconnected with a
 two-tier fat-tree topology as illustrated in Fig.~\ref{fig:problem-routing1}.
 Fat-tree is a network topology that has multiple redundant routes between the
 upper layer switches and lower layer switches. By distributing traffic among
@@ -229,11 +225,9 @@ MPI\_Allreduced based on our proposed mechanism.
 
 \section{Proposal}\label{sec:iii-proposal}
 
-In this section, we present our proposed mechanism for
-MPI\_Allreduce. First, we briefly explain the architecture of
-SDN, a core concept of our approach. After that, the proposed mechanism
-is detailed. Lastly, the implementation of the proposed mechanism is
-described.
+In this section, we present our proposed mechanism for MPI\_Allreduce. After
+that, the proposed mechanism is detailed. Lastly, the implementation of the
+proposed mechanism is described.
 
 \subsection{Basic Idea}
 
