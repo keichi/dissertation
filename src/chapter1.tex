@@ -366,6 +366,31 @@ is found for an incoming packet. In response, the controller can send a
 \emph{modify flow entry} message to install a new flow entry on the
 switch.
 
+\begin{table}
+\centering
+\caption{Messages Types Defined in OpenFlow 1.0}%
+\begin{tabular}{llll}
+\toprule
+Initiator                   & Message Type   & Ack          & Purpose \\ \midrule
+\multirow{9}{*}{Controller} & Features       & $\checkmark$ &         \\
+                            & GetConfig      & $\checkmark$ &         \\
+                            & SetConfig      &              &         \\
+                            & PacketOut      &              &         \\
+                            & FlowMod        &              &         \\
+                            & PortMod        &              &         \\
+                            & Stats          & $\checkmark$ &         \\
+                            & Barrier        & $\checkmark$ &         \\
+                            & QueueGetConfig & $\checkmark$ &         \\ \midrule
+\multirow{3}{*}{Switch}     & PacketIn       &              &         \\
+                            & FlowRemoved    &              &         \\
+                            & PortStatus     &              &         \\ \midrule
+\multirow{4}{*}{Symmetric}  & Hello          &              &         \\
+                            & Error          &              &         \\
+                            & Echo           & $\checkmark$ &         \\
+                            & Vendor         &              &         \\ \bottomrule
+\end{tabular}
+\end{table}
+
 \begin{figure}
     \centering
     \begin{tabular}{lllll}
