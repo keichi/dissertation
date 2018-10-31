@@ -360,19 +360,19 @@ flow entry is applied to the packet.
 \centering
 \caption{Header Fields Defined in OpenFlow 1.0}%
 \label{tbl:flow-fields}
-\begin{tabular}{llr}
+\begin{tabular}{@{}llr@{}}
 \toprule
 Layer               & Field Name               & Width (bits) \\ \midrule
-L1                  & Ingress Port             &              \\ \cmidrule(rl){2-3}
+L1                  & Ingress Port             &              \\ \cmidrule(l){2-3}
 \multirow{5}{*}{L2} & Ethernet Source          & 48           \\
                     & Ethernet Destination     & 48           \\
                     & Ethernet Type            & 16           \\
                     & VLAN ID                  & 12           \\
-                    & VLAN Priority            & 3            \\ \cmidrule(rl){2-3}
+                    & VLAN Priority            & 3            \\ \cmidrule(l){2-3}
 \multirow{4}{*}{L3} & IP Source                & 32           \\
                     & IP Destination           & 32           \\
                     & IP Protocol              & 8            \\
-                    & IP ToS                   & 6            \\ \cmidrule(rl){2-3}
+                    & IP ToS                   & 6            \\ \cmidrule(l){2-3}
 \multirow{2}{*}{L4} & TCP/UDP Source Port      & 16           \\
                     & TCP/UDP Destination Port & 16           \\ \bottomrule
 \end{tabular}
@@ -388,28 +388,28 @@ is found for an incoming packet. In response, the controller can send a
 \emph{modify flow entry} message to install a new flow entry on the
 switch.
 
-\begin{table}
+\begin{table}[t]
 \centering
 \caption{Messages Types Defined in OpenFlow 1.0}%
-\begin{tabular}{llll}
+\begin{tabular}{@{}llll@{}}
 \toprule
-Initiator                   & Message Type   & Ack          & Purpose \\ \midrule
-\multirow{9}{*}{Controller} & Features       & $\checkmark$ &         \\
-                            & GetConfig      & $\checkmark$ &         \\
-                            & SetConfig      &              &         \\
-                            & PacketOut      &              &         \\
-                            & FlowMod        &              &         \\
-                            & PortMod        &              &         \\
-                            & Stats          & $\checkmark$ &         \\
-                            & Barrier        & $\checkmark$ &         \\
-                            & QueueGetConfig & $\checkmark$ &         \\ \midrule
-\multirow{3}{*}{Switch}     & PacketIn       &              &         \\
-                            & FlowRemoved    &              &         \\
-                            & PortStatus     &              &         \\ \midrule
-\multirow{4}{*}{Symmetric}  & Hello          &              &         \\
-                            & Error          &              &         \\
-                            & Echo           & $\checkmark$ &         \\
-                            & Vendor         &              &         \\ \bottomrule
+Initiator                   & Message Type   & Ack          & Purpose                               \\ \midrule
+\multirow{9}{*}{Controller} & Features       & $\checkmark$ & Get capabilities of switch            \\
+                            & GetConfig      & $\checkmark$ & Get fragmentation setting of switch   \\
+                            & SetConfig      &              & Set fragmentation setting of switch   \\
+                            & PacketOut      &              & Inject a packet to data plane         \\
+                            & FlowMod        &              & Add/Modify/Delete a flow entry        \\
+                            & PortMod        &              & Modify state of a port                \\
+                            & Stats          & $\checkmark$ & Get statistics of individual flow     \\
+                            & Barrier        & $\checkmark$ & Synchronize controller and switch     \\
+                            & QueueGetConfig & $\checkmark$ & Query state of queues                 \\ \midrule
+\multirow{3}{*}{Switch}     & PacketIn       &              & Notify an unmatched packet            \\
+                            & FlowRemoved    &              & Notify when a flow entry been removed \\
+                            & PortStatus     &              & Notify status update of a port        \\ \midrule
+\multirow{4}{*}{Symmetric}  & Hello          &              & Negotiate OpenFlow version            \\
+                            & Error          &              & Notify failure                        \\
+                            & Echo           & $\checkmark$ & Check liveness of connection          \\
+                            & Vendor         &              & Vendor-specific extensions            \\ \bottomrule
 \end{tabular}
 \end{table}
 
