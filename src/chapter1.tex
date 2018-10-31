@@ -356,6 +356,28 @@ matching flow entry in its flow table using the header fields of the
 packet. Once a matching flow entry is found, the action of the matched
 flow entry is applied to the packet.
 
+\begin{table}
+\centering
+\caption{Header Fields Defined in OpenFlow 1.0}%
+\label{tbl:flow-fields}
+\begin{tabular}{llr}
+\toprule
+Layer               & Field Name               & Width (bits) \\ \midrule
+L1                  & Ingress Port             &              \\ \cmidrule(rl){2-3}
+\multirow{5}{*}{L2} & Ethernet Source          & 48           \\
+                    & Ethernet Destination     & 48           \\
+                    & Ethernet Type            & 16           \\
+                    & VLAN ID                  & 12           \\
+                    & VLAN Priority            & 3            \\ \cmidrule(rl){2-3}
+\multirow{4}{*}{L3} & IP Source                & 32           \\
+                    & IP Destination           & 32           \\
+                    & IP Protocol              & 8            \\
+                    & IP ToS                   & 6            \\ \cmidrule(rl){2-3}
+\multirow{2}{*}{L4} & TCP/UDP Source Port      & 16           \\
+                    & TCP/UDP Destination Port & 16           \\ \bottomrule
+\end{tabular}
+\end{table}
+
 The OpenFlow controller is responsible for the control plane. It manages
 the flow table of switches by adding, removing and modifying flow
 entries. The controller and switches communicate with each other by
