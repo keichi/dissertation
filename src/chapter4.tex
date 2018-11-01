@@ -34,7 +34,7 @@ patterns are difficult to predict precisely in prior to the execution of
 the application. Furthermore, most of the current interconnects
 available have adopted static network control and thus are unable to
 adaptively reconfigure themselves to match requirements from
-applications. In fact, in InfiniBand~\autocite{InfiniBand2015}, which is
+applications. In fact, in InfiniBand~\autocite{Buyya2009}, which is
 a currently dominant interconnect technology, the forwarding tables on
 switches are usually pre-configured and remain unchanged until hardware
 failure or topology change occurs.
@@ -139,8 +139,8 @@ basic idea to two collective MPI primitives, MPI\_Bcast and
 MPI\_Allreduce as proof of concept. Experiments conducted on a real
 computer cluster comprising bare metal servers and hardware OpenFlow
 switches have demonstrated that the execution time of these primitives
-has been successfully reduced~\autocites{Dashdavaa2014}{Takahashi2014}.
-SDN-enhanced MPI\_Bcast~\autocite{Dashdavaa2014} accelerates MPI\_Bcast
+has been successfully reduced~\autocites{Dashdavaa2013}{Takahashi2014}.
+SDN-enhanced MPI\_Bcast~\autocite{Dashdavaa2013} accelerates MPI\_Bcast
 by utilizing the hardware multicast functionality of OpenFlow switches.
 SDN-enhanced MPI\_Allreduce~\autocite{Takahashi2014} dynamically
 reconfigures the path allocation based on the communication pattern of
@@ -341,8 +341,8 @@ Fig.~\ref{fig:intra-node-flow}), respectively:
   message envelope. The message envelope is essentially a header that is
   prepended to every MPI message by the MPI library for identification.
   Although the message envelope is prescribed in the MPI
-  specification~\autocite{MPIForum2012}, its actual binary layout is
-  implementation dependent.
+  specification~\autocite{MessagePassingInterfaceForum2015}, its actual binary
+  layout is implementation dependent.
 \item
   \emph{Tag writer}: This component encodes the context information
   extracted in the previous phase as a virtual MAC address and writes it
@@ -795,7 +795,7 @@ in~\autocite{Arap2014}. This mechanism offloads collective MPI primitives to
 programmable NICs and OpenFlow switches. This method heavily depends on
 specialized hardware such as NetFPGA, whereas our proposal is software-based.
 
-Multi-Protocol Label Switching (MPLS) and UnisonFlow share the similar
+Multi-Protocol Label Switching~(MPLS) and UnisonFlow share the similar
 idea of eliminating the need to examine packet payloads by encoding
 upper layer information into fixed-length tags that are processable by
 hardware. However, to the best of our knowledge, no work has tackled to
@@ -816,7 +816,7 @@ practically negligible.
 
 There are still issues to be addressed in the future. First,
 SDN-enhanced MPI primitives developed in our previous
-work~\autocites{Dashdavaa2014}{Takahashi2014} need to be adjusted as MPI
+work~\autocites{Dashdavaa2013}{Takahashi2014} need to be adjusted as MPI
 primitive modules on the interconnect controller and tested to see if
 they are accelerated compared to conventional MPI primitives. Second,
 performance evaluation using real-world MPI applications is necessary.

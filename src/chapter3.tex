@@ -25,7 +25,7 @@ scale-up of cluster systems. Examples of interconnect topology include
 hypercube~\autocite{Dally2003}.
 
 Currently, in writing a computing program on such a cluster system, Message
-Passing Interface (MPI)~\autocite{Gropp1999,MessagePassingInterfaceForum2012} has
+Passing Interface (MPI)~\autocite{Gropp1999,MessagePassingInterfaceForum2015} has
 been widely adopted and utilized. MPI has been a \emph{de facto} standard
 specification for \emph{message-passing} programming. With this parallel
 programming model, multiple processes cooperate together through the exchange
@@ -191,7 +191,7 @@ each packet. A hash function is applied to the header fields to generate the
 corresponding hash value for the header fields, where every value in the hash
 value space are evenly assigned to one of the equal cost routes.
 
-InfiniBand~\autocite{infiniband} is a computer network communication link
+InfiniBand~\autocite{Buyya2009} is a computer network communication link
 commonly used in the area of HPC and a data center. InfiniBand supports
 multiple routing methods. One of those methods is a min-hop routing
 algorithm, which calculates the minimum hop route between every
@@ -628,7 +628,7 @@ In addition, on modern computing platforms where multiple cores exist in
 a single computing node, the assumption set in this preliminary stage of
 our research is neither practical nor realistic. Therefore, by
 integrating kernel-assisted communication such as KNEM~\autocite{Goglin2013}
-or CMA~\autocite{cma} with our proposed method, we need to consider
+or Cross Memory Attach~(CMA) with our proposed method, we need to consider
 intra-node communication for pure MPI jobs. Also, computing paradigms
 such as the hybrid use of OpenMP with MPI must be considered for
 enhancing practicality. Also, other implementations of MPI such as
