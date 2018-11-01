@@ -307,9 +307,9 @@ Each of the computing nodes runs a LLDP (Link Layer Discovery
 Protocol)~\autocite{lldp} daemon in the background. This daemon is designed to
 emit LLDP packets containing hardware information periodically, which are
 received by the SDN-enabled switches and used for topology discovery. Some
-LLDP daemon implementations~\autocite{lldpd,openlldpd} already exist. However we
-have developed a new, minimal daemon to easily add and tweak features so that
-it can cooperate with the other programs composing the whole system.
+LLDP daemon implementations already exist. However we have developed a new,
+minimal daemon to easily add and tweak features so that it can cooperate with
+the other programs composing the whole system.
 
 This daemon detects all available network interfaces installed on a
 computer and queries its interface index, MAC address and IP address.
