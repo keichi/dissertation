@@ -21,11 +21,11 @@ available. Today, in particular, the interconnect of the cluster system
 tends to be more complex and have redundant links between computing
 nodes to assure communication performance, accompanied with the recent
 scale-up of cluster systems. Examples of interconnect topology include
-\emph{fat-tree}~\autocite{Leiserson1985}, torus~\autocite{Adiga2005} and
-hypercube~\autocite{Dally2003}.
+\emph{fat-tree}~\autocite{Leiserson1985},
+torus~\autocite{Alverson2010,Ajima2012} and hypercube~\autocite{Dally2003}.
 
 Currently, in writing a computing program on such a cluster system, Message
-Passing Interface (MPI)~\autocite{Gropp1999,MessagePassingInterfaceForum2015} has
+Passing Interface (MPI)~\autocite{Gropp2014,MessagePassingInterfaceForum2015} has
 been widely adopted and utilized. MPI has been a \emph{de facto} standard
 specification for \emph{message-passing} programming. With this parallel
 programming model, multiple processes cooperate together through the exchange
@@ -337,7 +337,7 @@ controller is also responsible for detecting the topology and use of the
 interconnect, responding to Address Resolution Protocol (ARP) requests
 from computing nodes and the routing of non-MPI traffic. This controller
 is coded with the Trema framework~\autocite{trema}, a framework designed for
-easily developing OpenFlow controllers in the Ruby~\autocite{ruby} language.
+easily developing OpenFlow controllers in the Ruby language.
 
 The first functionality is topology detection. How detection is
 performed is shown in Fig.~\ref{fig:lldp}. The controller periodically
@@ -485,7 +485,7 @@ experiment.
 
 CentOS 6.4 was installed on all computers including the computing nodes and
 SDN controller. The SDN controller was developed using a SDN controller
-framework Trema~\autocite{trema} 0.4.6 and Ruby~\autocite{ruby} 1.9.3. The SDN
+framework Trema~\autocite{trema} 0.4.6 and Ruby 1.9.3. The SDN
 MPI\_Allreduce Library and the benchmark application were written in C and
 compiled with gcc 4.4.7. As a representative of a conventional MPI,
 Open MPI~\autocite{Gabriel2004} 1.5.4 was used.

@@ -53,16 +53,6 @@ volume = {2474},
 year = {2002}
 }
 
-@inproceedings{Huang2006,
-author = {Huang, W. and Santhanaraman, G. and Jin, H.-W. and Gao, Q. and Panda, D.K.},
-booktitle = {Proceedings of the Sixth {IEEE} International Symposium on Cluster Computing and the Grid - {CCGRID}'06},
-doi = {10.1109/CCGRID.2006.32},
-mendeley-groups = {INDIS16},
-pages = {43--48},
-title = {{Design of High Performance MVAPICH2: MPI2 over InfiniBand}},
-year = {2006}
-}
-
 @article{Kamil2010,
 author = {Kamil, Shoaib and Oliker, Leonid and Pinar, Ali and Shalf, John},
 doi = {10.1109/TPDS.2009.61},
@@ -276,13 +266,12 @@ volume = {13},
 year = {2003}
 }
 
-@article{Brandes2013,
+@book{Brandes2013,
 author = {Brandes, Ulrik and Eiglsperger, Markus and Lerner, J{\"{u}}rgen and Pich, Christian},
-journal = {Handbook of Graph Drawing and Visualization},
+title = {Handbook of Graph Drawing and Visualization},
 mendeley-groups = {HPCMASPA},
 pages = {517--541},
 publisher = {CRC press},
-title = {{Graph Markup Language (GraphML)}},
 year = {2013}
 }
 
@@ -319,7 +308,7 @@ year = {2008}
 }
 
 @article{Shende2006,
-author = {Shende, S. S. and Malony, Allen D.},
+author = {Shende, Sameer S. and Malony, Allen D.},
 doi = {10.1177/1094342006064482},
 journal = {International Journal of High Performance Computing Applications},
 keywords = {Performance evaluation,TAU,analysis,instrumentation,measurement},
@@ -357,14 +346,14 @@ year = {2015}
 @inproceedings{Hoefler2011,
 abstract = {The steadily increasing number of nodes in high-performance computing systems and the technology and power constraints lead to sparse network topologies. Efficient mapping of ap- plication communication patterns to the network topology gains importance as systems grow to petascale and beyond. Such mapping is supported in parallel programming frame- works such as MPI, but is often not well implemented. We show that the topology mapping problem is NP-complete and analyze and compare different practical topology map- ping heuristics. We demonstrate an efficient and fast new heuristic which is based on graph similarity and show its util- ity with application communication patterns on real topolo- gies. Our mapping strategies support heterogeneous net- works and show significant reduction of congestion on torus, fat-tree, and the PERCS network topologies, for irregular communication patterns. We also demonstrate that the ben- efit of topology mapping grows with the network size and show how our algorithms can be used in a practical setting to optimize communication performance. Our efficient topol- ogy mapping strategies are shown to reduce network con- gestion by up to 80{\%}, reduce average dilation by up to 50{\%}, and improve benchmarked communication performance by 18{\%}.},
 author = {Hoefler, Torsten and Snir, Marc},
-booktitle = {International Conference on Supercomputing - ICS '11},
+booktitle = {International Conference on Supercomputing (ICS '11)},
 doi = {10.1145/1995896.1995909},
 file = {:Users/keichi/Documents/Mendeley Desktop/Hoefler, Snir - 2011 - Generic topology mapping strategies for large-scale parallel architectures.pdf:pdf},
-isbn = {9781450301022},
 keywords = {mpi graph topologies,topology mapping},
 mendeley-groups = {Seminar,HPCMASPA},
-pages = {75},
+pages = {75 -- 84},
 title = {{Generic Topology Mapping Strategies for Large-scale Parallel Architectures}},
+month = jun,
 year = {2011}
 }
 
@@ -422,6 +411,7 @@ keywords = {and supercomputers,high performance computing,message passing applic
 mendeley-groups = {Next,HPCMASPA},
 pages = {444--449},
 title = {{PSINS: An Open Source Event Tracer and Execution Simulator}},
+month = jun,
 year = {2009}
 }
 
@@ -504,33 +494,16 @@ title = {{Trema Full-Stack OpenFlow Framework in Ruby and C}},
 url = {http://trema.github.io/trema/}
 }
 
-@book{ruby,
-author = {Thomas, David and Fowler, Chad and Hunt, Andrew},
-mendeley-groups = {Thesis},
-publisher = {Pragmatic Bookshelf},
-title = {{Programming Ruby}},
-volume = {13},
-year = {2004}
-}
-
 @article{Thakur2005,
 author = {Thakur, Rajeev and Rabenseifner, Rolf and William, Groppm},
 file = {:Users/Keichi/Documents/papers/Thakur, Rabenseifner, William\_2005\_Optimization of collective communication operations in MPICH.pdf:pdf},
 journal = {International Journal of High Performance Computing Applications},
 mendeley-groups = {MPI},
-title = {{Optimization of collective communication operations in MPICH}},
+title = {{Optimization of Collective Communication Operations in MPICH}},
 volume = {19},
 pages = {49--66},
-year={2005}
-}
-
-@book{Gropp1999,
-abstract = {The Message Passing Interface (MPI) specification is widely used for solving significant scientific and engineering problems on parallel computers. There exist more than a dozen implementations on computer platforms ranging from IBM SP-2 supercomputers to clusters of PCs running Windows NT or Linux ("Beowulf" machines). The initial MPI Standard document, MPI-1, was recently updated by the MPI Forum. The new version, MPI-2, contains both significant enhancements to the existing MPI core and new features.Using MPI is a completely up-to-date version of the authors' 1994 introduction to the core functions of MPI. It adds material on the new C++ and Fortran 90 bindings for MPI throughout the book. It contains greater discussion of datatype extents, the most frequently misunderstood feature of MPI-1, as well as material on the new extensions to basic MPI functionality added by the MPI-2 Forum in the area of MPI datatypes and collective operations.Using MPI-2 covers the new extensions to basic MPI. These include parallel I/O, remote memory access operations, and dynamic process management. The volume also includes material on tuning MPI applications for high performance on modern MPI implementations.},
-author = {Gropp, William and Lusk, Ewing and Skjellum, Anthony},
-isbn = {0262571323},
-mendeley-groups = {Thesis},
-title = {{Using MPI: Portable Parallel Programming with the Message-passing Interface, Vol. 1}},
-year = {1999}
+year={2005},
+doi = {10.1177/1094342005051521},
 }
 
 @article{Gropp1996,
@@ -549,11 +522,12 @@ year = {1996}
 }
 
 @inproceedings{mvapich,
-author = {Huang, W. and Santhanaraman, G. and Jin, H.-W. and Gao, Q. and Panda, D. K.},
-booktitle = {Proceedings of CCGRID 06. Sixth IEEE International Symposium on Cluster Computing and the Grid},
+author = {Huang, W. and Santhanaraman, G. and Jin, H.-W. and Gao, Q. and Panda, Dhabaleswar K.},
+booktitle = {Proceedings of Sixth IEEE International Symposium on Cluster Computing and the Grid (CCGrid'06)},
 title = {{Design of High Performance MVAPICH2: MPI2 over InfiniBand}},
 month = May,
-year = {2006}
+year = {2006},
+doi = {10.1109/CCGRID.2006.32},
 }
 
 @inproceedings{Rabenseifner2000,
@@ -582,42 +556,39 @@ year = {2012}
 @inproceedings{Yokokawa2011,
 abstract = {The K computer is a distributed memory supercomputer system consisting of more than 80,000 compute nodes which is being developed by RIKEN as a Japanese national project. Its performance is aimed at achieving 10 peta-flops sustained in the LINPACK benchmark. The system is under installation and adjustment. The whole system will be operational in 2012.},
 author = {Yokokawa, Mitsuo and Shoji, Fumiyoshi and Uno, Atsuya and Kurokawa, Motoyoshi and Watanabe, Tadashi},
-booktitle = {Proceedings of IEEE/ACM International Symposium on Low Power Electronics and Design},
+booktitle = {Proceedings of International Symposium on Low Power Electronics and Design (ISLPED)},
 doi = {10.1109/ISLPED.2011.5993668},
-isbn = {978-1-61284-658-3},
 mendeley-groups = {Thesis},
 month = Aug,
 pages = {371--372},
 shorttitle = {Low Power Electronics and Design (ISLPED) 2011 Int},
-title = {{The K computer: Japanese next-generation supercomputer development project}},
+title = {{The K Computer: Japanese Next-Generation Supercomputer Development Project}},
 year = {2011}
 }
 
 @article{Bruck1997,
 author={Bruck, Jehoshua and Ching-Tien Ho and Kipnis, Shlomo and Upfal, Eli and Weathersby, Derrick},
 journal={IEEE Transactions on Parallel and Distributed Systems},
-title={Efficient algorithms for all-to-all communications in multiport message-passing systems},
+title={Efficient Algorithms for All-to-all Communications in Multiport Message-passing Systems},
 year={1997},
 month=Nov,
 volume={8},
 number={11},
 pages={1143-1156},
 keywords={communication complexity;message passing;parallel algorithms;all-to-all communications;communication bandwidth;communication start-up;complexity measures;concatenation;index;message-passing systems;multiport;point-to-point communication;sender-receiver pair;Algorithm design and analysis;Application software;Bandwidth;Broadcasting;Concurrent computing;Parallel programming;Particle measurements;Scattering;Time measurement;Topology},
-doi={10.1109/71.642949},
-ISSN={1045-9219}}
+doi={10.1109/71.642949},}
 
 @article{Iannello1997,
 author={Iannello, Giulio},
 journal={IEEE Transactions on Parallel and Distributed Systems},
-title={Efficient algorithms for the reduce-scatter operation in LogGP},
+title={Efficient Algorithms for the Reduce-scatter Operation in LogGP},
 year={1997},
 month=Sep,
 volume={8},
 number={9},
 pages={970-982},
 keywords={message passing;parallel algorithms;LogGP;lower bounds;m-item version;message passing system;parallel matrix-vector multiply;reduce-scatter operation;Algorithm design and analysis;Computer Society;Libraries;Matrix decomposition;Message passing;Parallel algorithms;Performance analysis;Scattering;Telephony},
-doi={10.1109/71.615442},
-ISSN={1045-9219},}
+doi={10.1109/71.615442},}
 
 @article{Al-Fares2008,
  author = {Al-Fares, Mohammad and Loukissas, Alexander and Vahdat, Amin},
@@ -628,12 +599,10 @@ ISSN={1045-9219},}
  number = {4},
  month = Aug,
  year = {2008},
- issn = {0146-4833},
  pages = {63--74},
  numpages = {12},
  doi = {10.1145/1402946.1402967},
  acmid = {1402967},
- publisher = {ACM},
  address = {New York, NY, USA},
  keywords = {data center topology, equal-cost routing},
 }
@@ -641,7 +610,7 @@ ISSN={1045-9219},}
 @article{Leiserson1985,
 author={Leiserson, Charles E.},
 journal={IEEE Transactions on Computers},
-title={Fat-trees: Universal networks for hardware-efficient supercomputing},
+title={Fat-trees: Universal Networks for Hardware-efficient Supercomputing},
 year={1985},
 month=Oct,
 volume={C-34},
@@ -656,20 +625,6 @@ mendeley-groups = {Website},
 title = {{802.1Qbp - Equal Cost Multiple Paths}},
 url = {http://www.ieee802.org/1/pages/802.1bp.html},
 urldate = {08/02/14}
-}
-
-@article{Adiga2005,
-author = {Adiga, N. R. and Blumrich, M. A. and Chen, D. and Coteus, P. and Gara, A. and Giampapa, M. E. and Heidelberger, P. and Singh, S. and Steinmacher-Burow, B. D. and Takken, T. and Tsao, M. and Vranas, P.},
-doi = {10.1147/rd.492.0265},
-file = {:Users/Keichi/Documents/papers/Chen, Coteus\_2005\_Blue Gene L torus interconnection network.pdf:pdf},
-issn = {0018-8646},
-journal = {IBM Journal of Research and Development},
-month = mar,
-number = {2.3},
-pages = {265--276},
-title = {{Blue Gene/L Torus Interconnection Network}},
-volume = {49},
-year = {2005}
 }
 
 @book{Dally2003,
@@ -688,16 +643,18 @@ urldate = {24/03/14}
 }
 
 @article{PjesivacGrbovic,
-author={Pjesivac-Grbovic, J. and Angskun, T. and Bosilca, G. and Fagg, G.E. and Gabriel, E. and Dongarra, J.J.},
+author={Pje\v{s}ivac-Grbovi\'{c}, Jelena and Angskun, Thara and Bosilca, George and Fagg, Graham E. and Gabriel, Edgar and Dongarra, Jack J.},
 journal={Cluster Computing},
 title={Performance Analysis of {MPI} Collective Operations},
 year={2007},
 volume={10},
 number={2},
-pages={127-143}}
+pages={127-143},
+doi={10.1007/s10586-007-0012-0},}
 
 @article{PjesivacGrbovic2011,
-author={Sur, S. and Potluri, S.  and Kandalla, K. and Subramoni, H. and Tomko, K. and Panda, D. K.},
+author={Sur, Sayantan and Potluri, Sreeram  and Kandalla, Krishna and Subramoni, Hari and Tomko,
+    Karen and Panda, Dhabaleswar K.},
 journal={IEEE Computer},
 title={Co-Designing {MPI} Library and Applications for InfiniBand Clusters},
 year={2011},
@@ -716,8 +673,8 @@ pages = {301--319},
 }
 
 @inproceedings{Jiuxing2004,
-author={Jiuxing Liu and Vishnu, A. and Panda, D.K.},
-booktitle={Proceedings of the ACM/IEEE SC2004 Conference},
+author={Jiuxing Liu and Vishnu, A. and Panda, Dhabaleswar K.},
+booktitle={International Conference for High Performance Computing, Networking, Storage and Analysis (SC04)},
 title={Building Multirail InfiniBand Clusters: {MPI}-Level Design and Performance Evaluation},
 year={2004},
 month=Nov,
@@ -728,13 +685,12 @@ doi={10.1109/SC.2004.15}}
 @inproceedings{Geoffray2008,
  author = {Geoffray, Patrick and Hoefler, Torsten},
  title = {Adaptive Routing Strategies for Modern High Performance Networks},
- booktitle = {Proceedings of the 2008 16th IEEE Symposium on High Performance Interconnects},
+ booktitle = {Proceedings of the 16th Symposium on High Performance Interconnects (HOTI)},
  year = {2008},
- isbn = {978-0-7695-3380-3},
  pages = {165--172},
  numpages = {8},
- publisher = {IEEE Computer Society},
  keywords = {bisection bandwidth, head-of-line blocking, adaptive routing, Clos networks},
+ doi = {10.1109/HOTI.2008.21}
 }
 
 @article{Goglin2013,
@@ -743,7 +699,6 @@ title = {{KNEM}: a Generic and Scalable Kernel-Assisted Intra-node {MPI} Communi
 journal = {Journal of Parallel and Distributed Computing},
 volume = {73},
 number = {2},
-month = Feb,
 year = {2013},
 pages = {176--188},
 }
@@ -755,7 +710,7 @@ howpublished = {\\http://www.mellanox.com/products/fca/},
 
 @inproceedings{Kumar2016,
 author = {Kumar, Sameer and Sharkawi, Sameh S. and Jan, K. A. Nysal},
-booktitle = {2016 International Parallel and Distributed Processing Symposium (IPDPS)},
+booktitle = {30th International Parallel and Distributed Processing Symposium (IPDPS 2016)},
 doi = {10.1109/IPDPS.2016.85},
 file = {:Users/keichi/Documents/paper/kumar2016.pdf:pdf},
 mendeley-groups = {Dissertation},
@@ -815,7 +770,7 @@ year = {2013}
 author = {Michelogiannakis, George and Ibrahim, Khaled Z and Shalf, John and Wilke, Jeremiah J and Knight, Samuel and Kenny, Joseph P and Michelogiannakis, George and Ibrahim, Khaled Z and Shalf, John and Wilke, Jeremiah J and Knight, Samuel and Kenny, Joseph P},
 file = {:Users/keichi/Library/Application Support/Mendeley Desktop/Downloaded/Michelogiannakis et al. - 2017 - APHiD Hierarchical Task Placement to Enable a Tapered Fat Tree Topology for Lower Power and Cost in (3).pdf:pdf},
 mendeley-groups = {JMS,Dissertation},
-booktitle = {17th International Symposium on Cluster, Cloud and Grid Computing (CCGrid)},
+booktitle = {17th International Symposium on Cluster, Cloud and Grid Computing (CCGrid 2017)},
 title = {{APHiD : Hierarchical Task Placement to Enable a Tapered Fat Tree Topology for Lower Power and Cost in HPC Networks Work}},
 month = may,
 year = {2017},
@@ -827,7 +782,7 @@ abstract = {{\textcopyright} 2017 IEEE. Task mapping is an important problem in 
 author = {Choi, Jong Youl and Logan, Jeremy and Wolf, Matthew and Ostrouchov, George and Kurc, Tahsin and Liu, Qing and Podhorszki, Norbert and Klasky, Scott and Romanus, Melissa and Sun, Qian and Parashar, Manish and Churchill, Randy Michael and Chang, Choong-Seock},
 doi = {10.1109/CLUSTER.2017.67},
 file = {:Users/keichi/Documents/paper/choi2017.pdf:pdf},
-booktitle = {International Conference on Cluster Computing (CLUSTER)},
+booktitle = {International Conference on Cluster Computing (CLUSTER 2017)},
 mendeley-groups = {Intern,Dissertation},
 pages = {587--591},
 title = {{TGE: Machine Learning Based Task Graph Embedding for Large-Scale Topology Mapping}},
@@ -838,7 +793,7 @@ year = {2017}
 @inproceedings{Kim2008,
 abstract = {Evolving technology and increasing pin-bandwidth motivate the use of high-radix routers to reduce the diameter, latency, and cost of interconnection networks. High-radix networks, however, require longer cables than their low-radix counterparts. Because cables dominate network cost, the number of cables, and particularly the number of long, global cables should be minimized to realize an efficient network. In this paper, we introduce the dragonfly topology which uses a group of high-radix routers as a virtual router to increase the effective radix of the network. With this organization, each minimally routed packet traverses at most one global channel. By reducing global channels, a dragonfly reduces cost by 20{\%} compared to a flattened butterfly and by 52{\%} compared to a folded Clos network in configurations with ges 16K nodes.We also introduce two new variants of global adaptive routing that enable load-balanced routing in the dragonfly. Each router in a dragonfly must make an adaptive routing decision based on the state of a global channel connected to a different router. Because of the indirect nature of this routing decision, conventional adaptive routing algorithms give degraded performance. We introduce the use of selective virtual-channel discrimination and the use of credit round-trip latency to both sense and signal channel congestion. The combination of these two methods gives throughput and latency that approaches that of an ideal adaptive routing algorithm.},
 author = {Kim, John and Dally, William J. and Scott, Steve and Abts, Dennis},
-booktitle = {International Symposium on Computer Architecture},
+booktitle = {International Symposium on Computer Architecture (ISCA)},
 doi = {10.1109/ISCA.2008.19},
 file = {:Users/keichi/Library/Application Support/Mendeley Desktop/Downloaded/Kim et al. - 2008 - Technology-Driven, Highly-Scalable Dragonfly Topology.pdf:pdf},
 keywords = {dragonfly,interconnection networks,topology},
@@ -868,14 +823,13 @@ year = {2009}
 abstract = {Driven by increasing bandwidth demand from increasing broadband penetration, video, and other high-bandwidth services, the IEEE 802.3 working group has proposed a new project on higher speed Ethernet, chartered with development of standards for new interfaces with medium access control data rates of 40 Gb/s and 100 Gb/s. As the impact of this technology will not be confined to large data centers, this paper explores the overall network context for higher speed Ethernet and the related evolution of the optical transport network.},
 author = {Trowbridge, Stephen},
 doi = {10.1109/MCOM.2007.4395376},
-issn = {0163-6804},
 journal = {IEEE Communications Magazine},
 keywords = {Aggregates,Bandwidth,Bit rate,Ethernet networks,Forward error correction,IEEE 802.3,Optical fibers,Optical network units,SONET,Synchronous digital hierarchy,Wavelength division multiplexing,access protocols,bit rate 100 Gbit/s,bit rate 40 Gbit/s,high-speed Ethernet transport,interfaces standards,local area networks,medium access control,optical fibre networks,optical transport network,peripheral interfaces,telecommunication network planning,transport protocols},
 mendeley-groups = {Past Papers/Master Thesis},
 month = dec,
 number = {12},
 pages = {120--125},
-title = {{High-Speed Ethernet Transport [Standards Topics]}},
+title = {{High-Speed Ethernet Transport}},
 volume = {45},
 year = {2007}
 }
@@ -884,7 +838,7 @@ year = {2007}
 abstract = {Understanding the characteristics and requirements of applications that run on commodity clusters is key to properly configuring current machines and, more importantly, procuring future systems effectively. There are only a few studies, however, that are current and characterize realistic workloads. For HPC practitioners and researchers, this limits our ability to design solutions that will have an impact on real systems. We present a systematic study that characterizes applications with an emphasis on communication requirements. It includes cluster utilization data, identifying a representative set of ap- plications from a U.S. Department of Energy laboratory, and characterizing their communication requirements. The driver for this work is understanding application sensitivity to a tapered fat-tree network. These results provided key insights into the procurement of our next generation commodity systems. We believe this investigation can provide valuable input to the HPC community in terms of workload characterization and requirements from a large supercomputing center.},
 author = {Leon, Edgar A. and Karlin, Ian and Bhatele, Abhinav and Langer, Steven H. and Chambreau, Chris and Howell, Louis H. and D'Hooge, Trent and Leininger, Matthew L.},
 doi = {10.1109/SC.2016.77},
-booktitle = {International Conference for High Performance Computing, Networking, Storage and Analysis (SC)},
+booktitle = {International Conference for High Performance Computing, Networking, Storage and Analysis (SC'16)},
 keywords = {High performance computing,computer performance,high-speed networks,network topology,scientific computing},
 mendeley-groups = {Network,MPI,Dissertation},
 month = nov,
@@ -894,8 +848,8 @@ year = {2017}
 }
 
 @inproceedings{Kandalla2012,
-author = {Kandalla, K. and Yang, U. and Keasler, J. and Kolev, T. and Moody, A. and Subramoni, H. and Tomko, K. and Vienne, J. and de Supinski, Bronis R. and Panda, Dhabaleswar K.},
-booktitle = {26th International Parallel and Distributed Processing Symposium (IPDPS)},
+author = {Kandalla, Krishna and Yang, Ulrike and Keasler, Jeff and Kolev, Tzanio and Moody, Adam and Subramoni, Hari and Tomko, Karen and Vienne, J\'{e}r\^{o}me and de Supinski, Bronis R. and Panda, Dhabaleswar K.},
+booktitle = {26th International Parallel and Distributed Processing Symposium (IPDPS 2012)},
 doi = {10.1109/IPDPS.2012.106},
 file = {:Users/keichi/Documents/paper/kandalla2012.pdf:pdf},
 mendeley-groups = {Dissertation},
@@ -908,16 +862,12 @@ year = {2012}
 @inproceedings{Alverson2010,
 abstract = {The Gemini System Interconnect is a new network for Cray's supercomputer systems. It provides improved network functionality, latency and issue rate. Latency is reduced with OS bypass for sends and direct user completion notification on receives. Atomic memory operations support the construction of fast synchronization and reduction primitives.},
 author = {Alverson, Robert and Roweth, Duncan},
-booktitle = {Proceedings - 18th IEEE Symposium on High Performance Interconnects, HOTI 2010},
+booktitle = {18th Symposium on High Performance Interconnects (HOTI 2010)},
 doi = {10.1109/HOTI.2010.23},
-isbn = {9780769542089},
-issn = {1550-4794},
 mendeley-groups = {Dissertation},
 month = aug,
 pages = {83--87},
-pmid = {2570671},
-publisher = {IEEE},
-title = {{The gemini system interconnect}},
+title = {{The Gemini System Interconnect}},
 year = {2010}
 }
 
@@ -928,7 +878,6 @@ doi = {10.1109/SC.2012.39},
 mendeley-groups = {Dissertation},
 month = nov,
 pages = {1--9},
-publisher = {IEEE},
 title = {{Cray Cascade: A Scalable HPC System Based on a Dragonfly Network}},
 year = {2012}
 }
