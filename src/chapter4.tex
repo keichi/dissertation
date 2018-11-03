@@ -280,12 +280,21 @@ dynamically rewrites MAC address fields of packets is essential.
 
 As a possible solution for the functional component on the Linux kernel,
 we have considered \emph{ebtables}, \emph{raw socket} and \emph{protocol
-handler}~\autocite{Rosen2013}. Ebtables is commonly used as an L2
-packet filter that includes Network Address Translation (NAT) for MAC
-addresses. Raw sockets are special type of sockets that give user space
-programs access to the whole packet including protocol headers. The
-protocol handler is a function that can be inserted to the kernel,
-usually to add new network protocols. Out of these potential solutions,
+handler}~\autocite{Rosen2013}. Ebtables is a widely adopted L2 packet filter
+implemented on top of the netfilter framework. It mainly features L2 packet
+filtering and Network Address Translation~(NAT). Raw sockets are special type
+of sockets that give user space programs access to the whole packet including
+protocol headers. TCP/UDP sockets only allows users space programs to read or
+write TCP/UDP payloads, whereas raw sockets allows programs to read and write
+TCP/UDP, IP and Ethernet protocol headers. In return, the user space program
+has the full responsibility to handle the network protocol correctly. The
+network stack of Linux kernel is designed to be extensible so that new network
+protocols can be added relatively easily. New protocols can be implemented
+as a protocol handler, which is essentially a call back function that is
+invoked when a packet is sent or received. When implemented in a loadable
+kernel module, protocol handlers can be added without recompiling the kernel.
+
+Out of these potential solutions,
 we have adopted the protocol handler because it achieves both
 flexibility in rewriting of the packets depending on their payload and
 minimal alteration to the MPI library. As previously described, ebtables
