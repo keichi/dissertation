@@ -106,8 +106,7 @@ Section~\ref{sec:iii-conclusion} concludes this chapter and discusses issues
 remained for the realization of practical and useful MPI\_Allreduce leveraging
 SDN\@.
 
-\section{Necessity of Dynamic Control of the Network in
-MPI\_Allreduce}\label{sec:iii-background}
+\section{Research Objective}\label{sec:iii-background}
 
 \subsection{Related Works on Optimization and Performance Tuning of MPI
 Collective Operations}
@@ -510,9 +509,8 @@ vertical axis shows the average time taken to execute
 MPI\_Allreduce. The solid line and dashed line represent the
 execution time of the proposed mechanism and Open MPI implementation,
 respectively. Figure~\ref{fig:evaluation-8nodes-normalized} shows the
-normalized performance improvement of the proposed mechanism in
-comparison with the Open MPI implementation. The maximum of performance
-improvement is 29\%.
+speedup of the proposed mechanism in comparison with the Open MPI
+implementation. The maximum of performance improvement is 41\%.
 
 \begin{figure}
     \centering
@@ -529,10 +527,9 @@ improvement is 29\%.
 \end{figure}
 
 Figure~\ref{fig:evaluation-16nodes} shows the result of using 16 nodes.
-Figure~\ref{fig:evaluation-16nodes-normalized} indicates the normalized
-performance improvement of the proposed MPI\_Allreduce. It
-shows how the proposed mechanism reduces the execution time of
-MPI\_Allreduce for 36\% at most.
+Figure~\ref{fig:evaluation-16nodes-normalized} indicates the speedup of the
+proposed MPI\_Allreduce. It shows how the proposed mechanism reduces the
+execution time of MPI\_Allreduce for 56\% at most.
 
 \begin{figure}
     \centering
@@ -610,7 +607,7 @@ that can effectively make use of redundant routes by having SDN interact
 with an MPI application communication pattern. We have designed and
 implemented a system of three modules cooperating together to realize
 our proposed mechanism. The evaluation showed that the proposed
-MPI\_Allreduce decreased the execution time for 36\% at most
+MPI\_Allreduce decreased the execution time for 56\% at most
 compared with a conventional implementation of MPI\_Allreduce.
 As a result, we have confirmed the superiority of the proposed mechanism
 over conventional methods.
