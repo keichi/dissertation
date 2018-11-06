@@ -96,8 +96,14 @@ been put to the research and development of high-performance interconnects.
 
 \subsection{Interconnect}\label{sec:i-interconnect}
 
-There are mainly two design goals of a high-performance interconnect: high
-bandwidth and low latency.
+% 相互結合網の目的
+The main goal of high-performance interconnects is to provide high bandwidth
+and low latency between a large number of computing nodes. Today,
+interconnects of state-of-the-art HPC systems connect tens of thousands of
+computing nodes where the bandwidth between two computing nodes reaches over
+100 Gbps and the latency is smaller than 1 $\mu$s. While achieving such high
+communication performance, the financial cost to build and maintain the
+interconnect must be reasonable.
 
 % 通信規格
 Ethernet~\autocite{Trowbridge2007} and InfiniBand~\autocite{Buyya2009} are
@@ -155,7 +161,6 @@ been widely adopted as interconnect topologies in HPC systems.
     \caption{Topology of Interconnects}%
     \label{fig:topology}
 \end{figure}
-
 
 Mostly, the interconnects of computer cluster systems are full-bisection.
 The bisection bandwidth for an interconnect is defined as the minimum
@@ -329,16 +334,16 @@ the finite-difference method.
 The design of an interconnect could be highly optimized for an
 application by taking the communication pattern of applications into account.
 For instance, an interconnect with a three-dimensional torus topology would be
-ideal for an application that performs nearest neighbor communication in 3D
-space. However, this approach is infeasible when designing a real-world
-cluster. This is because HPC systems are shared by many users, where each user
-runs various applications on the cluster. Furthermore, Therefore, in contrast
-to the application-dependent communication pattern, the interconnect is
-inherently application-agnostic.
+ideal for an application that performs nearest neighbor communication in
+three-dimensional space. However, this approach is infeasible when designing a
+real-world cluster. This is because HPC systems are shared by many users
+where each user runs various applications on the cluster. Therefore, in
+contrast to the application-dependent communication pattern, the interconnect
+is inherently application-agnostic.
 
 % 問題
-As a result, under a certain combination of communication pattern and
-interconnect, an imbalance of the packet flow in the interconnect can occur.
+As a result, an imbalance of the packet flow in the interconnect can occur
+under a certain combination of communication pattern and interconnect.
 The imbalance can lead to the concentration of traffic on a link in the
 interconnect and slow down of MPI communication that uses the link. The
 degraded MPI communication can ultimately lead to a serious degradation of
@@ -361,8 +366,8 @@ on the computing nodes~\autocite{Michelogiannakis2017,Hoefler2011,Choi2017}.
 In this approach, the communication pattern of an application is considered as
 a weighted graph where nodes represent processes and edges represent the
 volume of data exchanges between two processes. Various heuristic algorithms
-are proposed to embed the communication pattern graph graph onto the
-interconnect topology.
+are proposed to embed the communication pattern graph onto the interconnect
+topology.
 
 % 相互結合網の動的制御は未だ研究が進んでいない
 To this date, however, there has been little studies on adapting the
