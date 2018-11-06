@@ -177,12 +177,12 @@ that oversubscribed interconnects become inevitable in the future.
 \subsection{Message Passing Interface}\label{sec:i-mpi}
 
 % MPIとは
-Message Passing Interface~(MPI)~\autocite{MessagePassingInterfaceForum2015} is a \emph{de
-facto} standard specification for inter-process communication libraries
-used to develop parallel applications running on distributed memory system
-such as clusters. MPI defines a suite of communication primitives that helps
-application developers to build parallel distributed applications that require
-complex communications among computing nodes.
+Message Passing Interface~(MPI)~\autocite{MessagePassingInterfaceForum2015} is
+a \emph{de facto} standard specification for inter-process communication
+libraries used to develop parallel applications running on distributed memory
+system such as clusters. MPI defines a suite of communication primitives that
+helps application developers to build parallel distributed applications that
+require complex communications among computing nodes.
 
 % 相互結合網の抽象化
 A remarkable feature of MPI is that it abstracts the underlying network
@@ -206,30 +206,93 @@ easy to be ported to different computer clusters.
 
 % 1対1通信と集団通信
 The communication primitives defined in MPI can be roughly categorized into
-point-to-point communication and collective communication. Point-to-point
-communication is a communication between one sender and one receiver. On the
-other hand, collective communication involves a group of processes. These
-communication primitives help application developers to implement complex
-parallel algorithms. Table~\ref{tbl:mpi-primitives} shows some representative
-examples of MPI primitives.
+point-to-point communication, collective communication and one-sided
+communication. Table~\ref{tbl:mpi-primitives} shows several examples from each
+category. Note that this list covers only a small fraction of the primitives
+defined in MPI\@.
 
-\begin{table}
+% 1対1通信
+Point-to-point communication is a communication between a sender process and
+another receiver process. The sender calls MPI\_Send whereas the
+receiver calls MPI\_Recv. It is similar to BSD sockets, but MPI point-to-point
+communication differs from sockets in several aspects. First, establishing
+connection between the sender and receiver (\emph{i.e.,} connect, listen,
+accept, \emph{etc.}) is not needed since the MPI library will take care of it
+internally. Second, the order of calls to MPI\_Send and MPI\_Recv does not
+matter, whereas with sockets, calling recv after send may result in packet
+drops. Finally, tag and communicator to specify the context.
+
+% 集団通信
+Collective communication involves a group of processes and provides frequently
+used communication patterns when implementing parallel algorithms such as
+broadcast, reduction, all-to-all exchange, \emph{etc.} In principle, any
+collective communication can be implemented using point-to-point
+communication. However, using collective communication primitives is generally
+a better choice because MPI libraries implement each communication primitive
+based on optimized algorithms that are selected depending on the message size
+and number of processes. For instance, a trivial implementation of broadcast
+where the root process sends the same data to each non-root process requires
+$O(n)$ time to complete. A more efficient implementation of broadcast is
+tree-like broadcast where non-root processes help the root processes by
+sending the received data to other processes that have not received the data
+yet. The time complexity of tree-like broadcast is $O(\log n)$.
+
+% 同期通信と非同期通信
+Both point-to-point communication primitives and collective communication
+primitives have blocking versions and non-blocking versions. Blocking
+primitives blocks until the communication has completed. In contrast,
+non-blocking primitives returns immediately after initiating the
+communication. A separate synchronization is required to complete the
+communication. The advantage of non-blocking communication is that it allows
+overlapped computation and communication. In other words, computation can be
+performed while the communication is in progress. Overlapping computation and
+communication is a way to hide the cost of communication and usually results
+in better application performance. As a trade-off, non-blocking communication
+slightly increases the programming effort compared to blocking communication.
+
+% 片側通信
+One-sided communication is a form of Remote Memory Access~(RMA). In
+point-to-point communication, the sender and receiver need to mutually agree
+to start a communication. In contrast, one-sided communication allows
+a process to directly read or write the memory of a peer process without the
+involvement of the peer process. This communication model reduces memory copy
+and synchronization points. One-sided communication is especially beneficial
+on interconnects that support Remote Direct Memory Access~(RDMA).
+
+\begin{table}[]
     \centering
-    \caption{Examples of MPI primitives}%
+    \caption{Examples of MPI Primitives}%
     \label{tbl:mpi-primitives}
-    \begin{tabular}{lll}
-        \toprule
-        Name & Category & Description \\ \midrule
-        MPI\_Send/MPI\_Recv & Point-to-point & Blocking send/receive \\
-        MPI\_Isend/MPI\_Irecv & Point-to-point & Non-blocking send/receive \\
-        MPI\_Bcast & Collective & Broadcast \\
-        MPI\_Reduce & Collective & Reduction \\
-        MPI\_Allreduce & Collective & Broadcast result of reduction \\
-        MPI\_Gather & Collective & \begin{tabular}[c]{@{}l@{}}Aggregate pieces of data from\\ processes into a single process\end{tabular} \\
-        MPI\_Alltoall & Collective & \begin{tabular}[c]{@{}l@{}}Perform MPI\_Gather from all\\ processes\end{tabular} \\
-        \midrule
-    \end{tabular}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Type           & Name        & Description \\ \midrule
+Point-to-point & Send/Recv   & Point-to-point send and receive              \\
+               & Isend/Irecv & Non-blocking point-to-point send and receive \\
+\midrule
+Collective     & Bcast       & Broadcast                                    \\
+               & Reduce      & Reduction                                    \\
+               & Allreduce   & Broadcast result of reduction                \\
+               & Ibcast      & Non-blocking Bcast                           \\
+               & Ireduce     & Non-blocking Reduce                          \\
+               & Iallreduce  & Non-blocking Allreduce                       \\
+\midrule
+One-sided      & Put         & One-sided put                                \\
+               & Get         & One-sided get                                \\
+\bottomrule
+\end{tabular}
 \end{table}
+
+% MPIの実装
+There are multiple implementations of the MPI standard. Open
+MPI~\cite{Squyres2005}, MPICH~\cite{Gropp2002} and MVAPICH~\cite{mvapich} are
+among the actively developed open source implementations of MPI\@.
+Furthermore, HPC system vendors such as Cray, Intel and Fujitsu develop their
+own proprietary MPI implementation based upon open source implementations.
+Vendor MPI implementations are highly optimized for the vendor's HPC system
+and able to take advantage of the special features of their system. In
+addition to the header files and libraries that implement the APIs defined in
+the specifications, MPI implementations usually offer a launcher that allows
+users to start MPI processes on multiple computing nodes.
 
 % MPIの高速化
 Until today, countless scientific applications have been developed by
