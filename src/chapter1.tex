@@ -308,7 +308,7 @@ total performance of MPI applications can be improved by optimizing the
 performance of MPI communications. For this reason, researchers have been
 striving to improve the communication performance of MPI from various aspects.
 
-\subsection{Problem and Motivation}
+\subsection{Problem and Motivation}\label{sec:i-problem}
 
 % アプリケーションの通信パターン
 The inter-process communication of MPI applications shows a distinctive
@@ -493,7 +493,7 @@ blocks include parser and deparser of OpenFlow messages and common network
 protocol packets, state machine for the OpenFlow protocol and high-performance
 concurrent server for handling the connection with the switches.
 Trema\cite{trema}, Ryu\cite{Ryu2014}, ONOS\cite{Berde2014} and
-OpenDaylight\cite{Medved2014} are among the popular OpenFlow controller
+OpenDaylight\cite{Medved2014} are among the most popular OpenFlow controller
 frameworks. Developers of OpenFlow controllers can focus to the application
 logic by taking advantage of these controller frameworks.
 
@@ -523,9 +523,11 @@ Initiator                   & Message Type     & Response     & Purpose         
 \end{tabular}
 \end{table}
 
+\clearpage
+
 \section{Research Objective}
 
-As discussed in Section~\ref{sec:i-background}, the mismatch between
+As discussed in Section~\ref{sec:i-problem}, the mismatch between
 application-dependent communication patterns and application-agnostic
 interconnects have lead to the imbalance of packet flow in the interconnect.
 This dissertation aims to address this problem by establishing a programmable
@@ -535,72 +537,89 @@ interconnect based on the communication pattern of applications.
 \begin{figure}
     \centering
     \includegraphics{objective}
-    \caption{Envisioned Interconnect Control}%
+    \caption{Envisioned Programmable Interconnect Control}%
     \label{fig:objective}
 \end{figure}
 
-Figure~\ref{fig:objective} illustrates the envisioned interconnect control
-architecture. The overall idea of this architecture is as follows. First, the
-communication pattern of MPI communication is extracted from the application.
-Then, a sequence of interconnect control instructions is generated based on
-the communication pattern. Finally, the interconnect control sequence is
-applied to the interconnect using programmable interconnect technology.
-There are three central challenges in realizing such programmable interconnect:
+Figure~\ref{fig:objective} illustrates the high-level concept of our
+envisioned programmable interconnect control. The core idea of this
+programmable interconnect control is an iteration of three steps:
+\emph{observe}, \emph{decide} and \emph{adapt}. First, the communication
+pattern between processes of an application is observed and recorded.
+Second, the decision of how to control the packet flow in the interconnect is
+made based on the collected communication pattern of the application. The goal
+of this packet flow control is to mitigate imbalance in the interconnect and
+achieve higher communication performance between computing nodes. Third, the
+interconnect is adapted to perform the planned packet flow control using
+programmable networking architecture. These three steps are performed in
+synchronization with the execution of application.
+
+To materialize this concept, following three challenges must be achieved:
 
 \begin{enumerate}
-\item \emph{Analyzing the Packet Flow in the Interconnect}:
+\item \emph{Analyzing the packet flow in the interconnect}:
     To effectively control the packet flow in the interconnect, we first need
-    to analyze and understand the packet flow generated in the interconnect
-    when running an application on the cluster.
-\item \emph{Accelerating MPI Communication by Dynamic Control of Interconnect}:
+    to carefully analyze and understand the packet flow generated in the
+    interconnect when running an application on a cluster.
+\item \emph{Accelerating MPI communication by dynamically controlling the
+    packet flow in the interconnect}:
     Given a communication pattern of an application and an interconnect,
     we need to determine how to control the packet flow in the interconnect to
-    mitigate imbalance and improve the performance of MPI communication.
-\item \emph{Coordinating the Execution of Application and Interconnect Control}:
-    The communication pattern of the application changes with the execution of
-    the application. Therefore, the interconnect control must be performed in
-    accordance with the execution of application.
+    mitigate load imbalance in the interconnect and improve the performance of
+    MPI communication.
+\item \emph{Coordinating the execution of application and interconnect control}:
+    The communication pattern of the application changes rapidly with the
+    execution of the application. Therefore, the interconnect control must
+    be performed in accordance with the execution of application.
 \end{enumerate}
 
 \section{Organization of the Dissertation}
 
 The rest of this dissertation is organized as follows:
 
-% アプリケーションが相互結合網内に生成するパケット フローの解析手段を実現
-In Chapter~\ref{sec:ii}, we propose PFAnalyzer, a toolset for analyzing packet
-flow in interconnects to address the first challenge. Interconnect simulators
-come in handy especially when investigating the performance characteristics of
-interconnects with different topologies and parameters. However, little effort
-has been put towards the simulation of packet flow in dynamically controlled
-interconnects, while simulators for static interconnects have been extensively
-researched and developed. To facilitate analysis on the performance
-characteristics of dynamic interconnects, we have developed PFAnalyzer.
-PFAnalyzer is a pair of two tools: PFSim, an interconnect simulator
-specialized for dynamic interconnects, and PFProf, a profiler. PFSim allows
-interconnect researchers and designers to investigate congestion in the
-interconnect for an arbitrary cluster configuration and a set of communication
-patterns collected by PFProf. PFAnalyzer is used to demonstrate how
-dynamically controlling the interconnects can reduce congestion and
-potentially improve the performance of applications.
+% アプリケーションが相互結合網内に生成するパケットフローの解析手段を実現
+Chapter~\ref{sec:ii} proposes PFAnalyzer, a toolset for analyzing the
+packet flow in the interconnect, to address the first challenge. The
+packet flow generated in the interconnect highly depends on parameters such as
+the communication pattern of application, interconnect design and cluster
+configuration. When designing and implementing an efficient programmable
+interconnect control, researchers need to conduct a systematic analysis over
+many combinations of these parameters. Since performing such analysis on a
+physical cluster is time-consuming, we utilize simulation to facilitate the
+analysis. PFAnalyzer is a pair of two tools: PFSim, an interconnect simulator
+specialized for programmable interconnects, and PFProf, a profiler to collect
+communication pattern from MPI applications. PFSim allows interconnect
+researchers and designers to investigate congestion in the interconnect for an
+arbitrary cluster configuration and a set of communication patterns collected
+by PFProf. We evaluate the accuracy of the simulation results obtained from
+PFSim and demonstrate how PFAnalyzer can be used to analyze the effect of
+programmable interconnect control.
 
-% MPI集団通信を高速化するパケットフロー制御アルゴリズムを配備可能なフレームワークを構築
-In Chapter~\ref{sec:iii}, we address the second challenge by proposing a
-framework that accelerates MPI collectives by controlling the packet flow in
-the interconnect. We integrate the network programmability provided by
-Software-Defined Networking into MPI collectives so that collectives are able
-to effectively utilize the bandwidth of the interconnect. In particular, we
-aim to reduce the execution time of MPI\_Allreduce, a frequently used MPI
-collective communication in many simulation codes. An experiment conducted on
-a cluster system with fat-tree interconnect indicates that our proposed
-MPI\_Allreduce is superior to MPI\_Allreduce in Open MPI implementations.
+% MPI集団通信を高速化するパケットフロー制御アルゴリズムを配備可能な
+% フレームワークを構築
+Chapter~\ref{sec:iii} addresses the second challenge. Out of the
+communication primitives provided by MPI, we focus on accelerating collective
+communication because it consumes a significant fraction of the execution time
+of applications. We propose a framework to accelerate MPI collectives by
+dynamically controlling the packet flow in the interconnect. We integrate the
+network programmability provided by Software-Defined Networking into MPI
+collectives so that collectives are able to effectively utilize the bandwidth
+of the interconnect. In particular, we aim to reduce the execution time of
+MPI\_Allreduce, which is a frequently used MPI collective communication in
+many simulation codes. We evaluate the speedup of MPI\_Allreduce when using
+our collective acceleration framework.
 
 % 通信と計算が連係動作する新たなクラスタアーキテクチャを確立
-In Chapter~\ref{sec:iv}, the third challenge is addressed. This chapter
-proposes UnisonFlow, a software-defined coordination mechanism that performs
-network control in synchronization with the execution of applications. An
-experiment conducted on a real computer cluster verifies that the interconnect
-control can be successfully performed in synchronization with the execution of
-the application. Furthermore, the synchronization is performed with a low
-overhead and its performance penalty is practically negligible.
+Chapter~\ref{sec:iv} addresses the third challenge. This chapter proposes
+UnisonFlow, a software-defined coordination mechanism that performs
+interconnect control in synchronization with the execution of applications.
+In a real-world application, the communication pattern changes with the
+execution of application. Therefore, a mechanism to coordinate packet flow
+control and execution of application is essential. UnisonFlow is a
+kernel-assisted mechanism that realizes such coordination in a per-packet
+basis while maintaining significantly low overhead. We verify that the
+interconnect control can be successfully performed in synchronization with the
+execution of the application and evaluate the overhead imposed by the
+coordination mechanism.
 
-Chapter~\ref{sec:v} concludes this dissertation and describes the future work.
+Chapter~\ref{sec:v} concludes this dissertation and discusses future work.
