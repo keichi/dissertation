@@ -2,35 +2,6 @@
 
 \section{Introduction}\label{sec:iii-introduction}
 
-Recently, the demand for High Performance Computing (HPC) has been
-increasing. HPC allows users to solve complex problems, such as a large
-scale scientific simulation or big data analysis, in the realm of
-science and industry. These problems are too large to handle or take too
-much time to solve on a commodity desktop computer or workstation. HPC
-is an indispensable technology and technique for large scale
-computations which makes research and development that require those
-computations feasible.
-
-A HPC system is mostly built as a cluster system to achieve its massive
-processing speed~\autocite{top500}. A cluster system is an integrated system
-of multiple computers connected on networks. Those computers are often
-called ``computing nodes'' and the networks are called
-``interconnects''. The topology of the interconnect can be composed
-arbitrary, and thus, a diversity of interconnect topology could be
-available. Today, in particular, the interconnect of the cluster system
-tends to be more complex and have redundant links between computing
-nodes to assure communication performance, accompanied with the recent
-scale-up of cluster systems. Examples of interconnect topology include
-\emph{fat-tree}~\autocite{Leiserson1985},
-torus~\autocite{Alverson2010,Ajima2012} and hypercube~\autocite{Dally2003}.
-
-Currently, in writing a computing program on such a cluster system, Message
-Passing Interface (MPI)~\autocite{Gropp2014,MessagePassingInterfaceForum2015} has
-been widely adopted and utilized. MPI has been a \emph{de facto} standard
-specification for \emph{message-passing} programming. With this parallel
-programming model, multiple processes cooperate together through the exchange
-of data called messages.
-
 Communication defined in MPI can be roughly categorized into
 point-to-point communication and collective communication. The former is
 communication between two processes, while the latter is communication
@@ -40,42 +11,6 @@ calculation applications, since most of of such applications use
 collective communication during their execution~\autocite{Rabenseifner2000}.
 Thus, reducing the time of collective communication is of great
 importance.
-
-MPI\_Allreduce is one of the most frequently used collective communication
-functions in MPI\@. This collective communication reduces values from all
-processes with an operator and broadcasts the result to every process.
-More specifically, suppose there are $n$ processes in a communicator and
-each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
-\dots, x_i^l$. After MPI\_Allreduce is completed, all processes have values
-$y^0, y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j \oplus \dots \oplus
-x_{n-1}^j$ and $\oplus$ is the operator used for reduction. The operator can
-be any user-defined associative operator or one of the pre-defined operators
-such as sum, product, or maximum. Figure~\ref{fig:mpi-allreduce} shows an
-example where four processes each having five values call MPI\_Allreduce with
-the sum operator.
-
-\begin{figure}
-    \centering
-    \includegraphics{mpi-allreduce}
-    \caption{Effect of MPI\_Allreduce}%
-    \label{fig:mpi-allreduce}
-\end{figure}
-
-One of the use cases of MPI\_Allreduce is parallel Conjugate Gradient~(CG)
-method. CG method is an iterative algorithm to solve a system of linear
-equations $Ax = b$ whose coefficient matrix $A$ is positive-definite and
-symmetric. In parallel CG method, a significant amount of time is spent in
-MPI\_Allreduce to compute the inner product of
-vectors~\autocite{Kandalla2012}. Another user case is parallel Stochastic
-Gradient Descent~(SGD). SGD is a continuous optimization algorithm that
-minimizes an objective function $f$ parameterized by $w$ for a given set of
-input $S$. SGD incrementally updates $w$ in the following way: $w^{t+1}=w^t-
-\eta \nabla f(w^t; z^t)$ where $w^t$ is the parameter for the $t$-th
-iteration, $z^t$ is an input data randomly sampled from $S$, and $\eta$ is a
-small constant. In parallel SGD, the gradient $\nabla f(w^t; z^t)$ is computed
-in parallel by each process using different samples. Subsequently,
-MPI\_Allreduce is used to compute the average of the individual gradients
-computed by all processes.
 
 MPI\_Allreduce requires intensive communication among multiple
 computing node pairs. However, while some computing node pairs communicate
@@ -93,13 +28,11 @@ having SDN dynamically interact with MPI applications. In this chapter we
 summarize and report the preliminary result of the research we have achieved.
 
 The rest of this chapter is organized as follows. In
-Section~\ref{sec:iii-background},
-after a short description of MPI, past works on performance tuning and
-optimization of collective communication operations in MPI are reviewed.
-Subsequently, the technical issue is explained and the research goal is
-clarified. In Section~\ref{sec:iii-proposal}, the design and
-implementation of the proposed architecture of SDN-enhanced MPI\_Allreduce is
-presented. In Section~\ref{sec:iii-evaluation}, an evaluation on a cluster system is
+Section~\ref{sec:iii-background} reviews conventional traffic balancing
+methods and analyze their problems. Subsequently, the goal of this chapter is
+clarified. In Section~\ref{sec:iii-proposal}, the design and implementation of
+the proposed architecture of SDN-enhanced MPI\_Allreduce is presented. In
+Section~\ref{sec:iii-evaluation}, an evaluation on a cluster system is
 conducted to verify the feasibility of the proposed mechanism.
 Section~\ref{sec:iii-related-work} discusses related works.
 Section~\ref{sec:iii-conclusion} concludes this chapter and discusses issues
@@ -107,35 +40,6 @@ remained for the realization of practical and useful MPI\_Allreduce leveraging
 SDN\@.
 
 \section{Research Objective}\label{sec:iii-background}
-
-\subsection{Related Works on Optimization and Performance Tuning of MPI
-Collective Operations}
-
-Researchers have attempted to elaborate algorithms for MPI collective
-operations. Optimized algorithms have been proposed for
-MPI\_Alltoall~\autocite{Bruck1997}, MPI\_Reduce\_scatter~\autocite{Iannello1997},
-MPI\_Reduce and MPI\_Allreduce. Most of the optimized
-algorithms are specialized either for latency or throughput, so switching
-multiple algorithms depending on the message size or process number makes the
-MPI implementation behave faster for various message sizes and process
-numbers~\autocite{Thakur2005}.
-
-Another approach is to offload the communication or computation of
-collective communication operations to hardware. For example, the
-\emph{K-computer}~\autocite{Yokokawa2011} has a hardware module called \emph{Tofu
-Barrier Interface}~\autocite{Ajima2012} on all nodes. This module executes
-Barrier, Broadcast, Reduce and Allreduce collective operations in hardware
-instead of software.
-
-There has been an attempt to apply SDN (Software-Defined Networking) to
-MPI\_Bcast~\autocite{Dashdavaa2013}. The simplest implementation of MPI\_Bcast has
-been to repeat one-to-one communication for each target process. However, this
-method cannot scale out to increase the number of processes. The SDN-enhanced
-MPI\_Bcast allows SDN-enabled switches to copy incoming packets and output
-from multiple ports so that the data is broadcast to all participating nodes.
-The root process node only has to send data once, even if the number of
-processes increases. This method can statically prepare and install the
-network control rules on the startup of the application.
 
 \subsection{Problems in Conventional Traffic Balancing Methods}
 
@@ -216,6 +120,42 @@ and effectively uses the bandwidth of each link by distributing the traffic
 among redundant routes is essential. Therefore, in this research, we introduce
 Software-Defined Networking (SDN) to enable such dynamic network control
 dependent on the communication pattern of MPI applications.
+
+MPI\_Allreduce is one of the most frequently used collective communication
+functions in MPI\@. This collective communication reduces values from all
+processes with an operator and broadcasts the result to every process.
+More specifically, suppose there are $n$ processes in a communicator and
+each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
+\dots, x_i^l$. After MPI\_Allreduce is completed, all processes have values
+$y^0, y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j \oplus \dots \oplus
+x_{n-1}^j$ and $\oplus$ is the operator used for reduction. The operator can
+be any user-defined associative operator or one of the pre-defined operators
+such as sum, product, or maximum. Figure~\ref{fig:mpi-allreduce} shows an
+example where four processes each having five values call MPI\_Allreduce with
+the sum operator.
+
+\begin{figure}
+    \centering
+    \includegraphics{mpi-allreduce}
+    \caption{Effect of MPI\_Allreduce}%
+    \label{fig:mpi-allreduce}
+\end{figure}
+
+One of the use cases of MPI\_Allreduce is parallel Conjugate Gradient~(CG)
+method. CG method is an iterative algorithm to solve a system of linear
+equations $Ax = b$ whose coefficient matrix $A$ is positive-definite and
+symmetric. In parallel CG method, a significant amount of time is spent in
+MPI\_Allreduce to compute the inner product of
+vectors~\autocite{Kandalla2012}. Another user case is parallel Stochastic
+Gradient Descent~(SGD). SGD is a continuous optimization algorithm that
+minimizes an objective function $f$ parameterized by $w$ for a given set of
+input $S$. SGD incrementally updates $w$ in the following way: $w^{t+1}=w^t-
+\eta \nabla f(w^t; z^t)$ where $w^t$ is the parameter for the $t$-th
+iteration, $z^t$ is an input data randomly sampled from $S$, and $\eta$ is a
+small constant. In parallel SGD, the gradient $\nabla f(w^t; z^t)$ is computed
+in parallel by each process using different samples. Subsequently,
+MPI\_Allreduce is used to compute the average of the individual gradients
+computed by all processes.
 
 We try to accelerate MPI\_Allreduce on a cluster system with a fat-tree
 interconnect. This study integrates the dynamic network control ability of SDN
@@ -564,6 +504,22 @@ also aims to benefit from the features of the underlying network, while our
 work differs from that we leverage Software-Defined Networking instead of
 InfiniBand from the purpose of investigating the feasibility of dynamic
 control of network from application point of view.
+
+Researchers have attempted to elaborate algorithms for MPI collective
+operations. Optimized algorithms have been proposed for
+MPI\_Alltoall~\autocite{Bruck1997},
+MPI\_Reduce\_scatter~\autocite{Iannello1997}, MPI\_Reduce and MPI\_Allreduce.
+Most of the optimized algorithms are specialized either for latency or
+throughput, so switching multiple algorithms depending on the message size or
+process number makes the MPI implementation behave faster for various message
+sizes and process numbers~\autocite{Thakur2005}.
+
+Another approach is to offload the communication or computation of collective
+communication operations to hardware. For example, the
+\emph{K-computer}~\autocite{Yokokawa2011} has a hardware module called
+\emph{Tofu Barrier Interface}~\autocite{Ajima2012} on all nodes. This module
+executes Barrier, Broadcast, Reduce and Allreduce collective operations in
+hardware instead of software.
 
 Past works including existing MPI implementations have been successful
 in switching between multiple algorithms depending on message size, node
