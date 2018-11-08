@@ -2,42 +2,45 @@
 
 \section{Introduction}\label{sec:iii-introduction}
 
-Communication defined in MPI can be roughly categorized into
-point-to-point communication and collective communication. The former is
-communication between two processes, while the latter is communication
-among multiple processes. In particular, collective communication is
-important in determining the performance of scientific numerical
-calculation applications, since most of of such applications use
-collective communication during their execution~\autocite{Rabenseifner2000}.
-Thus, reducing the time of collective communication is of great
-importance.
+In this chapter, we aim at accelerating MPI communication by dynamically
+controlling the packet flow in the interconnect.
 
-MPI\_Allreduce requires intensive communication among multiple
-computing node pairs. However, while some computing node pairs communicate
-less, some pairs have to communicate much more than other pairs. Therefore,
+As described in Section~\ref{sec:i-mpi}, communication primitives defined in
+MPI can be roughly categorized into point-to-point communication, collective
+communication and one-sided communication. Out of these three categories, we
+particularly focus on accelerating collective communication because of its
+significant impact to the application performance. In fact, a recent analysis
+of MPI usage on a production HPC system revealed that approximately 34\% of
+the total core-hours of the system are expended in MPI communication and 66\%
+of the total MPI communication time is spent in collective
+communication~\autocite{Chunduri2018}. This clearly indicates that reducing
+the time of collective communication is of great importance.
+
+MPI collectives require intensive communication among multiple computing node
+pairs. However, while some computing node pairs communicate less, some pairs
+have to communicate much more than other pairs. Because of this imbalance,
 even in the case where the interconnect of a cluster system has multiple
-redundant routes between processes, simultaneous communication derived from
-MPI\_Allreduce could collide on a single link of the interconnect without any
-control of communication.
+redundant routes between computing nodes, packet flow generated from MPI
+collectives could collide on a single link of the interconnect without any
+control of packet flow.
 
-In this research, we try to accelerate MPI\_Allreduce by targeting a cluster
+In this chapter, we try to accelerate MPI collectives by targeting a cluster
 system with interconnect that contains multiple redundant routes. Particularly
 for this chapter, we focus on fat-tree interconnect. We design and implement a
-network control mechanism that can effectively make use of redundant routes by
-having SDN dynamically interact with MPI applications. In this chapter we
-summarize and report the preliminary result of the research we have achieved.
+framework that effectively makes use of redundant routes by dynamically
+controlling the packet flow in the interconnect using SDN technology described
+in Section~\ref{sec:i-sdn}.
 
-The rest of this chapter is organized as follows. In
+The rest of this chapter is organized as follows.
 Section~\ref{sec:iii-background} reviews conventional traffic balancing
-methods and analyze their problems. Subsequently, the goal of this chapter is
+methods and analyzes their problems. Subsequently, the goal of this chapter is
 clarified. In Section~\ref{sec:iii-proposal}, the design and implementation of
 the proposed architecture of SDN-enhanced MPI\_Allreduce is presented. In
 Section~\ref{sec:iii-evaluation}, an evaluation on a cluster system is
 conducted to verify the feasibility of the proposed mechanism.
 Section~\ref{sec:iii-related-work} discusses related works.
-Section~\ref{sec:iii-conclusion} concludes this chapter and discusses issues
-remained for the realization of practical and useful MPI\_Allreduce leveraging
-SDN\@.
+Section~\ref{sec:iii-conclusion} concludes this chapter and discusses
+challenges for further improving the practicality of our proposed framework.
 
 \section{Research Objective}\label{sec:iii-background}
 
@@ -50,7 +53,7 @@ pairs. When the underlying network of the cluster system that
 interconnects with the computing nodes has a full-bisection bandwidth,
 the bias of source and destination in communication should not be a
 problem although structuring this type of a network is hard to scale out
-due to economic and physical restrictions~\autocite{Al-Fares2008}. On the
+due to economic and physical restrictions~\autocite{Al-Fares2008}. Under the
 assumption that the network is oversubscribed, the shortage of available
 bandwidth could give rise to a serious problem.
 
@@ -58,10 +61,11 @@ Suppose a cluster system of four computing nodes interconnected with a
 two-tier fat-tree topology as illustrated in Fig.~\ref{fig:problem-routing1}.
 Fat-tree is a network topology that has multiple redundant routes between the
 upper layer switches and lower layer switches. By distributing traffic among
-these redundant routes, it is possible to gain more bandwidth compared with
-simple tree topology.
+these redundant routes, it is possible to gain higher bisection bandwidth
+compared to a simple tree topology.
 
-The load balancing algorithm becomes important. For example, suppose
+The traffic load balancing algorithm becomes important on such interconnects.
+For example, suppose
 computing node 1 is sending data to node 3, and node 2 is sending
 different data to node 4 at the same moment. If those two communications
 are routed within the exact same route, link contention could happen, as
@@ -103,26 +107,28 @@ computing node pair are available, the algorithm assigns a route so that
 usage among links is equalized.
 
 The problem of these existing conventional load balancing mechanisms is
-that they do not consider the characteristics of communication for MPI
+that they do not consider the communication pattern of MPI
 applications. In general, MPI applications cannot retrieve usage
 information of the underlying network or control it. MPI communication
 does not occur evenly among computing nodes, and its sources and
 destinations are biased. This may cause inequality of link usage that
-decreases bandwidth between computing nodes. Ultimately, this decrease
-of available bandwidth can lead to performance degradation of MPI
+decreases available bandwidth between computing nodes. Ultimately, this
+decrease of available bandwidth can lead to performance degradation of MPI
 applications.
 
 \subsection{Research Goals}
 
-From our discussion above, we believe that an intelligent network control
-mechanism which recognizes the communication pattern needed by MPI\_Allreduce
+From our observations above, we believe that an intelligent network control
+mechanism which recognizes the communication pattern needed by MPI collectives
 and effectively uses the bandwidth of each link by distributing the traffic
-among redundant routes is essential. Therefore, in this research, we introduce
+among redundant routes is essential. Therefore, in this chapter, we leverage
 Software-Defined Networking (SDN) to enable such dynamic network control
-dependent on the communication pattern of MPI applications.
+depending on the communication pattern of MPI applications.
 
-MPI\_Allreduce is one of the most frequently used collective communication
-functions in MPI\@. This collective communication reduces values from all
+In particular, we focus on accelerating MPI\_Allreduce.
+MPI\_Allreduce is one of the most frequently used and time consuming
+collective communication functions of MPI\@~\cite{Chunduri2018}.
+This collective communication reduces values from all
 processes with an operator and broadcasts the result to every process.
 More specifically, suppose there are $n$ processes in a communicator and
 each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
@@ -158,19 +164,19 @@ MPI\_Allreduce is used to compute the average of the individual gradients
 computed by all processes.
 
 We try to accelerate MPI\_Allreduce on a cluster system with a fat-tree
-interconnect. This study integrates the dynamic network control ability of SDN
+interconnect. This study integrates the dynamic network controllability of SDN
 with MPI in order to avoid link contention and evaluates the performance of
-MPI\_Allreduced based on our proposed mechanism.
+MPI\_Allreduced based on our proposed framework.
 
 \section{Proposal}\label{sec:iii-proposal}
 
-In this section, we present our proposed mechanism for MPI\_Allreduce. After
-that, the proposed mechanism is detailed. Lastly, the implementation of the
-proposed mechanism is described.
+In this section, we present our proposed framework for accelerating MPI\@.
+First, we outline the basic idea behind the proposed framework. After that,
+the design and implementation of the framework is described in detail.
 
 \subsection{Basic Idea}
 
-The basic idea behind the proposed solution is to improve the
+The basic idea behind the proposed framework is to improve the
 inefficient communication in MPI in order to enhance the performance of
 MPI applications. The fact that the MPI application cannot retrieve
 usage information of the underlying network results in a potential
@@ -186,18 +192,18 @@ links is expected to ease, which speeds up communication.
 
 \subsection{Design of Collective Acceleration Framework using SDN}
 
-The proposed mechanism is composed of three modules. These three modules are
-the SDN controller, LLDP daemon and the SDN MPI\_Allreduce library. They are
+The proposed framework comprises of three modules. These three modules are
+the SDN controller, LLDP daemon and the SDN MPI library. They are
 deployed onto a cluster system as illustrated in
 Fig.~\ref{fig:proposal-placement}. The SDN controller is deployed onto a
 management node, which is a computer that is not involved in the actual
 computation of the MPI application, but is used for controlling the whole
 cluster system such as in deploying jobs to the system. LLDP daemon runs in
-the background on all computing nodes. The SDN MPI\_Allreduce library is not a
+the background on all computing nodes. The SDN MPI library is not a
 stand-alone application, but a static library that must be linked to MPI
 applications at compile time. Each computing node can run one or more MPI
-processes, but in this chapter, we assume each computing node runs only one MPI
-process.
+processes, but in this chapter, we assume each computing node runs only a
+single MPI process.
 
 \begin{figure}
     \centering
@@ -208,7 +214,7 @@ process.
 
 The interaction among these modules is composed of two phases: the
 initialization phase at the MPI application startup and the main phase at the
-MPI\_Allreduce call. Figure~\ref{fig:proposal-sequence} is a UML sequence
+MPI collective call. Figure~\ref{fig:proposal-sequence} is a UML sequence
 diagram that illustrates how the modules cooperate with each other. MPI\_Init
 is an MPI function that initializes the MPI execution environment, which must
 be called on the application startup. After MPI\_Init finishes, all MPI
@@ -219,30 +225,31 @@ controller until the execution of the MPI application finishes.
 \begin{figure}
     \centering
     \includegraphics{sdn-mpi-sequence}
-    \caption{Sequence Diagram of Proposed Mechanism}%
+    \caption{Sequence Diagram of the Proposed Framework}%
     \label{fig:proposal-sequence}
 \end{figure}
 
-When MPI\_Allreduce is called, the rank 0 process generates the
-\emph{communication plan} of MPI\_Allreduce. This communication plan is a set
-of sender process and receiver process pairs during the MPI\_Allreduce
-communication. After the communication plan generation, this set is sent to
-the SDN controller by the rank 0 process. As soon as the SDN controller
-receives the communication plan, it generates a route for each sender-receiver
-pair. Subsequently, the SDN controller programs each SDN-enabled switch so
-that the MPI packets are routed along the pre-generated route. After the
-entire communication plan is processed, MPI\_Allreduce is called to start the
-actual data transfer and calculation of the MPI\_Allreduce operation.
+When an MPI collective is called, the rank 0 process generates the
+\emph{communication pattern} of the MPI collective. This communication pattern is
+a set of sender process and receiver process pairs during the MPI collective
+communication. After the communication pattern is generated, this set is sent
+to the SDN controller by the rank 0 process. As soon as the SDN controller
+receives the communication pattern, it generates a route for each
+sender-receiver pair. Subsequently, the SDN controller programs each
+SDN-enabled switch so that the MPI packets are routed along the pre-generated
+routes. After the entire communication pattern is processed, the MPI
+collective is called to start the actual data transfer and computation for the
+collective operation.
 
 \subsection{Implementation of Collective Acceleration Framework using SDN}
 
-To realize the proposed mechanism, we have developed three modules which
-work as an integrated system. This section explains the detailed
-implementation of these three modules.
+To realize the proposed framework, we have developed three modules which
+work as an integrated system: LLDP daemon, SDN controller and SDN MPI library.
+This section explains the implementation of these three modules in detail.
 
 \subsubsection{LLDP Daemon}
 
-Each of the computing nodes runs a LLDP (Link Layer Discovery
+Each computing node runs an LLDP (Link Layer Discovery
 Protocol)~\autocite{lldp} daemon in the background. This daemon is designed to
 emit LLDP packets containing hardware information periodically, which are
 received by the SDN-enabled switches and used for topology discovery. Some
@@ -269,14 +276,21 @@ not severe.
 
 \subsubsection{SDN Controller}
 
-The SDN controller has four functionalities. The main feature of the SDN
-controller is to prepare a route for MPI\_Allreduce that avoids
-link contention and to install this routing to SDN-enabled switches. The
-controller is also responsible for detecting the topology and use of the
-interconnect, responding to Address Resolution Protocol (ARP) requests
-from computing nodes and the routing of non-MPI traffic. This controller
-is coded with the Trema framework~\autocite{trema}, a framework designed for
-easily developing OpenFlow controllers in the Ruby language.
+The SDN controller is developed on top  of Trema~\autocite{trema}, a framework
+designed for easily developing OpenFlow controllers in the Ruby language, and
+has four core functionalities:
+
+\begin{itemize}
+\item Generating routing for MPI collectives to mitigate link contention and
+    installing generated routing to SDN-enabled switches
+\item Detecting the topology and usage of the interconnect using LLDP
+\item Responding to Address Resolution Protocol (ARP) requests from computing
+    nodes to avoid broadcast storms
+\item Routing of non-MPI traffic such as ICMP and SSH
+\end{itemize}
+
+This controller is developed on top  of Trema~\autocite{trema}, a framework
+designed for easily developing OpenFlow controllers in the Ruby language.
 
 The first functionality is topology detection. How detection is
 performed is shown in Fig.~\ref{fig:lldp}. The controller periodically
@@ -293,8 +307,8 @@ switch, and its MAC address/Datapath ID and Interface index/Port number (step
 adjacency list is generated (step 3 in Fig.~\ref{fig:lldp}). From this
 adjacency list, a network topology graph is constructed, which is used in the
 route generation and routing. If the packet is from a computing node, the
-source MAC address and IP address are registered in a MAC address - IP address
-table used in the ARP responding functionality.
+source MAC address and IP address are registered in a MAC/IP address
+translation table used in the ARP responding functionality.
 
 \begin{figure}
     \centering
@@ -310,19 +324,18 @@ this chapter is a network that has redundant routes, it always has a loop
 in it. Thus, the controller instructs the switches to reply to the
 received ARP request, instead of the computing node that has the
 corresponding IP address. The IP address that corresponds to the MAC
-address is obtained from the MAC address - IP address table described
-above.
+address is obtained from the MAC/IP address translation table described above.
 
 The third functionality is route generation and installation for
 MPI\_Allreduce communication. This functionality targets the flow of packets
 pertaining to MPI\_Allreduce so that other MPI communication is not affected.
 When the MPI application starts the proposed MPI\_Allreduce, the rank 0
-process calculates the \emph{communication plan} of the MPI\_Allreduce.
+process calculates the \emph{communication pattern} of the MPI\_Allreduce.
 
 The route searching algorithm used here for its speed and simplicity is
 the \emph{Dijkstra} algorithm. The Dijkstra
 algorithm solves the shortest route problem for a graph with
-non-negative link weights. In this proposed mechanism, link weights are
+non-negative link weights. In this algorithm, link weights are
 considered the number of total routes that go through that link. Under
 this assumption, the shortest route means a route that shares links with
 other routes. For each pair of sender processes and receiver processes,
@@ -362,10 +375,10 @@ non-MPI traffic. For non-MPI traffic such as ICMP and SSH packets, the
 SDN controller generates the minimum hop routes between computing nodes
 and installs them on demand.
 
-\subsubsection{SDN MPI\_Allreduce Library}
+\subsubsection{SDN MPI Library}
 
 An MPI application that wants to use the proposed MPI\_Allreduce must be
-linked with the SDN MPI\_Allreduce library. This library contains two
+linked with the SDN MPI library. This library contains two
 essential functions, SDN\_MPI\_Init and SDN\_MPI\_Allreduce. The application
 is required to call SDN\_MPI\_Init on its launch, while SDN\_MPI\_Allreduce is
 the SDN enhanced version that replaces the conventional MPI\_Allreduce.
@@ -414,7 +427,7 @@ links, which compose a non-full bisection bandwidth network.
 
 In addition to the network connecting the computing node and switches,
 another network was prepared for control and management. This network
-connects computing nodes, SDN-enables switches and the SDN controller.
+connects computing nodes, SDN-enabled switches and the SDN controller.
 The interaction between the SDN controller and SDN switches is performed
 via OpenFlow protocol with this management network. The computing node
 that runs MPI's rank 0 process and the SDN controller also communicates
@@ -425,7 +438,7 @@ experiment.
 CentOS 6.4 was installed on all computers including the computing nodes and
 SDN controller. The SDN controller was developed using a SDN controller
 framework Trema~\autocite{trema} 0.4.6 and Ruby 1.9.3. The SDN
-MPI\_Allreduce Library and the benchmark application were written in C and
+MPI Library and the benchmark application were written in C and
 compiled with gcc 4.4.7. As a representative of a conventional MPI,
 Open MPI~\autocite{Gabriel2004} 1.5.4 was used.
 
@@ -447,9 +460,9 @@ Figure~\ref{fig:evaluation-8nodes} shows the measurement results using 8
 nodes, where the horizontal axis indicates the message size and the
 vertical axis shows the average time taken to execute
 MPI\_Allreduce. The solid line and dashed line represent the
-execution time of the proposed mechanism and Open MPI implementation,
+execution time of the proposed framework and Open MPI implementation,
 respectively. Figure~\ref{fig:evaluation-8nodes-normalized} shows the
-speedup of the proposed mechanism in comparison with the Open MPI
+speedup of the proposed framework in comparison with the Open MPI
 implementation. The maximum of performance improvement is 41\%.
 
 \begin{figure}
@@ -468,7 +481,7 @@ implementation. The maximum of performance improvement is 41\%.
 
 Figure~\ref{fig:evaluation-16nodes} shows the result of using 16 nodes.
 Figure~\ref{fig:evaluation-16nodes-normalized} indicates the speedup of the
-proposed MPI\_Allreduce. It shows how the proposed mechanism reduces the
+proposed MPI\_Allreduce. It shows how the proposed framework reduces the
 execution time of MPI\_Allreduce for 56\% at most.
 
 \begin{figure}
@@ -487,18 +500,18 @@ execution time of MPI\_Allreduce for 56\% at most.
 
 \section{Related Work}\label{sec:iii-related-work}
 
-There have been many research works related to MPI\@. Since MPI is just a
+There have been many research works related to MPI\@. Since MPI is merely a
 specification for standard APIs for parallel programming, several algorithms
 for collective operations have been proposed and implemented targeting several
 network technology. As a representative example of such works,
 MVAPICH~\autocite{mvapich} can be raised. MVAPICH is an MPI implementation
 targeting InfiniBand, which most of high-performance computing systems ranked
-in TOP500 has adopted. In literature~\autocite{PjesivacGrbovic2011}, Sur \emph{et
-al.} designed MPI library by leveraging novel InfiniBand-offered features.
+in TOP500 has adopted. Sur \emph{et al.}~\autocite{Sur2011} designed MPI
+library by leveraging novel InfiniBand-offered features.
 They explored new architectures from system point of view and new programming
 paradigms from application point of view for keep scaling out applications on
-more powerful computing systems. Literature~\autocite{Jiuxing2004} also
-investigated MPI communication protocol focusing on RDMA operations in
+more powerful computing systems. Jiuxing \emph{et al.}~\autocite{Jiuxing2004}
+also investigated MPI communication protocol focusing on RDMA operations in
 InfiniBand. Our approach has some points in common in terms that our research
 also aims to benefit from the features of the underlying network, while our
 work differs from that we leverage Software-Defined Networking instead of
@@ -525,15 +538,16 @@ Past works including existing MPI implementations have been successful
 in switching between multiple algorithms depending on message size, node
 number, \emph{etc.} to accelerate collective communication of MPI\@. Using
 such a mechanism, estimation of the threshold value for parameters like
-message size, node number, \emph{etc.} is essential. Pjesivac-Grbovic \emph{et
-al.}~\autocite{PjesivacGrbovic} compared several parallel communication models
-that are frequently used for dynamically estimating the threshold values. In
-contrast, our current implementation always uses recursive doubling for
-executing MPI\_Allreduce. Therefore, our system has a disadvantage in the
-cases where small data size is treated on MPI\_Allreduce and thus the latency
-is more respected than the bandwidth. For this disadvantage, we introduce
-automatic algorithm switching leveraging estimation models mentioned in the
-work of Pjesivac-Grbovic \emph{et al.}, depending on the situations.
+message size, node number, \emph{etc.} is essential. Pje\v{s}ivac-Grbovi\'{c}
+\emph{et al.}~\autocite{PjesivacGrbovic2007} compared several parallel
+communication models that are frequently used for dynamically estimating the
+threshold values. In contrast, our current implementation always uses
+recursive doubling for executing MPI\_Allreduce. Therefore, our system has a
+disadvantage in the cases where small data size is treated on MPI\_Allreduce
+and thus the latency is more respected than the bandwidth. For this
+disadvantage, we introduce automatic algorithm switching leveraging estimation
+models mentioned in the work of Pje\v{s}ivac-Grbovi\'{c} \emph{et al.},
+depending on the situations.
 
 The Fabric Collective Accelerator (FCA)~\autocite{fca} is a product by
 Mellanox Technologies with the target of accelerating collective
@@ -542,30 +556,30 @@ collective communication by offloading computations to an InfiniBand
 Host Channel Adapter (HCA). It also optimizes communication flow
 according to job and topology. FCA optimizes collective tree and rank
 placement to control communication flow. In contrast, our proposed
-mechanism is capable of adaptively reconfiguring the network itself,
+framework is capable of adaptively reconfiguring the network itself,
 which is more flexible. FCA also requires InfiniBand hardware, but we
 focus on a commodity Ethernet network.
 
 Furthermore, there have been many research reports focusing on adaptive
-use of networks for high-performance computing. Literature~\autocite{Geoffray2008}
-proposed an adaptive routing method on Myrinet and the above mentioned
-literature~\autocite{Jiuxing2004} explored the adaptive use of multiple
-independent networks on InfiniBand. Our research also aims for a dynamic use
-of the underlying interconnection network, but differs in that we attempted to
-use a different interconnection network.
+use of networks for high-performance computing. Geoffray \emph{et
+al.}~\autocite{Geoffray2008} proposed an adaptive routing method on Myrinet
+and the above mentioned literature~\autocite{Jiuxing2004} explored the
+adaptive use of multiple independent networks on InfiniBand. Our research also
+aims for a dynamic use of the underlying interconnection network, but differs
+in that we attempted to use a different interconnection network.
 
 \section{Conclusion}\label{sec:iii-conclusion}
 
 We have attempted to reduce the execution time of
 MPI\_Allreduce by combining Software-Defined Networking (SDN)
-with MPI\@. By using SDN, we have proposed a new network control mechanism
+with MPI\@. By using SDN, we have proposed a new network control framework
 that can effectively make use of redundant routes by having SDN interact
 with an MPI application communication pattern. We have designed and
 implemented a system of three modules cooperating together to realize
-our proposed mechanism. The evaluation showed that the proposed
+our proposed framework. The evaluation showed that the proposed
 MPI\_Allreduce decreased the execution time for 56\% at most
 compared with a conventional implementation of MPI\_Allreduce.
-As a result, we have confirmed the superiority of the proposed mechanism
+As a result, we have confirmed the superiority of the proposed framework
 over conventional methods.
 
 Several issues to tackle have remained for the realization of practical
@@ -596,16 +610,16 @@ more important than the bandwidth and this has been the initial focus of
 our work. Under the current implementation of MPI\_Allreduce,
 our MPI\_Allreduce would be problematic due to the incurred
 overhead. Therefore, the introduction of automatic algorithm switching
-leveraging estimation models summarized in Pjesivac-Grabovic et
-al.,~\autocite{PjesivacGrbovic} may be explored after careful evaluation through
-measurement experiments of MPI\_Allreduce for a small data size.
+leveraging estimation models summarized in Pje\v{s}ivac-Grbovi\'{c} \emph{et
+al.}~\autocite{PjesivacGrbovic2007} may be explored after careful evaluation
+through measurement experiments of MPI\_Allreduce for a small data size.
 
 The third issue regards the necessity of additional experiments on a
-larger scale environment. In this research, we have verified the
+larger scale environment. In this chapter, we have verified the
 feasibility and possibility of the proposed MPI\_Allreduce
 through the experiments using a simple prototypic implementation.
 However, because OpenFlow switches are expensive and thus only a small
-size cluster is available for our research group, we could only conduct
+size cluster was available for us, we could only conduct
 a small number of experiments in a small cluster environment. Therefore,
 after succeeding with a more sophisticated implementation of the
 proposed MPI\_Allreduce, we understand that further experiments
