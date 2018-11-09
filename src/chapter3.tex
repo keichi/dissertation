@@ -16,11 +16,11 @@ of the total MPI communication time is spent in collective
 communication~\autocite{Chunduri2018}. This clearly indicates that reducing
 the time of collective communication is of great importance.
 
-MPI collectives require intensive communication among multiple computing node
-pairs. However, while some computing node pairs communicate less, some pairs
+MPI collectives require intensive communication among multiple compute node
+pairs. However, while some compute node pairs communicate less, some pairs
 have to communicate much more than other pairs. Because of this imbalance,
 even in the case where the interconnect of a cluster system has multiple
-redundant routes between computing nodes, packet flow generated from MPI
+redundant routes between compute nodes, packet flow generated from MPI
 collectives could collide on a single link of the interconnect without any
 control of packet flow.
 
@@ -47,17 +47,17 @@ challenges for further improving the practicality of our proposed framework.
 \subsection{Problems in Conventional Traffic Balancing Methods}
 
 MPI collective operations require much simultaneous communication among
-multiple process pairs. However, while some computing node pairs
+multiple process pairs. However, while some compute node pairs
 communicate less, some pairs have to communicate much more than other
 pairs. When the underlying network of the cluster system that
-interconnects with the computing nodes has a full-bisection bandwidth,
+interconnects with the compute nodes has a full-bisection bandwidth,
 the bias of source and destination in communication should not be a
 problem although structuring this type of a network is hard to scale out
 due to economic and physical restrictions~\autocite{Al-Fares2008}. Under the
 assumption that the network is oversubscribed, the shortage of available
 bandwidth could give rise to a serious problem.
 
-Suppose a cluster system of four computing nodes interconnected with a
+Suppose a cluster system of four compute nodes interconnected with a
 two-tier fat-tree topology as illustrated in Fig.~\ref{fig:problem-routing1}.
 Fat-tree is a network topology that has multiple redundant routes between the
 upper layer switches and lower layer switches. By distributing traffic among
@@ -66,7 +66,7 @@ compared to a simple tree topology.
 
 The traffic load balancing algorithm becomes important on such interconnects.
 For example, suppose
-computing node 1 is sending data to node 3, and node 2 is sending
+compute node 1 is sending data to node 3, and node 2 is sending
 different data to node 4 at the same moment. If those two communications
 are routed within the exact same route, link contention could happen, as
 depicted in Fig.~\ref{fig:problem-routing1}. When these two
@@ -102,17 +102,17 @@ InfiniBand~\autocite{Buyya2009} is a computer network communication link
 commonly used in the area of HPC and a data center. InfiniBand supports
 multiple routing methods. One of those methods is a min-hop routing
 algorithm, which calculates the minimum hop route between every
-computing node pair. If multiple minimum hop routes for a single
-computing node pair are available, the algorithm assigns a route so that
+compute node pair. If multiple minimum hop routes for a single
+compute node pair are available, the algorithm assigns a route so that
 usage among links is equalized.
 
 The problem of these existing conventional load balancing mechanisms is
 that they do not consider the communication pattern of MPI
 applications. In general, MPI applications cannot retrieve usage
 information of the underlying network or control it. MPI communication
-does not occur evenly among computing nodes, and its sources and
+does not occur evenly among compute nodes, and its sources and
 destinations are biased. This may cause inequality of link usage that
-decreases available bandwidth between computing nodes. Ultimately, this
+decreases available bandwidth between compute nodes. Ultimately, this
 decrease of available bandwidth can lead to performance degradation of MPI
 applications.
 
@@ -199,10 +199,10 @@ Fig.~\ref{fig:proposal-placement}. The SDN controller is deployed onto a
 management node, which is a computer that is not involved in the actual
 computation of the MPI application, but is used for controlling the whole
 cluster system such as in deploying jobs to the system. LLDP daemon runs in
-the background on all computing nodes. The SDN MPI library is not a
+the background on all compute nodes. The SDN MPI library is not a
 stand-alone application, but a static library that must be linked to MPI
-applications at compile time. Each computing node can run one or more MPI
-processes, but in this chapter, we assume each computing node runs only a
+applications at compile time. Each compute node can run one or more MPI
+processes, but in this chapter, we assume each compute node runs only a
 single MPI process.
 
 \begin{figure}
@@ -249,7 +249,7 @@ This section explains the implementation of these three modules in detail.
 
 \subsubsection{LLDP Daemon}
 
-Each computing node runs an LLDP (Link Layer Discovery
+Each compute node runs an LLDP~(Link Layer Discovery
 Protocol)~\autocite{lldp} daemon in the background. This daemon is designed to
 emit LLDP packets containing hardware information periodically, which are
 received by the SDN-enabled switches and used for topology discovery. Some
@@ -284,7 +284,7 @@ has four core functionalities:
 \item Generating routing for MPI collectives to mitigate link contention and
     installing generated routing to SDN-enabled switches
 \item Detecting the topology and usage of the interconnect using LLDP
-\item Responding to Address Resolution Protocol (ARP) requests from computing
+\item Responding to Address Resolution Protocol~(ARP) requests from compute
     nodes to avoid broadcast storms
 \item Routing of non-MPI traffic such as ICMP and SSH
 \end{itemize}
@@ -298,15 +298,15 @@ requests every switch to send out an LLDP packet from each of their physical
 ports (step 1 in Fig.~\ref{fig:lldp}). This LLDP packet contains two kinds of
 information: datapath ID (a number that uniquely distinguishes the switches)
 and port number (port index where the packet is sent out). Moreover, all
-computing nodes also emit LLDP packets from the LLDP daemon described above.
+compute nodes also emit LLDP packets from the LLDP daemon described above.
 The controller is notified when a LLDP packet arrives at the controller. After
 that, it parses the packet to obtain information on the packet's origin, to
-examine whether the packet came from a computing node or an SDN-enabled
+examine whether the packet came from a compute node or an SDN-enabled
 switch, and its MAC address/Datapath ID and Interface index/Port number (step
 2 in Fig.~\ref{fig:lldp}). Using this information from its neighbors, an
 adjacency list is generated (step 3 in Fig.~\ref{fig:lldp}). From this
 adjacency list, a network topology graph is constructed, which is used in the
-route generation and routing. If the packet is from a computing node, the
+route generation and routing. If the packet is from a compute node, the
 source MAC address and IP address are registered in a MAC/IP address
 translation table used in the ARP responding functionality.
 
@@ -322,7 +322,7 @@ a L2 broadcast packet, so it causes a \emph{broadcast storm} problem
 inside a network that contains a loop inside it. Since the target of
 this chapter is a network that has redundant routes, it always has a loop
 in it. Thus, the controller instructs the switches to reply to the
-received ARP request, instead of the computing node that has the
+received ARP request, instead of the compute node that has the
 corresponding IP address. The IP address that corresponds to the MAC
 address is obtained from the MAC/IP address translation table described above.
 
@@ -372,7 +372,7 @@ SDN-enabled switches.
 
 The fourth functionality is route generation and installation for
 non-MPI traffic. For non-MPI traffic such as ICMP and SSH packets, the
-SDN controller generates the minimum hop routes between computing nodes
+SDN controller generates the minimum hop routes between compute nodes
 and installs them on demand.
 
 \subsubsection{SDN MPI Library}
@@ -420,22 +420,22 @@ An experiment was conducted to compare the execution time of the
 proposed MPI\_Allreduce and conventional
 MPI\_Allreduce. The experimental environment is illustrated in
 Fig.~\ref{fig:experiment-environment}. This experiment was performed on
-a real cluster system consisting of 28 computing nodes and 6 SDN-enabled
-switches, which forms a two-tier fat-tree topology. The computing nodes
+a real cluster system consisting of 28 compute nodes and 6 SDN-enabled
+switches, which forms a two-tier fat-tree topology. The compute nodes
 and SDN-enabled switches were all connected with 1 Gigabit Ethernet
 links, which compose a non-full bisection bandwidth network.
 
-In addition to the network connecting the computing node and switches,
+In addition to the network connecting the compute node and switches,
 another network was prepared for control and management. This network
-connects computing nodes, SDN-enabled switches and the SDN controller.
+connects compute nodes, SDN-enabled switches and the SDN controller.
 The interaction between the SDN controller and SDN switches is performed
-via OpenFlow protocol with this management network. The computing node
+via OpenFlow protocol with this management network. The compute node
 that runs MPI's rank 0 process and the SDN controller also communicates
-with this network. Other computing nodes were connected to the
+with this network. Other compute nodes were connected to the
 management network as well, but those connections were not used in this
 experiment.
 
-CentOS 6.4 was installed on all computers including the computing nodes and
+CentOS 6.4 was installed on all computers including the compute nodes and
 SDN controller. The SDN controller was developed using a SDN controller
 framework Trema~\autocite{trema} 0.4.6 and Ruby 1.9.3. The SDN
 MPI Library and the benchmark application were written in C and
@@ -468,14 +468,14 @@ implementation. The maximum of performance improvement is 41\%.
 \begin{figure}
     \centering
     \includegraphics{allreduce_8nodes}
-    \caption{Comparison of Execution Time of MPI\_Allreduce (8 Computing Nodes)}%
+    \caption{Comparison of Execution Time of MPI\_Allreduce (8 compute nodes)}%
     \label{fig:evaluation-8nodes}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics{allreduce_8nodes_speedup}
-    \caption{Speedup of Proposed MPI\_Allreduce (8 Computing Nodes)}%
+    \caption{Speedup of Proposed MPI\_Allreduce (8 compute nodes)}%
     \label{fig:evaluation-8nodes-normalized}
 \end{figure}
 
@@ -487,14 +487,14 @@ execution time of MPI\_Allreduce for 56\% at most.
 \begin{figure}
     \centering
     \includegraphics{allreduce_16nodes}
-    \caption{Comparison of Execution Time of MPI\_Allreduce (16 Computing Nodes)}%
+    \caption{Comparison of Execution Time of MPI\_Allreduce (16 compute nodes)}%
     \label{fig:evaluation-16nodes}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics{allreduce_16nodes_speedup}
-    \caption{Speedup of Proposed MPI\_Allreduce (16 Computing Nodes)}%
+    \caption{Speedup of Proposed MPI\_Allreduce (16 compute nodes)}%
     \label{fig:evaluation-16nodes-normalized}
 \end{figure}
 
@@ -592,7 +592,7 @@ and flexible use of MPI\_Allreduce, this limitation must be
 solved.
 
 In addition, on modern computing platforms where multiple cores exist in
-a single computing node, the assumption set in this preliminary stage of
+a single compute node, the assumption set in this preliminary stage of
 our research is neither practical nor realistic. Therefore, by
 integrating kernel-assisted communication such as KNEM~\autocite{Goglin2013}
 or Cross Memory Attach~(CMA) with our proposed method, we need to consider

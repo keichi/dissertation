@@ -58,13 +58,13 @@ required for the computation.
 
 % クラスタの構成要素
 Figure~\ref{fig:cluster} shows the architectural overview of a typical
-cluster. A cluster consists of multiple computers~(\emph{i.e.,\ computing
+cluster. A cluster consists of multiple computers~(\emph{i.e.,\ compute
 nodes}) and a high-performance network that integrates~(\emph{i.e.,\
 interconnect}) them together as a single system. Since many users share a
 single cluster, a \emph{job scheduler} is commonly deployed to effectively
 manage the computing resources in a cluster. A job scheduler accepts jobs from
 users and determines when to run each job. The scheduler is also responsible
-for allocating computing nodes to a job and launching the job on the allocated
+for allocating compute nodes to a job and launching the job on the allocated
 nodes. Furthermore, a shared file systems is usually deployed to store the
 input and output data of applications executed on the cluster.
 
@@ -76,20 +76,20 @@ input and output data of applications executed on the cluster.
 \end{figure}
 
 % クラスタの規模拡大
-There has been an increasing trend in the number of computing nodes that
+There has been an increasing trend in the number of compute nodes that
 compose a cluster. Although the computing performance of a single processor
-and computing node have been steadily improving, the growth is not fast enough
+and compute node have been steadily improving, the growth is not fast enough
 to meet the high demand for computing power from the users. Therefore, the
-designers of HPC systems need to scale out the number of computing nodes to
+designers of HPC systems need to scale out the number of compute nodes to
 further improve the total computing performance of the cluster. As a result, a
-single cluster accommodates up to tens of thousands of computing nodes and
+single cluster accommodates up to tens of thousands of compute nodes and
 millions of cores nowadays.
 
 % 相互結合網の重要性
-The performance of communication between computing nodes over the interconnect
-is essential to the scalability of the cluster. In general, computing nodes
+The performance of communication between compute nodes over the interconnect
+is essential to the scalability of the cluster. In general, compute nodes
 need to frequently communicate with each other during the parallel computation
-to exchange intermediate results. If the communication between computing nodes
+to exchange intermediate results. If the communication between compute nodes
 becomes a bottleneck, simply adding more nodes to the cluster does not
 increase the total performance of the cluster. Therefore, great effort has
 been put to the research and development of high-performance interconnects.
@@ -98,9 +98,9 @@ been put to the research and development of high-performance interconnects.
 
 % 相互結合網の目的
 The main goal of high-performance interconnects is to provide high bandwidth
-and low latency between a large number of computing nodes. Today,
+and low latency between a large number of compute nodes. Today,
 interconnects of state-of-the-art HPC systems connect tens of thousands of
-computing nodes where the bandwidth between two computing nodes reaches over
+compute nodes where the bandwidth between two compute nodes reaches over
 100 Gbps and the latency is smaller than 1 $\mu$s. While achieving such high
 communication performance, the financial cost to build and maintain the
 interconnect must be reasonable.
@@ -122,7 +122,7 @@ developed Tofu~\autocite{Ajima2012} interconnect.
 % トポロジ
 Topology is a key factor that determines the performance of an interconnect.
 A fully-connected topology is ideal since it has dedicated links between any
-pair of computing nodes. However, implementing a fully-connected topology in a
+pair of compute nodes. However, implementing a fully-connected topology in a
 large scale cluster is unrealistic due to extremely high cost and complexity.
 Therefore, various topologies have been proposed that take the balance
 between cost and performance. Figure~\ref{fig:topology} illustrates some of
@@ -166,10 +166,10 @@ Mostly, the interconnects of computer cluster systems are full-bisection.
 The bisection bandwidth for an interconnect is defined as the minimum
 bandwidth between two counterparts of the interconnect. A full-bisection
 interconnect is an interconnect whose bisection bandwidth is larger or equal
-to the aggregated bandwidth between computing nodes. Interconnects that are
+to the aggregated bandwidth between compute nodes. Interconnects that are
 not full-bisection are referred as oversubscribed. Full-bisection interconnect
 design are preferred since such interconnect does not suffer from network
-contention even in the worst case scenario where all computing nodes
+contention even in the worst case scenario where all compute nodes
 communicate with each other at maximum speed of their network interfaces. This
 characteristic is beneficial for application since it removes the need to be
 aware of the current contention state of the interconnect. However, there is a
@@ -187,7 +187,7 @@ a \emph{de facto} standard specification for inter-process communication
 libraries used to develop parallel applications running on distributed memory
 system such as clusters. MPI defines a suite of communication primitives that
 helps application developers to build parallel distributed applications that
-require complex communications among computing nodes.
+require complex communications among compute nodes.
 
 % 相互結合網の抽象化
 A remarkable feature of MPI is that it abstracts the underlying network
@@ -264,7 +264,7 @@ involvement of the peer process. This communication model reduces memory copy
 and synchronization points. One-sided communication is especially beneficial
 on interconnects that support Remote Direct Memory Access~(RDMA).
 
-\begin{table}[]
+\begin{table}
     \centering
     \caption{Examples of MPI Primitives}%
     \label{tbl:mpi-primitives}
@@ -297,7 +297,7 @@ Vendor MPI implementations are highly optimized for the vendor's HPC system
 and able to take advantage of the special features of their system. In
 addition to the header files and libraries that implement the APIs defined in
 the specifications, MPI implementations usually offer a launcher that allows
-users to start MPI processes on multiple computing nodes.
+users to start MPI processes on multiple compute nodes.
 
 % MPIの高速化
 Until today, countless scientific applications have been developed by
@@ -362,7 +362,7 @@ algorithms to aggregate or distribute messages from or to processes.
 Interconnect-aware MPI collectives use the information on the interconnect to
 build a delivery tree that matches the underlying interconnect of the cluster.
 Another class of approaches tries to optimize the placement of MPI processes
-on the computing nodes~\autocite{Michelogiannakis2017,Hoefler2011,Choi2017}.
+on the compute nodes~\autocite{Michelogiannakis2017,Hoefler2011,Choi2017}.
 In this approach, the communication pattern of an application is considered as
 a weighted graph where nodes represent processes and edges represent the
 volume of data exchanges between two processes. Various heuristic algorithms
@@ -549,7 +549,7 @@ pattern between processes of an application is observed and recorded.
 Second, the decision of how to control the packet flow in the interconnect is
 made based on the collected communication pattern of the application. The goal
 of this packet flow control is to mitigate imbalance in the interconnect and
-achieve higher communication performance between computing nodes. Third, the
+achieve higher communication performance between compute nodes. Third, the
 interconnect is adapted to perform the planned packet flow control using
 programmable networking architecture. These three steps are performed in
 synchronization with the execution of application.
@@ -585,7 +585,7 @@ the communication pattern of application, interconnect design and cluster
 configuration. When designing and implementing an efficient programmable
 interconnect control, researchers need to conduct a systematic analysis over
 many combinations of these parameters. Since performing such analysis on a
-physical cluster is time-consuming, we utilize simulation to facilitate the
+physical cluster is time consuming, we utilize simulation to facilitate the
 analysis. PFAnalyzer is a pair of two tools: PFSim, an interconnect simulator
 specialized for programmable interconnects, and PFProf, a profiler to collect
 communication pattern from MPI applications. PFSim allows interconnect
