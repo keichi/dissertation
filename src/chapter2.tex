@@ -111,14 +111,14 @@ The contributions of this chapter are summarized as follows:
 The rest of this chapter is organized as follows.
 Section~\ref{sec:ii-objective} examines the requirements of an
 interconnect simulator for dynamic and application-aware interconnects.
-Section~\ref{sec:ii-proposal}
-describes the design and implementation of PFAnalyzer.
-Section~\ref{sec:ii-evaluation} presents the simulation results for NAS CG
-benchmark and MILC obtained with our proposed simulator. Furthermore,
-results of a verification experiment on a physical cluster are shown.
-Section~\ref{sec:ii-related-work} reviews related work.
-Section~\ref{sec:ii-conclusion} concludes this chapter and outlines our future
-work.
+Section~\ref{sec:ii-proposal} describes the design and implementation of
+PFAnalyzer. Section~\ref{sec:ii-evaluation} evaluates the accuracy of the
+simulated traffic. Furthermore, we take NAS CG benchmark and MILC as examples
+and show how PFAnalyzer can be used by researchers to analyze the joint effect
+of node allocation, process placement and routing on the distribution of
+traffic in the interconnect. Section~\ref{sec:ii-related-work} reviews related
+work. Section~\ref{sec:ii-conclusion} concludes this chapter and outlines our
+future work.
 
 \section{Research Objective}\label{sec:ii-objective}
 
@@ -415,13 +415,15 @@ marked as completed.
 
 \section{Evaluation}\label{sec:ii-evaluation}
 
-% 書き直す IntroとConclusionも同様
-In this section, we first simulate the traffic load of a fat-tree
-interconnect when using static interconnect control and dynamic
-interconnect control. Subsequently, benchmark results obtained from a
-physical cluster are used to investigate the impact of traffic load on
-the application performance. Lastly, we assess the overhead incurred by
-our profiler.
+In this section, we first verify if PFProf is able to capture the underlying
+point-to-point communication of collective communication. Then, the accuracy
+of the simulation performed by PFSim is evaluated by comparing the traffic
+estimated by PFSim and the traffic measured on a cluster when running an
+application. Then, the performance of point-to-point communication between two
+processes with and without PFProf were compared to assess the overhead
+incurred by PFProf. Lastly, we show how PFAnalyzer can be used by researchers
+to analyze the joint effect of node allocation, process placement and routing
+on the distribution of traffic in the interconnect.
 
 \subsection{Comparison of PFProf and Conventional Profiler}%
 \label{sec:ii-eval-pfprof}
@@ -544,7 +546,7 @@ performance of dynamic interconnects.
     \label{fig:pfsim-accuracy}
 \end{figure}
 
-\subsection{Profiling Overhead}
+\subsection{Overhead Imposed by PFProf}
 
 In this experiment, the performance of point-to-point communication
 between two processes with and without PFProf were compared to inspect
@@ -572,9 +574,12 @@ overhead for latency.
     \label{fig:latency-overhead}
 \end{figure}
 
-\subsection{Simulation Results}\label{sec:ii-simulation-results}
+\subsection{Use Case of PFAnalyzer}\label{sec:ii-simulation-results}
 
-In this experiment, communication-intensive MPI applications were
+In this experiment, we show how PFAnalyzer can be used by researchers to
+analyze the joint effect of node allocation, process placement and routing
+on the distribution of traffic in the interconnect.
+Communication-intensive MPI applications were
 executed on our simulator. The maximum traffic load observed on links
 composing the interconnect was compared in both cases of static
 interconnect control and dynamic interconnect control. The maximum
@@ -780,10 +785,11 @@ PFProf, a profiler to extract communication patterns from applications,
 and PFSim, a simulator capable of simulating application-aware dynamic
 interconnects. PFSim takes a set of communication patterns of
 applications and a cluster configuration as its input and then simulates
-the traffic on each link of the interconnect. Our evaluation shows how
-dynamically controlling the interconnects can reduce congestion and
-potentially improve the performance of applications.
-
+the traffic on each link of the interconnect. Evaluation verified that PFProf
+is able to capture the underlying point-to-point communication of collective
+communication, and the incurred overhead is small. Furthermore, the error
+of traffic simulated with PFSim was 1.9\% at maximum, which is small enough to
+analyze the performance characteristic of interconnects.
 Further work is necessary to investigate the performance characteristics
 of dynamic interconnects on large-scale and highly parallel clusters.
 Moreover, we plan to implement application-aware node selection and
