@@ -5,8 +5,8 @@
 \subsection{High Performance Computing}
 
 % HPCとはなにか
-Recent breakthroughs in science have significantly benefited from High
-Performance Computing~(HPC). In modern science, computer simulation is heavily
+Recent breakthroughs in science have significantly benefited from high
+performance computing~(HPC). In modern science, computer simulation is heavily
 used because it can substitute experiments that are physically intractable
 or excessively expensive to conduct or observe. HPC allows scientists to
 simulate natural phenomena in an unprecedented scale and resolution, thereby
@@ -25,19 +25,19 @@ addition to simulation applications, data analysis and machine learning
 applications are also starting to leverage HPC systems.
 
 % HPCシステムの計算性能の推移
-Scientists are trying to tackle increasingly larger and more complex problems.
-This continuous demand from domain scientists has kept pushing the computing
-performance HPC systems forward. Figure~\ref{fig:top500-rmax} shows the
-development of computing performance of HPC systems based on the data
+Scientists have been trying to tackle increasingly larger and more complex
+problems. This continuous demand from domain scientists has kept pushing the
+computing performance HPC systems forward. Figure~\ref{fig:top500-rmax} shows
+the development of computing performance of HPC systems based on the data
 published by the Top500~\autocite{top500} list. The Top500 list is a biannual
 list of 500 most powerful HPC systems measured by the maximal LINPACK
 benchmark performance achieved. The plot clearly indicates the exponential
-increase in performance over the past 20 years. Researchers and engineers are
-striving to sustain this exponential growth in performance and exascale~(Exa
-FLOPS) in the near future. To achieve this daunting technological challenge,
-every aspect of the HPC system including hardware, operating system,
-middleware and application need to be greatly improved, optimized and even
-redesigned.
+increase in performance over the past 20 years. Researchers and engineers have
+been striving to sustain this exponential growth in performance and
+exascale~(Exa FLOPS) in the near future. To achieve this daunting
+technological challenge, every aspect of the HPC system including hardware,
+operating system, middleware and application need to be greatly improved,
+optimized and even redesigned.
 
 \begin{figure}
     \centering
@@ -53,20 +53,20 @@ Modern HPC systems mostly adopt \emph{cluster} architecture to achieve their
 massive computing performance. In fact, 87\% of the recent Top500 systems
 (July 2018) are based on cluster architecture. A cluster is an aggregation of
 interconnected computers working cooperatively. Computers that constitute a
-cluster perform computation in parallel and exchange data with each other to
-required for the computation.
+cluster perform computation in parallel and exchange data with each other.
 
 % クラスタの構成要素
 Figure~\ref{fig:cluster} shows the architectural overview of a typical
 cluster. A cluster consists of multiple computers~(\emph{i.e.,\ compute
-nodes}) and a high-performance network that integrates~(\emph{i.e.,\
-interconnect}) them together as a single system. Since many users share a
-single cluster, a \emph{job scheduler} is commonly deployed to effectively
-manage the computing resources in a cluster. A job scheduler accepts jobs from
-users and determines when to run each job. The scheduler is also responsible
-for allocating compute nodes to a job and launching the job on the allocated
-nodes. Furthermore, a shared file systems is usually deployed to store the
-input and output data of applications executed on the cluster.
+nodes}) and a high-performance and low-latency network that
+integrates~(\emph{i.e.,\ interconnect}) them together as a single system.
+Since many users share a single cluster, a \emph{job scheduler} is commonly
+deployed to efficiently and effectively manage the computing resources in a
+cluster. A job scheduler accepts jobs from users and determines when to run
+each job. The scheduler is also responsible for allocating compute nodes to a
+job and launching the job on the allocated nodes. Furthermore, a shared file
+systems is usually deployed to store the input and output data of applications
+executed on the cluster.
 
 \begin{figure}
     \centering
@@ -82,25 +82,26 @@ and compute node have been steadily improving, the growth is not fast enough
 to meet the high demand for computing power from the users. Therefore, the
 designers of HPC systems need to scale out the number of compute nodes to
 further improve the total computing performance of the cluster. As a result, a
-single cluster accommodates up to tens of thousands of compute nodes and
+single cluster accommodates tens of thousands of compute nodes and
 millions of cores nowadays.
 
 % 相互結合網の重要性
 The performance of communication between compute nodes over the interconnect
-is essential to the scalability of the cluster. In general, compute nodes
-need to frequently communicate with each other during the parallel computation
-to exchange intermediate results. If the communication between compute nodes
-becomes a bottleneck, simply adding more nodes to the cluster does not
-increase the total performance of the cluster. Therefore, great effort has
-been put to the research and development of high-performance interconnects.
+is essential to the scalability of the cluster. In general, compute nodes need
+to frequently communicate with each other during the parallel computation to
+exchange intermediate results. If the communication between compute nodes
+becomes a performance bottleneck, simply adding compute nodes to the cluster
+does not increase the total performance of the cluster. Therefore, great
+effort has been put to the research and development of high-performance
+interconnects.
 
 \subsection{Interconnect}\label{sec:i-interconnect}
 
 % 相互結合網の目的
 The main goal of high-performance interconnects is to provide high bandwidth
-and low latency between a large number of compute nodes. Today,
-interconnects of state-of-the-art HPC systems connect tens of thousands of
-compute nodes where the bandwidth between two compute nodes reaches over
+and low latency in communication between a large number of compute nodes.
+Today, interconnects of state-of-the-art HPC systems connect tens of thousands
+of compute nodes where the bandwidth between two compute nodes reaches over
 100 Gbps and the latency is smaller than 1 $\mu$s. While achieving such high
 communication performance, the financial cost to build and maintain the
 interconnect must be reasonable.
@@ -192,7 +193,7 @@ require complex communications among compute nodes.
 % 相互結合網の抽象化
 A remarkable feature of MPI is that it abstracts the underlying network
 of clusters. As shown in Fig.~\ref{fig:mpi-arch}, each interconnect technology
-requires the developers to use a different set of APIs. MPI hides the this
+requires the developers to use a different set of APIs. MPI hides this
 incoherence and allows developers to build applications without forcing them
 to study the detailed architecture or structure of the underlying network. For
 instance, every process is identified by a \emph{rank} number, a consecutive
@@ -200,7 +201,7 @@ non-negative integer. The mapping between rank numbers and network addresses
 is automatically handled by the MPI library. MPI communication can be
 restricted into a particular group of processes, which is called a
 \emph{communicator}. These abstractions make MPI applications portable and
-easy to be ported to different computer clusters.
+easy to be ported to different clusters.
 
 \begin{figure}
     \centering
@@ -218,11 +219,11 @@ defined in MPI\@.
 
 % 1対1通信
 Point-to-point communication is a communication between a sender process and
-another receiver process. The sender calls MPI\_Send whereas the
+another receiver process. For example, the sender calls MPI\_Send whereas the
 receiver calls MPI\_Recv. It is similar to BSD sockets, but MPI point-to-point
-communication differs from sockets in several aspects. First, establishing
+communication differs from sockets in several aspects. First, establishing a
 connection between the sender and receiver (\emph{i.e.,} connect, listen,
-accept, \emph{etc.}) is not needed since the MPI library will take care of it
+accept, \emph{etc.}) is not necessary since the MPI library takes care of it
 internally. Second, the order of calls to MPI\_Send and MPI\_Recv does not
 matter, whereas with sockets, calling recv after send may result in packet
 drops. Finally, tag and communicator to specify the context.
@@ -233,19 +234,19 @@ used communication patterns when implementing parallel algorithms such as
 broadcast, reduction, all-to-all exchange, \emph{etc.} In principle, any
 collective communication can be implemented using point-to-point
 communication. However, using collective communication primitives is generally
-a better choice because MPI libraries implement each communication primitive
-based on optimized algorithms that are selected depending on the message size
-and number of processes. For instance, a trivial implementation of broadcast
-where the root process sends the same data to each non-root process requires
-$O(n)$ time to complete. A more efficient implementation of broadcast is
-tree-like broadcast where non-root processes help the root processes by
+a better choice because the MPI library implements each communication
+primitive based on optimized algorithms that are selected depending on the
+message size and number of processes. For instance, a naive implementation of
+broadcast where the root process sends the same data to each non-root process
+requires $O(n)$ time to complete. A more efficient implementation of broadcast
+is a tree-like data delivery where non-root processes help the root process by
 sending the received data to other processes that have not received the data
 yet. The time complexity of tree-like broadcast is $O(\log n)$.
 
 % 同期通信と非同期通信
 Both point-to-point communication primitives and collective communication
-primitives have blocking versions and non-blocking versions. Blocking
-primitives blocks until the communication has completed. In contrast,
+primitives have blocking and non-blocking versions. Blocking
+primitives waits until the communication completes. In contrast,
 non-blocking primitives returns immediately after initiating the
 communication. A separate synchronization is required to complete the
 communication. The advantage of non-blocking communication is that it allows
@@ -260,9 +261,10 @@ One-sided communication is a form of Remote Memory Access~(RMA). In
 point-to-point communication, the sender and receiver need to mutually agree
 to start a communication. In contrast, one-sided communication allows
 a process to directly read or write the memory of a peer process without the
-involvement of the peer process. This communication model reduces memory copy
-and synchronization points. One-sided communication is especially beneficial
-on interconnects that support Remote Direct Memory Access~(RDMA).
+involvement of its counterpart. This communication model reduces the overhead
+incurred by memory copy and synchronization points. One-sided communication is
+especially beneficial on interconnects that support Remote Direct Memory
+Access~(RDMA).
 
 \begin{table}
     \centering
@@ -290,14 +292,17 @@ One-sided      & Put         & One-sided put                                \\
 % MPIの実装
 There are multiple implementations of the MPI standard. Open
 MPI~\cite{Squyres2005}, MPICH~\cite{Gropp2002} and MVAPICH~\cite{mvapich} are
-among the actively developed open source implementations of MPI\@.
+representative examples of
+actively developed open source implementations of MPI\@.
 Furthermore, HPC system vendors such as Cray, Intel and Fujitsu develop their
-own proprietary MPI implementation based upon open source implementations.
-Vendor MPI implementations are highly optimized for the vendor's HPC system
-and able to take advantage of the special features of their system. In
-addition to the header files and libraries that implement the APIs defined in
-the specifications, MPI implementations usually offer a launcher that allows
-users to start MPI processes on multiple compute nodes.
+own proprietary MPI implementations based upon the open source
+implementations, taking the feature and characteristics of their own HPC
+systems into consideration. Vendor MPI implementations are highly optimized
+for the vendor's HPC system and able to take advantage of the special features
+of their system. In addition to the header files and libraries that implement
+the APIs defined in the specifications, MPI implementations usually offer a
+launcher that allows users to quickly start MPI processes on multiple compute
+nodes.
 
 % MPIの高速化
 Until today, countless scientific applications have been developed by
@@ -316,8 +321,8 @@ pattern. This pattern varies depending on the application and originates from
 the mathematical model, discretization method, and parallelization strategy.
 Figure~\ref{fig:stencil3d} shows the communication pattern of a
 three-dimensional finite-difference solver that performs nearest neighbor
-communication as an example. In this figure, the total size of messages sent from
-a process to another process is visualized using a heat map. The visual
+communication as an example. In this figure, the total size of messages sent
+from a process to another process is visualized using a heat map. The visual
 representation evidently exhibits a regular and local pattern along the
 diagonal that originates from the nearest neighbor communication required by
 the finite-difference method.
@@ -336,41 +341,42 @@ application by taking the communication pattern of applications into account.
 For instance, an interconnect with a three-dimensional torus topology would be
 ideal for an application that performs nearest neighbor communication in
 three-dimensional space. However, this approach is infeasible when designing a
-real-world cluster. This is because HPC systems are shared by many users
-where each user runs various applications on the cluster. Therefore, in
-contrast to the application-dependent communication pattern, the interconnect
-is inherently application-agnostic.
+real-world cluster. The reason can be explained from the fact that HPC systems
+are shared by many users where each user runs various applications on the
+cluster. Therefore, in contrast to the application-dependent communication
+pattern, the interconnect is inherently application-agnostic.
 
 % 問題
 As a result, an imbalance of the packet flow in the interconnect can occur
 under a certain combination of communication pattern and interconnect.
 The imbalance can lead to the concentration of traffic on a link in the
-interconnect and slow down of MPI communication that uses the link. The
-degraded MPI communication can ultimately lead to a serious degradation of
+interconnect and the slowdown of MPI communication that uses the link. The
+degraded MPI communication can ultimately results in serious degradation of
 total application performance.
 
 % 関連研究
 A  number of previous studies have tried to address the mismatch between
-application application-dependent communication patterns and
-application-agnostic interconnects. A class of approaches tries to adapt
-the communication pattern of applications to the interconnect.
-For instance, interconnect-aware MPI
+application-dependent communication patterns and
+application-agnostic interconnects. A class of approaches have attempted to
+adapt the communication pattern of applications to the interconnect. For
+instance, interconnect-aware MPI
 collectives~\autocite{Kumar2016,Kumar2014,Gong2015,Adachi2013} have been
 developed to improve the performance of MPI collectives by taking into account
 the interconnect of a cluster. MPI implementation often leverage tree-based
 algorithms to aggregate or distribute messages from or to processes.
 Interconnect-aware MPI collectives use the information on the interconnect to
 build a delivery tree that matches the underlying interconnect of the cluster.
-Another class of approaches tries to optimize the placement of MPI processes
-on the compute nodes~\autocite{Michelogiannakis2017,Hoefler2011,Choi2017}.
-In this approach, the communication pattern of an application is considered as
-a weighted graph where nodes represent processes and edges represent the
-volume of data exchanges between two processes. Various heuristic algorithms
-are proposed to embed the communication pattern graph onto the interconnect
+Another class of approaches have attempted to optimize the placement of MPI
+processes on the compute
+nodes~\autocite{Michelogiannakis2017,Hoefler2011,Choi2017}. In this class of
+approaches, the communication pattern of an application is considered as a
+weighted graph where nodes represent processes and edges represent the volume
+of data exchanges between two processes. Various heuristic algorithms have
+been proposed to embed the communication pattern graph onto the interconnect
 topology.
 
 % 相互結合網の動的制御は未だ研究が進んでいない
-To this date, however, there has been little studies on adapting the
+To date, however, there has been few studies on adapting the
 interconnect to the communication pattern of applications. This is mostly
 because it has been assumed that flexibly and dynamically reconfiguring the
 interconnect at runtime is infeasible. However, this assumption might not hold
@@ -388,7 +394,7 @@ implemented as unified and inseparable features. The separation of the
 control plane and data plane allows SDN to deliver the following three
 benefits:
 
-\begin{itemize}
+\begin{enumerate}
 \item
   \emph{Programmable}: The control plane can be handled by a software
   controller. Network operators can program controllers tailored for
@@ -396,14 +402,14 @@ benefits:
 \item
   \emph{Dynamic}: SDN allows the controller to quickly reconfigure the
   network. For instance, it is possible to dynamically optimize packet
-  flow in the network based on the real-time traffic pattern.
+  flows in the network based on the real-time traffic pattern.
 \item
   \emph{Centralized}: A centralized controller configures the entire
   SDN-enabled network, thus reducing efforts to administer and manage
   the network. In conventional networking architectures, the operators
   need to configure each network device separately because the control
   plane is distributed on individual devices.
-\end{itemize}
+\end{enumerate}
 
 \begin{figure}
     \centering
@@ -421,7 +427,7 @@ what kind of packet control should be performed on what kind of packets
 (Fig.~\ref{tbl:flow-table}). Every time a packet arrives at an OpenFlow
 switch, the switch looks up a matching flow entry in its flow table using the
 header fields of the packet. Once the switch finds a matching flow entry, the
-corresponding action of the matched flow entry is applied to the packet. An
+corresponding action of the matched flow entry is applied to the incoming packet. An
 arbitrary combination of pre-defined header fields can be used for the
 matching condition. Table~\ref{tbl:flow-fields} shows the twelve header fields
 defined in OpenFlow 1.0. OpenFlow switches usually implement specialized
@@ -467,35 +473,36 @@ L1                  & Ingress Port             &              \\ \cmidrule(l){2-
 \end{table}
 
 % コントローラ
-The OpenFlow controller is a software responsible for the control plane. It
-manages the flow table of each switch by adding, modifying and removing and
-flow entries. The controller and switches communicate with each other by
+The OpenFlow controller is a component responsible for the control plane. It
+manages the flow table of each switch by adding, modifying and removing flow
+entries. The controller and switches communicate with each other by
 asynchronously exchanging messages defined in the OpenFlow protocol
-specification.
-Table~\ref{tbl:openflow-messages} shows a list of message types defined in
-OpenFlow 1.0. In this table, messages are classified into three categories by
-its initiator. Controller-initiated messages are used by the controller to
-update or inspect the state of a switch. On the other hand, switch-initiated
-messages are used by switches to notify the controller about network events
-and update in the switch state. Symmetric messages are initiated from both
-sides and used primarily for establishing and maintaining the connection between
-the controller and switch. Messages may or may not require a response from its
-receiver depending upon the message type. One of the most frequently used
-message type is \emph{packet-in}, which is sent out from a switch to the
-controller when a matching flow entry is missing for an incoming packet. In
-response, the controller can send a \emph{modify flow entry} message to
-install a new flow entry on the switch.
+specification. Table~\ref{tbl:openflow-messages} shows a list of message types
+defined in OpenFlow 1.0. In this table, messages are classified into three
+categories by its initiator. Controller-initiated messages are used by the
+controller to update or inspect the state of a switch. On the other hand,
+switch-initiated messages are used by switches to notify the controller of
+network events and update in the switch state. Symmetric messages are
+initiated from both sides and used primarily for establishing and maintaining
+the connection between the controller and switch. Messages may or may not
+require a response from its receiver depending upon the message type. One of
+the most frequently used message type is \emph{packet-in}, which is sent out
+from a switch to the controller when a matching flow entry is missing for an
+incoming packet. In response, the controller can send a \emph{modify flow
+entry} message to install a new flow entry on the switch.
 
 % コントローラフレームワーク
-OpenFlow controller frameworks been been developed to support the developments
-of OpenFlow controllers by providing reusable building blocks. Common building
-blocks include parser and deparser of OpenFlow messages and common network
-protocol packets, state machine for the OpenFlow protocol and high-performance
-concurrent server for handling the connection with the switches.
-Trema\cite{trema}, Ryu\cite{Ryu2014}, ONOS\cite{Berde2014} and
-OpenDaylight\cite{Medved2014} are among the most popular OpenFlow controller
-frameworks. Developers of OpenFlow controllers can focus to the application
-logic by taking advantage of these controller frameworks.
+OpenFlow controllers are usually implemented as a software for flexibility and
+reduced development cost. OpenFlow controller frameworks have been developed
+to support the developments of OpenFlow controller software by providing
+reusable building blocks. Common building blocks include parser and deparser
+of OpenFlow messages and common network protocol packets, state machine for
+the OpenFlow protocol and high-performance concurrent server for handling the
+connection with the switches. Trema~\autocite{trema}, Ryu~\autocite{Ryu2014},
+ONOS~\autocite{Berde2014} and OpenDaylight~\autocite{Medved2014} are among the
+most popular OpenFlow controller frameworks. Developers of OpenFlow
+controllers can focus to the application logic by taking advantage of these
+controller frameworks.
 
 \begin{table}[t]
 \centering
@@ -576,7 +583,6 @@ To materialize this concept, following three challenges must be achieved:
 \section{Organization of the Dissertation}
 
 The rest of this dissertation is organized as follows:
-
 % アプリケーションが相互結合網内に生成するパケットフローの解析手段を実現
 Chapter~\ref{sec:ii} proposes PFAnalyzer, a toolset for analyzing the
 packet flow in the interconnect, to address the first challenge. The
@@ -585,29 +591,30 @@ the communication pattern of application, interconnect design and cluster
 configuration. When designing and implementing an efficient programmable
 interconnect control, researchers need to conduct a systematic analysis over
 many combinations of these parameters. Since performing such analysis on a
-physical cluster is time-consuming, we utilize simulation to facilitate the
-analysis. PFAnalyzer is a pair of two tools: PFSim, an interconnect simulator
-specialized for programmable interconnects, and PFProf, a profiler to collect
-communication pattern from MPI applications. PFSim allows interconnect
-researchers and designers to investigate congestion in the interconnect for an
-arbitrary cluster configuration and a set of communication patterns collected
-by PFProf. We evaluate the accuracy of the simulation results obtained from
-PFSim and demonstrate how PFAnalyzer can be used to analyze the effect of
-programmable interconnect control.
+physical cluster is time-consuming, this dissertation utilizes simulation to
+facilitate the analysis. PFAnalyzer is a pair of two tools: PFSim, an
+interconnect simulator specialized for programmable interconnects, and PFProf,
+a profiler to collect communication pattern from MPI applications. PFSim
+allows interconnect researchers and designers to investigate congestion in the
+interconnect for an arbitrary cluster configuration and a set of communication
+patterns collected by PFProf. This dissertation evaluates the accuracy of the
+simulation results obtained from PFSim and demonstrates how PFAnalyzer can be
+used to analyze the effect of programmable interconnect control.
 
 % MPI集団通信を高速化するパケットフロー制御アルゴリズムを配備可能な
 % フレームワークを構築
-Chapter~\ref{sec:iii} addresses the second challenge. Out of the
-communication primitives provided by MPI, we focus on accelerating collective
-communication because it consumes a significant fraction of the execution time
-of applications. We propose a framework to accelerate MPI collectives by
-dynamically controlling the packet flow in the interconnect. We integrate the
-network programmability provided by Software-Defined Networking into MPI
-collectives so that collectives are able to effectively utilize the bandwidth
-of the interconnect. In particular, we aim to reduce the execution time of
-MPI\_Allreduce, which is a frequently used MPI collective communication in
-many simulation codes. We evaluate the speedup of MPI\_Allreduce when using
-our collective acceleration framework.
+Chapter~\ref{sec:iii} addresses the second challenge. Out of the communication
+primitives provided by MPI, this dissertation focuses on accelerating
+collective communication because it consumes a significant fraction of the
+execution time of applications. This dissertation proposes a framework to
+accelerate MPI collectives by dynamically controlling the packet flow in the
+interconnect. The network programmability provided by Software-Defined
+Networking is integrated into MPI collectives so that collectives are able to
+effectively utilize the bandwidth of the interconnect. In particular, this
+dissertation aims to reduce the execution time of MPI\_Allreduce, which is a
+frequently used MPI collective communication in many simulation codes. The
+speedup of MPI\_Allreduce when using the proposed collective acceleration
+framework is evaluated.
 
 % 通信と計算が連係動作する新たなクラスタアーキテクチャを確立
 Chapter~\ref{sec:iv} addresses the third challenge. This chapter proposes
@@ -622,4 +629,4 @@ interconnect control can be successfully performed in synchronization with the
 execution of the application and evaluate the overhead imposed by the
 coordination mechanism.
 
-Chapter~\ref{sec:v} concludes this dissertation and discusses future work.
+Chapter~\ref{sec:v} concludes this dissertation and discusses future works.
