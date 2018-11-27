@@ -23,12 +23,12 @@ of the application into account. However, this design approach is infeasible
 and unrealistic when designing a real-world cluster, since many users share a
 single HPC system and each user runs various applications. Therefore, in
 contrast to the application-dependent communication pattern, the interconnect
-is inherently designed in an application-independent manner. As a result,
-imbalance in the packet flow on the interconnect can occur under a particular
-combination of communication pattern and interconnect. This imbalance can lead
-to traffic congestion on a link in the interconnect, which lowers the
-throughtput of communication and degrades the total application performance as
-a result.
+is inherently designed in an application-independent manner, assuming a
+uniform communication pattern between processes. As a result, an imbalance in
+the packet flow in the interconnect can occur under a non-uniform
+communication pattern. This imbalance can lead to traffic congestion on a link
+in the interconnect, which lowers the throughput of communication and degrades
+the total application performance as a result.
 
 % 目的
 This dissertation tackles this degradation of application performance by
@@ -45,10 +45,17 @@ interconnect control that dynamically manages the packet flow in the
 interconnect based on the communication pattern of applications.
 
 % 課題
-Following three challenges must be met to achieve the goal described above:
-(1) analyzing the packet flow in the interconnect, (2) accelerating MPI
-communication by dynamically controlling the packet flow in the interconnect,
-and (3) coordinating the execution of application and interconnect control.
+This dissertation tackles the following three challenges to achieve the goal
+described above: (1) analyzing the packet flow in the interconnect, (2)
+dynamic adaptation of the interconnect control, and (3) coordinating the
+execution of application and interconnect control. The first challenge is
+required to observe and understand the imbalance of packet flow in the
+interconnect to perform an effective adaptation of the interconnect control.
+The second challenge is required to mitigate the imbalance of packet flow and
+improve the performance of inter-process communication. The third challenge is
+required since many real-world applications exhibit time-varying communication
+patterns and therefore the interconnect control needs to be performed in
+accordance with the execution of an application.
 
 % 提案1
 To address the first challenge, Chapter~\ref{sec:ii} proposes PFAnalyzer, a
@@ -59,25 +66,29 @@ interconnects. Since performing such an analysis on a physical cluster is
 time-consuming, this research utilizes simulation to facilitate the analysis.
 The proposed toolset is a pair of tools: an interconnect simulator
 specialized for programmable interconnects, and a profiler to collect
-communication pattern from MPI applications. PFSim allows researchers and
+communication pattern from applications. PFSim allows researchers and
 designers working on interconnects to investigate congestion in the
 interconnect for an arbitrary cluster configuration and a set of communication
-patterns extracted by PFProf. We evaluate the accuracy of the simulation
-results obtained from PFSim and demonstrate how PFAnalyzer can be used to
-analyze the effect of programmable interconnect control.
+patterns extracted by PFProf. In the evaluation, the accuracy of the
+simulation results obtained from PFSim is assessed. Furthermore, how
+PFAnalyzer can be used to analyze the effect of programmable interconnect
+control is demonstrated.
 
 % 提案2
 To address the second challenge, Chapter~\ref{sec:iii} proposes a framework to
 accelerate MPI collectives by dynamically controlling the packet flow in the
-interconnect. Out of the communication primitives provided by MPI, this
-research focuses on accelerating collective communication because it consumes
-a significant fraction of the execution time of applications. The network
-programmability provided by Software-Defined Networking is integrated into MPI
-collectives in such a way that collectives are able to effectively utilize the
-bandwidth of the interconnect. In particular, this research aims to reduce the
-execution time of MPI\_Allreduce, which is a frequently used MPI collective
-communication in many simulation codes. The speedup of MPI\_Allreduce when
-using the proposed collective acceleration framework is evaluated.
+interconnect. Message Passing Interface~(MPI) is a standardized inter-process
+communication library widely used to develop parallel distributed
+applications for clusters. Out of the communication primitives provided by
+MPI, this research focuses on accelerating collective communication because it
+consumes a significant fraction of the execution time of applications. The
+network programmability provided by Software-Defined Networking is integrated
+into MPI collectives in such a way that collectives are able to effectively
+utilize the bandwidth of the interconnect. In particular, this research aims
+to reduce the execution time of MPI\_Allreduce, which is a frequently used MPI
+collective communication in many simulation codes. The speedup of
+MPI\_Allreduce when using the proposed collective acceleration framework is
+evaluated.
 
 % 提案3
 To address the third challenge, Chapter~\ref{sec:iv} proposes UnisonFlow, a
