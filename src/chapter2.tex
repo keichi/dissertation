@@ -11,7 +11,7 @@ parallelism of the compute nodes. High performance networks that
 provide such low-latency and high-bandwidth communication between
 compute nodes of a cluster are often referred to as
 \emph{interconnects}. Message Passing Interface
-(MPI)~\autocites{MessagePassingInterfaceForum2015}{Gropp2014} is a
+(MPI)~\autocite{MessagePassingInterfaceForum2015,Gropp2014} is a
 commonly used inter-process communication library to describe
 communication on HPC clusters.
 
@@ -44,7 +44,7 @@ difficult to build.
 Based on this background and these trends, this study explores the feasibility
 and applicability of programming dynamic interconnect within
 HPC~\autocite{Date2016}. In particular, \emph{SDN-enhanced
-MPI}~\autocites{Takahashi2014}{Dashdavaa2013}, a framework that incorporates
+MPI}~\autocite{Takahashi2014,Dashdavaa2013}, a framework that incorporates
 the dynamic network controllability of Software-Defined Networking
 (SDN)~\autocite{sdn} into MPI, has been researched based on the idea that
 dynamically optimizing the packet flow in the interconnect according to the
@@ -126,7 +126,7 @@ This chapter aims to realize an interconnect simulator specialized
 for application-aware dynamic interconnects to facilitate the research
 and development of application-aware dynamic interconnects. Most
 interconnect simulators proposed in the previous
-research~\autocites{Schneider2009}{Tikir2009}{Hoefler2010}{Jo2015} have been
+research~\autocite{Schneider2009,Tikir2009,Hoefler2010,Jo2015} have been
 designed to study the behavior of static interconnects. Therefore, the packet
 flow is controlled based on static routing algorithms in these simulators.
 

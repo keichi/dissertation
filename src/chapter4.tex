@@ -139,7 +139,7 @@ basic idea to two collective MPI primitives, MPI\_Bcast and
 MPI\_Allreduce as proof of concept. Experiments conducted on a real
 computer cluster comprising bare metal servers and hardware OpenFlow
 switches have demonstrated that the execution time of these primitives
-has been successfully reduced~\autocites{Dashdavaa2013}{Takahashi2014}.
+has been successfully reduced~\autocite{Dashdavaa2013,Takahashi2014}.
 SDN-enhanced MPI\_Bcast~\autocite{Dashdavaa2013} accelerates MPI\_Bcast
 by utilizing the hardware multicast functionality of OpenFlow switches.
 SDN-enhanced MPI\_Allreduce~\autocite{Takahashi2014} dynamically
@@ -752,13 +752,13 @@ for both bandwidth and latency.
 In this experiment, we only evaluated the performance of point-to-point
 primitives. However, the fact that collective primitives are often
 implemented using multiple point-to-point
-primitives~\autocites{Squyres2005}{mvapich} implies that the overhead
+primitives~\autocite{Squyres2005,mvapich} implies that the overhead
 of the proposed mechanism is negligible for collective primitives as
 well.
 
 \section{Related Work}\label{sec:iv-related-work}
 
-Several studies~\autocites{Mekky2014}{Cheng2014} have been carried out
+Several studies~\autocite{Mekky2014,Cheng2014} have been carried out
 to incorporate application-awareness into SDN\@. An extension to Open
 vSwitch and OpenFlow has been proposed~\autocite{Mekky2014} to realize
 an application-aware data plane. This extension adds flow tables with
@@ -825,7 +825,7 @@ practically negligible.
 
 There are still issues to be addressed in the future. First,
 SDN-enhanced MPI primitives developed in our previous
-work~\autocites{Dashdavaa2013}{Takahashi2014} need to be adjusted as MPI
+work~\autocite{Dashdavaa2013,Takahashi2014} need to be adjusted as MPI
 primitive modules on the interconnect controller and tested to see if
 they are accelerated compared to conventional MPI primitives. Second,
 performance evaluation using real-world MPI applications is necessary.
