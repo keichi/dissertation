@@ -49,30 +49,29 @@ the dynamic network controllability of Software-Defined Networking
 (SDN)~\autocite{sdn} into MPI, has been researched based on the idea that
 dynamically optimizing the packet flow in the interconnect according to the
 communication patterns of applications can increase the utilization of the
-interconnect and improve application performance. The goal of SDN-enhanced MPI
-is to accelerate individual MPI functions by dynamically optimizing the packet
-flow in the interconnect. Several MPI functions have been successfully
-accelerated in the previous works so far. One of the core challenges in the
-research of SDN-enhanced MPI is to develop algorithms to control the packet
-flow in the interconnect depending on the MPI function called by the
-application.
+interconnect and then improve application performance. The goal of
+SDN-enhanced MPI is to accelerate individual MPI functions by dynamically
+optimizing the packet flow in the interconnect. Several MPI functions have
+been successfully accelerated in the previous works so far. One of the core
+challenges in the research on SDN-enhanced MPI lies in the design of an
+algorithm to effectively control the packet flow in the interconnect for each
+MPI function called by the application.
 
-More generally, algorithms for efficiently controlling the packet flow
-in the interconnect depending on the communication patterns of
-applications is essential towards realizing a dynamic and
-application-aware interconnect. In order to develop a generic algorithm
-that achieves good performance on a variety of environments, the
-algorithm must be investigated and evaluated by targeting different
-applications and interconnects. However, utilizing actual clusters to
-analyze the performance characteristics of the interconnect is
-restricted in the following points. First, the execution time of
-real-world HPC applications typically ranges from hours up to days,
+More generally, an algorithm that takes the communication patterns of
+applications as its input and then determines how to manage of the packet flow
+is essential towards realizing a dynamic and application-aware interconnect.
+In order to develop a generic algorithm that achieves good performance on a
+variety of application and interconnects, the algorithm must be investigated
+and evaluated by targeting different applications and interconnects. However,
+utilizing actual clusters to analyze the performance characteristics of the
+interconnect is restricted in the following points. First, the execution time
+of real-world HPC applications typically ranges from hours up to days,
 sometimes even months. Second, large-scale deployments of dynamic
-interconnects that allow execution of highly parallel applications have
-not yet been seen because the research and development of dynamic
-interconnects are still at their early stage. Third, network hardware such as
-switches may not support measuring traffic in the interconnect with enough
-high frequency and precision to obtain meaningful insights.
+interconnects that allow execution of highly parallel applications have not
+yet been seen because the research and development of dynamic interconnects
+are still at their early stage. Third, network hardware such as switches may
+not support measuring traffic in the interconnect with enough high frequency
+and precision to obtain meaningful insights.
 
 To accelerate the research and development of application-aware dynamic
 interconnects that control packet flow in response to the communication
@@ -81,7 +80,7 @@ conduct systematic investigation of clusters with diverse topologies and
 parameters is essentially demanded. A wide spectrum of interconnect
 simulators have been developed with different focus and purpose until
 today. However, existing simulators mostly focused on static
-interconnects and little research has been done to simulate dynamic and
+interconnects and few research has been done to simulate dynamic and
 application-aware interconnects.
 
 This chapter describes the design and implementation of PFAnalyzer, a
@@ -90,9 +89,8 @@ PFAnalyzer consists of two components: PFSim and PFProf. PFSim is an
 interconnect simulator specialized for application-aware dynamic
 interconnects. PFSim takes a set of communication patterns of
 applications and a cluster configuration as its input and then simulates
-the traffic on each link of the interconnect. PFProf is a custom
-profiler to extract communication patterns from applications for use in
-conjunction with PFSim.
+the traffic on each link of the interconnect. PFProf is a custom profiler to
+extract communication patterns from applications which are supplied to PFSim.
 
 The contributions of this chapter are summarized as follows:
 
@@ -122,29 +120,30 @@ and outlines future work.
 
 \section{Research Objective}\label{sec:ii-objective}
 
-This chapter aims to realize an interconnect simulator specialized
-for application-aware dynamic interconnects to facilitate the research
-and development of application-aware dynamic interconnects. Most
-interconnect simulators proposed in the previous
-research~\autocite{Schneider2009,Tikir2009,Hoefler2010,Jo2015} have been
-designed to study the behavior of static interconnects. Therefore, the packet
-flow is controlled based on static routing algorithms in these simulators.
+% 大目標・シミュレーションを採用する理由
+This chapter aims to realize a toolset for analyzing the packet flow in the
+interconnect to facilitate the research and development of application-aware
+dynamic interconnects. The packet flow generated in an interconnect highly
+depends on parameters such as the communication pattern of application,
+interconnect design and cluster configuration. When designing and implementing
+an efficient application-aware dynamic interconnect, researchers need to
+conduct a systematic analysis over many combinations of these parameters.
+However, conducting such analysis on a physical cluster can be extremely time-
+and resource-consuming. Therefore, this research takes the approach of
+utilizing simulation to facilitate the analysis.
 
-However, the packet flow needs to be dynamically controlled based on the
-communication patterns of applications for simulating application-aware
-dynamic interconnects. Based on this necessity, the requirements for the
-interconnect simulator are described as follows:
+This research attempts to provide a toolset that performs a lightweight
+simulation of the interconnect and predicts the packet flow generated in the
+interconnect. Researchers supply the communication pattern of real-world
+application alongside with the interconnect design and cluster configuration
+to the simulator. The predicted packet flow can then analyzed by researchers
+to gain insight about the interconnect while significantly saving time and
+cost compared to experiments on a physical cluster. Based on the discussion
+above, the requirements for the toolkit are summarized as follows:
 
 \begin{itemize}
 \item
-  \emph{Support for application-aware dynamic routing}: The simulator
-  should allow users to implement dynamic routing algorithms to mitigate
-  load imbalance and improve utilization of the interconnect. In
-  addition, the routing algorithms should be supplied with the
-  communication patterns of applications and packet flow in the
-  interconnect to make effective routing decisions.
-\item
-  \emph{Support for communication patterns of real-world applications}:
+  \emph{Extraction of communication patterns from applications}:
   Communication patterns of real-world HPC applications should be fed
   into the simulator to reproduce the characteristics of communication
   generated by real-world applications. To simulate the packet flow in
@@ -152,24 +151,27 @@ interconnect simulator are described as follows:
   needs to predict the volume of point-to-point communication exchanged
   between compute nodes. In the actual computing scene, the traffic
   among compute nodes is generated by the processes executed on the
-  compute nodes. Thus, some means and mechanism to analyze the traffic volume
-  of point-to-point communication exchanged between the processes from
+  compute nodes. Thus, some means to analyze the traffic volume of
+  point-to-point communication exchanged between the processes from
   applications is essential. In this chapter, applications that leverage
   MPI for inter-process communication are targeted.
 \item
-  \emph{Support for diverse cluster configurations}: The distribution of
-  packet flow in the interconnect is determined by not only the routing
-  algorithm but also the topology of the interconnect. In addition, job
-  scheduling, node selection and process placement algorithms affect the
-  distribution of packet flow. These parameters should be easily
-  reconfigurable to allow users to perform a systematic investigation of
-  diverse clusters.
+  \emph{Reproduction of process placement characteristic}:
+  As described in Section~\ref{i:cluster-arch}, multiple jobs are running
+  concurrently on a real-world cluster. Under such a cluster environment, the
+  process placement characteristic of the job scheduler such as job
+  scheduling, node selection and process placement algorithms heavily affect
+  the distribution of packet flow generated in the interconnect. Since the
+  job scheduler and its configuration largely varies across deployments,
+  the process placement characteristic of the job scheduler needs to be
+  reproduced.
+\item
+  \emph{Efficient prediction of packet flow in the interconnect}:
+  The simulator should be designed to be lightweight and fast
+  to carry out a large number of simulations with different parameters in
+  a reasonable amount of time. If necessary, appropriate approximation
+  should be introduced to improve simulation performance.
 \end{itemize}
-
-Furthermore, the simulator should be designed to be lightweight and fast
-to carry out a large number of simulations with different parameters in
-a reasonable amount of time. If necessary, appropriate approximation
-should be introduced to improve simulation performance.
 
 \section{Proposal}\label{sec:ii-proposal}
 
@@ -190,34 +192,42 @@ traffic between processes is approximated as being constant during the
 execution of a job. The traffic volume between a process pair is assumed to be
 the total bytes transferred divided by the duration of the application.
 
-This approximation is introduced to simplify and speed up the
-simulation. The idea behind this approximation is based on the fact that
-many HPC applications (\emph{e.g.} partial differential equation
-solvers) exhibit an iterative nature. These applications spend most of
-their execution time inside a repetitive loop and thus their
-communication patterns do not significantly change over time. Therefore,
-the traffic matrix is a good representation of the communication
-characteristics of an iterative application despite the loss of temporal
-order in the traffic matrix. In the future, trace
-segmentation~\autocite{Alawneh2016} techniques can be applied on the
-communication trace. This technique will segment a trace into multiple
-communication phases, which could then be simulated individually to further
-improve the accuracy of simulation for applications with significantly
-time-varying communication patterns.
+This approximation is introduced to reduce the size of the communication
+pattern as well as to simplify and speed up the simulation. The idea behind
+this approximation is based on the fact that many HPC applications
+(\emph{e.g.} partial differential equation solvers) exhibit an iterative
+nature. These applications spend most of their execution time inside a
+repetitive loop and thus their communication patterns do not significantly
+change over time. Therefore, omitting the temporal change of the communication
+pattern and assuming the traffic volume between processes as being constant is
+a good approximation. In the future, trace segmentation~\autocite{Alawneh2016}
+techniques can be applied on the communication trace. This technique will
+segment a trace into multiple communication phases, which could then be
+simulated individually to further improve the accuracy of simulation for
+applications with significantly time-varying communication patterns.
 
 \subsection{PFProf (MPI Profiler)}\label{sec:ii-pfprof}
+
+PFProf is a profiler that extracts the inter-process communication pattern
+from MPI applications. The collected communication pattern is later fed into
+PFSim to simulate the packet flow generated in the interconnect.
+
+To capture the inter-process communication of an MPI application, either
+profiling or static analysis is often utilized. Profiling gives accurate
+results but requires the user to run the application once. In contrast, static
+analysis of the source code does not require the user to run the application.
+However, its accuracy usually less than profiling. This research has taken
+advantage of profiling since accurate communication pattern is essential to
+obtain a simulation result with high fidelity,
 
 Initially, existing MPI performance analysis tools such as
 \mbox{Score-P}~\autocite{Knupfer2012}, Vampir~\autocite{Knupfer2008} and
 TAU~\autocite{Shende2006} were considered for collecting the traffic matrices
 from MPI applications. However, these tools capture only a subset of the
-communication pattern when profiling an application that uses collective
-communication functions (\emph{e.g.} MPI\_Bcast, MPI\_Allreduce and
-MPI\_Reduce).
-
+communication pattern when profiling an application that uses MPI collectives.
 The reason can be explained as follows. Existing MPI profilers replace
 the standard MPI functions provided by MPI libraries with instrumented
-functions by utilizing the MPI Profiling Interface (PMPI). An advantage
+functions by utilizing the MPI Profiling Interface~(PMPI). An advantage
 of this approach is that it works regardless of a specific MPI
 implementation. However, this approach fails to capture the internal
 information of the MPI library. Meanwhile, collective communication
@@ -231,55 +241,48 @@ collective communication, this research has taken the strategy of utilizing
 the MPI Performance Examination and Revealing Unexposed State Extension
 (PERUSE)~\autocite{Jones2006}. PERUSE was designed to provide the internal
 information of the MPI implementation that were not exposed through PMPI to
-applications and performance analysis tools. By using PERUSE, application or
-performance analysis tools register callback functions for each event of
-interest. After that, the registered callback function is called each time
+applications and performance analysis tools. PERUSE delivers the internal
+information of MPI implementation through an event-driven API\@. Application
+or performance analysis tools register callback functions for each event of
+interest. After that, the registered callback function is invoked each time
 when the associated event occurs.
 
 Figure~\ref{fig:profiler-block} illustrates how PFProf, MPI library and
-MPI application interact with each other. PFProf hooks MPI\_Init and
-MPI\_Finalize to perform initialization and finalization. During the
+MPI application interact with one another. PFProf hooks several MPI functions
+using PMPI\@. MPI\_Init and MPI\_Finalize are hooked to perform initialization
+and finalization when the application starts or exits (step 1 in
+Fig.~\ref{fig:profiler-block}). In addition, PFProf hooks MPI functions that
+create or destroy communicators to to maintain a mapping between global ranks
+(rank number within \lstinline!MPI_COMM_WORLD!) and local ranks (rank number
+within a communicator created by the user). This mapping is necessary because
+PERUSE events are reported with local ranks, while profiling results should be
+described with global ranks for the ease of analysis. During the
 initialization, PFProf subscribes to two PERUSE events:
 \lstinline!PERUSE_COMM_REQ_XFER_BEGIN! and
-\lstinline!PERUSE_COMM_REQ_XFER_END!. These events are
-emitted each time a transfer of a message begins and ends, respectively.
-Profiling results are written out as a JSON file during the
-finalization. During the execution of an application, the total number
-of bytes transferred from a process to another is aggregated to compute
-the traffic matrix.
+\lstinline!PERUSE_COMM_REQ_XFER_END! (step 2 in
+Fig.~\ref{fig:profiler-block}). These events are emitted each time a transfer
+of a message begins and ends, respectively.
+
+After the application has started, PFProf receives PERUSE events from the MPI
+library every time the application calls an MPI function that causes
+inter-process communication (step 3 in Fig.~\ref{fig:profiler-block}). PERUSE
+extracts the sender, receiver and transferred bytes from each PERUSE event and
+updates the traffic matrix online. Once the application calls MPI\_Finalize,
+communication pattern is written out to disk as a JSON file (step 4 in
+Fig.~\ref{fig:profiler-block}).
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\linewidth]{tracer_block}
+    \includegraphics{tracer_block}
     \caption{Block Diagram of PFProf}%
     \label{fig:profiler-block}
 \end{figure}
 
-Furthermore, PFProf hooks several MPI functions to create and destroy
-communicators to maintain a mapping between global ranks (rank number
-within \lstinline!MPI_COMM_WORLD!) and local ranks (rank
-number within communicators created by users). This mapping is necessary
-because PERUSE events are reported with local ranks, while profiling
-results should be described with global ranks for the ease of analysis.
-
-PFProf is designed to be provided in the form of a shared library, so that it
-can be easily integrated into applications either when building the
-application or running the application. The preferred way is to use run-time
-integration, because it requires neither recompilation nor relinking of the
-application. The \lstinline!LD_PRELOAD! environment variable is used to load
-the shared library before the execution of the application.
-
-A visualization of a traffic matrix obtained from running MILC with 128
-processes is shown in Fig.~\ref{fig:traffic-matrix}. This visualization
-clearly reveals the spatial locality and sparsity of the communication
-pattern.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.6\linewidth]{traffic_matrix}
-    \caption{Traffic Matrix for MILC}%
-    \label{fig:traffic-matrix}
-\end{figure}
+PFProf is designed to be provided in the form of a shared library so that
+users do not need to modify the source code of their application.
+Users can either use the \lstinline!LD_PRELOAD! environment variable to load
+the shared library at run-time or dynamically link the shared library with
+their application at build-time.
 
 \subsection{PFSim (Interconnect Simulator)}\label{sec:ii-pfsim}
 
@@ -326,10 +329,9 @@ the previous Section~\ref{sec:ii-pfprof}.
     \label{fig:simulator-block}
 \end{figure}
 
-Each configuration value can be a list of values. In that case, the
-simulation is executed multiple times, each time with a different
-combination of configuration values until all combinations are
-completed.
+Each configuration value can be a list of values. The simulation is executed
+multiple times, each time with a different combination of configuration values
+until all combinations are completed.
 
 \begin{table}
     \centering
@@ -621,8 +623,8 @@ used in this experiment:
   was adopted. Linear node selection assumes that compute nodes are
   lined up in a one-dimensional array and minimizes the fragmentation of
   allocation. This is essentially the same as the default node selection
-  policy of Slurm. Random node selection randomly selects compute
-  nodes. This algorithm simulates a situation where the allocation of
+  policy of Slurm~\autocite{Yoo2003}. Random node selection randomly selects
+  compute nodes. This algorithm simulates a situation where the allocation of
   compute nodes is highly fragmented.
 \item
   Process Placement: Either \emph{block} or \emph{cyclic} process
@@ -653,15 +655,14 @@ process placement and \mbox{D-mod-K} routing is adopted.
 
 What stands out in Fig.~\ref{fig:nas-cg-multi-congestion} is that
 dynamic routing consistently achieves lower traffic load compared to
-static \mbox{D-mod-K} routing. The reduction of traffic load was largest
-when linear node selection and block process placement were adopted.
-Under this combination of node selection and the process placement
-algorithm, dynamic routing slashed the maximum traffic load by 50\%
-compared to \mbox{D-mod-K} routing. In addition, the graph reveals that
-cyclic process placement always increased maximum traffic load compared
-to block process placement because neighboring ranks were placed on
-different compute nodes despite the locality of the communication
-pattern.
+static \mbox{D-mod-K} routing. The reduction of traffic load was the largest
+when linear node selection and block process placement were adopted. Under
+this combination of node selection and the process placement algorithm,
+dynamic routing slashed the maximum traffic load by 50\% compared to
+\mbox{D-mod-K} routing. In addition, the graph reveals that cyclic process
+placement always increased maximum traffic load compared to block process
+placement because neighboring ranks were placed on different compute nodes
+despite the locality of the communication pattern.
 
 \begin{figure}
     \centering
@@ -724,7 +725,7 @@ using indicators such as maximum traffic load.
 
 \section{Related Work}\label{sec:ii-related-work}
 
-Several interconnect simulators have been proposed in past research.
+Several interconnect simulators have been proposed in the past research.
 PSINS~\autocite{Tikir2009} is a trace-driven simulator for HPC
 applications. Traces obtained from applications are used to predict the
 performance of applications on a variety of HPC clusters with different
@@ -745,17 +746,16 @@ and routing algorithms.
 
 ORCS~\autocite{Schneider2009} simulates the traffic load of each link in
 the interconnect for a given topology, communication pattern and routing
-algorithm. The simulated traffic load of links can be summarized into
-various performance metrics and used for further analysis. A limitation
-of ORCS is that only pre-defined communication patterns can be used as
-its input. Moreover, ORCS assumes static routing as in InfiniBand. On
-the contrary, PFSim can handle dynamic routing algorithms that use
-communication patterns of applications and interconnect usage to make routing
-decisions.
+algorithm in the same way as PFSim. The simulated traffic load of links can be
+summarized into various performance metrics and used for further analysis. A
+limitation of ORCS is that only pre-defined communication patterns can be used
+as its input. Moreover, ORCS assumes static routing as in InfiniBand. On the
+contrary, PFSim can handle dynamic routing algorithms that use communication
+patterns of applications and interconnect usage to make routing decisions.
 
 In~\autocite{Jo2015}, simulations are carried out to examine the
 performance characteristics of an SDN-based multipath routing algorithm
-for data center networks. A simulator is developed based on MiniSSF to
+for data center networks. A simulator was developed based on MiniSSF to
 simulate the throughput and delay of a packet flow under diverse
 settings. However, communication patterns are randomly generated and not
 based on real-world applications. PFSimis designed to accept arbitrary
