@@ -350,20 +350,28 @@ all routes have been generated, these routes are installed to the
 SDN-enabled switches.
 
 \begin{algorithm}
-    \caption{Pseudocode of Route Generation.}%
+    \SetKwData{Routes}{routes}
+    \SetKwData{Nodes}{nodes}
+    \SetKwData{Link}{link}
+    \SetKwData{Links}{links}
+    \SetKwData{Route}{route}
+    \SetKwData{Sender}{sender}
+    \SetKwData{Receiver}{receiver}
+    \SetKwFunction{Dijkstra}{dijkstra}
+
+    \Routes $\gets$ empty array\;
+    \Nodes $\gets$ nodes in the topology graph\;
+    \Links $\gets$ links in the topology graph\;
+
+    \ForEach{(\Sender, \Receiver) $\in$ sender-receiver pairs}{%
+        \Route $\gets$ \Dijkstra{\Nodes, \Links, \Sender, \Receiver}\;
+        \ForEach{\Link $\in$ \Route}{%
+            Increment weight of \Link\;
+        }
+    }
+
+    \caption{Pseudocode of Route Generation}%
     \label{lst:code-generate-route}
-    \begin{algorithmic}
-        \STATE routes = emptyArray();
-        \STATE nodes = nodes in the topology graph;
-        \STATE links = links in the topology graph;
-        \FORALL{sender-receiver pair}
-            \STATE route = dijkstra(nodes, links, sender, receiver);
-            \STATE routes.push(route);
-            \FORALL{link in route}
-                \STATE link.weight += 1;
-            \ENDFOR
-        \ENDFOR
-    \end{algorithmic}
 \end{algorithm}
 
 The fourth functionality is route generation and installation for
