@@ -208,18 +208,22 @@ applications with significantly time-varying communication patterns.
 
 \subsection{PFProf (MPI Profiler)}\label{sec:ii-pfprof}
 
+% PFProfの概要
 PFProf is a profiler that extracts the inter-process communication pattern
 from MPI applications. The collected communication pattern is later fed into
 PFSim to simulate the packet flow generated in the interconnect.
 
+% プロファイリングを使う理由
 To capture the inter-process communication of an MPI application, either
 profiling or static analysis is often utilized. Profiling gives accurate
 results but requires the user to run the application once. In contrast, static
 analysis of the source code does not require the user to run the application.
-However, its accuracy usually less than profiling. This research has taken
-advantage of profiling since accurate communication pattern is essential to
-obtain a simulation result with high fidelity,
+However, the communication pattern obtained by static analysis is usually less
+accurate compared to the pattern obtained by profiling. This research has
+taken advantage of profiling because an accurate communication pattern is
+essential to obtain a simulation result with high fidelity.
 
+% PMPIの問題点
 Initially, existing MPI performance analysis tools such as
 \mbox{Score-P}~\autocite{Knupfer2012}, Vampir~\autocite{Knupfer2008} and
 TAU~\autocite{Shende2006} were considered for collecting the traffic matrices
@@ -236,6 +240,7 @@ communication in MPI implementations. These underlying point-to-point
 communication functions are hidden from PMPI-based profilers and
 excluded from the communication patterns emitted by profilers.
 
+% PERUSEを採用する理由
 To accurately capture the underlying point-to-point communication of
 collective communication, this research has taken the strategy of utilizing
 the MPI Performance Examination and Revealing Unexposed State Extension
@@ -247,6 +252,7 @@ or performance analysis tools register callback functions for each event of
 interest. After that, the registered callback function is invoked each time
 when the associated event occurs.
 
+% アプリケーションの実行前の動作
 Figure~\ref{fig:profiler-block} illustrates how PFProf, MPI library and
 MPI application interact with one another. PFProf hooks several MPI functions
 using PMPI\@. MPI\_Init and MPI\_Finalize are hooked to perform initialization
@@ -263,6 +269,7 @@ initialization, PFProf subscribes to two PERUSE events:
 Fig.~\ref{fig:profiler-block}). These events are emitted each time a transfer
 of a message begins and ends, respectively.
 
+% アプリケーションの実行開始後の動作
 After the application has started, PFProf receives PERUSE events from the MPI
 library every time the application calls an MPI function that causes
 inter-process communication (step 3 in Fig.~\ref{fig:profiler-block}). PERUSE
@@ -278,6 +285,7 @@ Fig.~\ref{fig:profiler-block}).
     \label{fig:profiler-block}
 \end{figure}
 
+% 共有ライブラリ
 PFProf is designed to be provided in the form of a shared library so that
 users do not need to modify the source code of their application.
 Users can either use the \lstinline!LD_PRELOAD! environment variable to load
@@ -286,6 +294,7 @@ their application at build-time.
 
 \subsection{PFSim (Interconnect Simulator)}\label{sec:ii-pfsim}
 
+% PFSimの概要
 PFSim uses a set of communication patterns of applications and a cluster
 configuration as its input and then simulates the packet flow generated
 by the applications. The packet flow is aggregated per link to compute
@@ -296,73 +305,147 @@ load imbalance in the interconnect. These insights on the interconnect
 can be useful for designing better algorithms for controlling the packet
 flow in application-aware dynamic interconnects.
 
-PFSim is based on a discrete-event simulation model. Under this model,
-each event holds an attribute indicating when it will occur. Events are
-stored in a priority queue in an increasing manner by the time they
-occur. There are different type of events representing a change of state
-in the simulator such as: a job arrived, a job started, a job finished,
-\emph{etc}. At the beginning of the main loop, the earliest occurring
-event is popped from the event queue. Then, based on the type of the
-event, the corresponding event handler is called. An event handler may
-schedule new events. This loop is repeated until the event queue is
-empty.
+% シミュレーションの方式とモデル
+Methodologies for simulating interconnects are roughly classified into
+packet-level simulation~\cite{Hoefler2010} and flow-level
+simulation~\cite{Schneider2009}. In a packet-level simulation, the behavior of
+each packet is precisely reproduced. Therefore, the communication time of
+applications can be predicted accurately in exchange for long execution time
+and large memory foot print. In contrast, flow-level simulation estimates the
+steady state behavior of the interconnect and does not track individual
+packets. Thus, the packet flow in the interconnect can be speedily estimated
+compared to packet-level simulation. As a trade-off, predicting the
+communication time of applications using flow-level simulation is challenging.
+As described in Section~\ref{sec:ii-objective}, this research aims at
+realizing a toolset for efficiently predicting the packet flow in the
+interconnect under diverse configurations. Therefore, PFSim is based on
+flow-level simulation for execution efficiency.
 
-Figure~\ref{fig:simulator-block} illustrates how PFSim works. The
-simulation scenario file defines various configurations for a simulation
-run. This file defines the cluster configuration to use and the set of
-jobs. Moreover, algorithms that control the execution and communication
-of jobs are specified as shown in Table~\ref{tbl:simulator-algorithm}.
-An example of a simulation scenario file is shown in
-Listing~\ref{lst:simulation-scenario}. The cluster configuration file
-defines the topology of the interconnect, the capacity of links, and the
-number of processing elements for each compute node. This file is
-described in GraphML~\autocite{Brandes2013}, an XML-based markup
-language for graphs. Popular graph visualization tools such as Cytoscape
-and Gephi can be used to view and edit GraphML files. Communication
-pattern files are obtained from applications using PFProf described in
-the previous Section~\ref{sec:ii-pfprof}.
+% シミュレータの構造
+Figure~\ref{fig:pfsim-arch} shows the internal structure of PFSim. PFSim is
+based on a discrete-event simulation model. Under this model, the simulation
+is driven by events, which indicate a change in the internal state of the
+simulator. Each event holds (1) type of the event, (2) time when the event
+will occur, and (3) additional information. The event queue is a priority
+queue that stores the events according to the time it will occur. Event
+handlers are functions that are associated to a specific event type and
+invoked when an event with the associated type occurs. The dispatcher manages
+the event queue. It pops events from the event queue one by one and calls the
+corresponding event handler for each event.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{simulator_block}
-    \caption{Block Diagram of PFSim}%
-    \label{fig:simulator-block}
+    \includegraphics{pfsim-arch}
+    \caption{Internal Structure of PFSim}%
+    \label{fig:pfsim-arch}
 \end{figure}
+
+% イベントハンドラの説明
+In PFSim, three event types exist: job-submitted, job-started and
+job-finished. In the event handler for the job-submitted event,
+% PFSimにおいて主要なイベントは，ジョブの投入，ジョブの開始，ジョブの終了の3種類
+% である．ジョブ投入イベントに対応するイベントハンドラでは，まず，ジョブキューが
+% 空であり，かつ，ジョブを実行するために十分な数の空き計算機があるか判定する．も
+% しジョブが実行可能でなければ，ジョブをジョブキューへ追加し，イベントハンドラを
+% 終了する．もしジョブが実行可能であれば，アルゴリズム\ref{alg:start-job}に示す
+% ジョブ開始準備処理へ移る．ジョブ開始準備処理では，はじめに，ジョブに対して空き
+% 計算機を割り当てる．次に，割り当てた計算機上へのプロセスの配置を決定し，プロセ
+% スと計算機を紐付ける．最後にジョブ開始イベントをイベントキューへ挿入する．
+
+\begin{algorithm}
+    \SetKwData{Job}{job}
+    \SetKwData{Node}{node}
+    \SetKwData{Nodes}{nodes}
+    \SetKwData{Proc}{proc}
+    \SetKwData{Procs}{procs}
+    \SetKwData{Mapping}{mapping}
+    \SetKwFunction{allocateNodes}{allocateNodes}
+    \SetKwFunction{testNodes}{testNodes}
+    \SetKwFunction{mapProcs}{mapProcs}
+
+    \Nodes $\gets$ \allocateNodes{\Job}\;
+    \Procs $\gets$ Set of processes composing Job\;
+    \Mapping $\gets$ \mapProcs{\Procs, \Nodes}\;
+    \ForEach{(\Proc, \Node) $\in$ \Mapping}{%
+        Associate \Proc to \Node\;
+    }
+    Insert job-started event to job queue\;
+
+    \caption{Job start}%
+    \label{alg:start-job}
+\end{algorithm}
+
+% アルゴリズム\ref{alg:on-job-started}にジョブ開始イベントハンドラの処理概要を示
+% す．はじめに，ジョブが実行するアプリケーションのトラフィックマトリックスを取得
+% する．次に，トラフィックマトリックスに基づき，相互結合網のトラフィック負荷を更
+% 新する．更新の手順は次の通りである．まず，送信プロセス・受信プロセスそれぞれが
+% 実行されている計算機を得る．続いて，送信プロセスが実行されている計算機から，受
+% 信プロセスが実行されている計算機までの経路を計算する．最後に，計算した経路に含
+% まれる全てのリンクについて，プロセス間で送受信されるトラフィック量を，リンクの
+% トラフィック負荷へ加算する．トラフィック負荷の更新処理が完了した後，ジョブ終了
+% イベントをイベントキューへ挿入する．
+
+\begin{algorithm}
+    \SetKwData{Job}{job}
+    \SetKwData{SrcProc}{srcProc}
+    \SetKwData{DstProc}{dstProc}
+    \SetKwData{SrcNode}{src}
+    \SetKwData{DstNode}{dst}
+    \SetKwData{Link}{link}
+    \SetKwData{Path}{path}
+    \SetKwData{Traffic}{traffic}
+    \SetKwData{TrafficMatrix}{tm}
+    \SetKwFunction{route}{route}
+    \SetKwFunction{selectJob}{selectJob}
+
+    \TrafficMatrix $\gets$ Traffic matrix of \Job\;
+    \ForEach{(\SrcProc, \DstProc, \Traffic) $\in$ \TrafficMatrix}{%
+        \SrcNode $\gets$ Compute node that accommodates \SrcProc\;
+        \DstNode $\gets$ Compute node that accommodates \DstProc\;
+        \If{path between (\SrcNode, \DstNode) is already computed}{%
+            \Path $\gets$ Cached path between (\SrcNode, \DstNode)\;
+        }
+        \Else{%
+            \Path $\gets$ \route{\SrcNode, \DstNode, \Job}\;
+        }
+        \ForEach{\Link $\in$ \Path}{%
+            Increase traffic load of \Link for \Traffic\;
+        }
+    }
+    Insert job-finished event to job queue\;
+
+    \caption{Event Handler for Job-started Event}
+    \label{alg:on-job-started}
+\end{algorithm}
+
+The job finished
+% ジョブ終了イベントハンドラでは，ジョブに割り当てられていた計算機を解放する．
+% そして，ジョブキューにジョブが存在すれば，ジョブを1つ選び出す．このジョブを実
+% 行するために十分な空き計算機が存在すれば，アルゴリズム\ref{alg:start-job}の
+% ジョブ開始準備処理を行う．
+
+
+The simulation scenario file defines various configurations for a simulation
+run. This file defines the cluster configuration to use and the set of jobs.
+An example of a simulation scenario file is shown in
+Listing~\ref{lst:simulation-scenario}. The cluster configuration file defines
+the topology of the interconnect, the capacity of links, and the number of
+processing elements for each compute node. Moreover, algorithms that control
+the execution and communication of jobs are specified as shown in
+Table~\ref{tbl:simulator-algorithm}.
 
 Each configuration value can be a list of values. The simulation is executed
 multiple times, each time with a different combination of configuration values
-until all combinations are completed.
+until all combinations are completed. In
+Listing~\ref{lst:simulation-scenario}, two node allocation algorithms
+(algorithms $\to$ node\_selector), two process placement algorithms
+(algorithms $\to$ process\_mapper), and three routing algorithms (algorithms
+$\to$ router) are specified. When this scenario file is supplied to PFSim, 12
+simulations are executed in total.
 
-\begin{table}
-    \centering
-    \normalsize
-    \caption{List of Configurable Algorithms}%
-    \label{tbl:simulator-algorithm}
-    \begin{tabularx}{\linewidth}{lX}
-        \toprule
-        Algorithm         & Description                                                 \\
-        \midrule
-        Job Scheduling    & Selects the job to execute from the job queue.
-                            (\emph{e.g.} FCFS, Backfill)                                \\
-        Node Selection    & Selects which compute nodes to assign for a job.
-                            (\emph{e.g.} Linear, Random, Topology-aware algorithms)     \\
-        Process Placement & Determines on which compute node to place a process.
-                            (\emph{e.g.} Block, Cyclic, Application-aware algorithms)   \\
-        Routing           & Computes a route between a pair of processes.
-                            (\emph{e.g.} D-mod-K, S-mod-K, Random, Dynamic algorithms)  \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-PFSim can create a snapshot of the traffic distribution in the
-interconnect at an arbitrary time and output is as a GraphML file. By
-visualizing the acquired GraphML using the aforementioned graph
-visualization tools, users can intuitively locate bottleneck links and
-load imbalance. Furthermore, the traffic load of links can be summarized
-into statistics such as maximum, minimum, average, variance and plotted
-as graphs.
-
-\begin{lstlisting}[caption={Example of a Simulation Scenario}, label={lst:simulation-scenario}, linewidth={\columnwidth}, float={htbp}]
+\begin{lstlisting}[caption={Example of a Simulation Scenario},%
+                   label={lst:simulation-scenario}, linewidth={\columnwidth},%
+                   float={htbp}]
 topology: topologies/milk.graphml
 output: output/milk-cg-dmodk
 algorithms:
@@ -387,32 +470,39 @@ jobs:
 ...
 \end{lstlisting}
 
-\begin{figure}
+\begin{table}
     \centering
-    \includegraphics[width=0.7\linewidth]{simulator_flowchart}
-    \caption{Life Cycle of a Simulated Job}%
-    \label{fig:simulator-flowchart}
-\end{figure}
+    \normalsize
+    \caption{List of Configurable Algorithms}%
+    \label{tbl:simulator-algorithm}
+    \begin{tabularx}{\linewidth}{lX}
+        \toprule
+        Algorithm         & Description                                                 \\
+        \midrule
+        Job Scheduling    & Selects the job to execute from the job queue.
+                            (\emph{e.g.} FCFS, Backfill)                                \\
+        Node Selection    & Selects which compute nodes to assign for a job.
+                            (\emph{e.g.} Linear, Random, Topology-aware algorithms)     \\
+        Process Placement & Determines on which compute node to place a process.
+                            (\emph{e.g.} Block, Cyclic, Application-aware algorithms)   \\
+        Routing           & Computes a route between a pair of processes.
+                            (\emph{e.g.} D-mod-K, S-mod-K, Random, Dynamic algorithms)  \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
 
-Figure~\ref{fig:simulator-flowchart} illustrates the life cycle of a
-simulated job. On arrival of a new job, the job is initially enqueued to
-the job queue. As soon as there are enough unallocated compute nodes
-to execute a job, the scheduling algorithm determines the job to be
-executed next and pops it from the job queue. Subsequently, the node
-selection algorithm picks a set of compute nodes that can satisfy the
-requested number of processes by the job. Then, the process placement
-algorithm determines on which compute node to run each process of the
-job. After the process placement is completed, the routing algorithm
-computes and allocates routes for all communicating pairs of processes.
-To allow users to implement application-aware dynamic routings,
-additional information is supplied to the routing algorithm in addition
-to the source/destination process pair. The information includes process
-placement, communication patterns and interconnect usage. For each
-allocated route, the traffic on the link contained in the route is
-increased. After all routes are computed, PFSim waits until the job has
-finished. Then, the traffic for each link that was utilized by the job
-is decreased. Finally, compute nodes are deallocated and the job is
-marked as completed.
+Since PFSim accepts the topology of the interconnect as its input and outputs
+the traffic load on each link of the interconnect, the file format for
+representing the interconnect needs to be considered. The file format should
+be designed for graphs since the interconnect can be considered as a graph. In
+addition, the format should be supported by existing analysis and
+visualization tools so that users can take advantage of these software assets.
+Based on the requirements above, PFSim is designed to use
+GraphML~\autocite{Brandes2013}, an XML-based markup language for graphs, as
+its input and output format of the interconnect. Popular graph visualization
+tools such as Cytoscape and Gephi can be used to view and edit GraphML files.
+Users can use these tools to visually and intuitively locate bottleneck links
+and load imbalance in the simulated interconnect.
 
 \section{Evaluation}\label{sec:ii-evaluation}
 
@@ -605,7 +695,7 @@ applications were executed with 128 MPI processes. Thread parallelism was not
 put in use (\emph{i.e.,} flat MPI model was adopted).
 
 To analyze the effect of dynamic interconnect control, simulations were
-carried out either using static routing or dynamic routing. Furthermore,
+carried out using static routing and dynamic routing. Furthermore,
 in order to investigate the impact of node selection and process
 placement to the traffic load, the node selection algorithm and process
 placement algorithm were also changed. As a result, exhaustive
