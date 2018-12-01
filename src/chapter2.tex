@@ -381,11 +381,11 @@ Algorithm~\ref{alg:on-job-started} shows the overview of the event handler for
 the job-started event. This is event handler first obtains the traffic matrix
 of the application that is executed by the job. Next, based on the traffic
 matrix, the traffic load of each link in the interconnect is updated as
-follows: first, compute nodes that accomodate the source and destionation
+follows: first, compute nodes that accommodate the source and destination
 processes are obtained. Subsequently, the path from the source compute node to
 destination compute node is calculated. Lastly, traffic load on each links
 along the path is increased for the traffic transferred between the source and
-destionation processes. After the traffic load is updated, the event handler
+destination processes. After the traffic load is updated, the event handler
 inserts a job-finished event into the job queue.
 
 \begin{algorithm}
@@ -440,13 +440,13 @@ alternatives such as JSON and XML\@.
 Listing~\ref{lst:simulation-scenario} shows an example of a simulation
 scenario file. In this simulation scenario file, topology of the interconnect
 (topology), output directory for the simulation results (output), and set of
-jobs to simualte (jobs) are specified. Moreover, the algorithms that control
+jobs to simulate (jobs) are specified. Moreover, the algorithms that control
 the execution and communication of jobs, which are shown in
 Table~\ref{tbl:simulator-algorithm} are also specified. Each configuration
 value can be a list of values. The simulation is executed multiple times, each
 time with a different combination of configuration values until all
 combinations are completed. In Listing~\ref{lst:simulation-scenario}, one
-schedulng algorithm (algorithms $\to$ scheduler), two node allocation
+scheduling algorithm (algorithms $\to$ scheduler), two node allocation
 algorithms (algorithms $\to$ node\_selector), two process placement algorithms
 (algorithms $\to$ process\_mapper), and three routing algorithms (algorithms
 $\to$ router) are specified. When this scenario file is supplied to PFSim, 12
