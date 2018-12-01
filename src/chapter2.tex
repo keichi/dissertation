@@ -17,13 +17,13 @@ communication on HPC clusters.
 
 In this paper, interconnects are roughly classified into \emph{static
 interconnects} and \emph{dynamic interconnects}. In the former category,
-it is assumed that packet flow is controlled solely based on its source
-and/or destination. A well-known exemplifier is
-InfiniBand~\autocite{Buyya2009}, where forwarding tables of
-switches are populated with pre-computed forwarding rules in advance of
-the execution of applications. In contrast, in the latter category, it
-is assumed that packet flow is dynamically controlled to mitigate load
-imbalance and improve utilization of the interconnect.
+it is assumed that packet flow is statically controlled solely based on its
+source and/or destination. A well-known exemplifier is
+InfiniBand~\autocite{Buyya2009}, where forwarding tables of switches are
+populated with pre-computed forwarding rules in advance of the execution of
+applications. In contrast, in the latter category, it is assumed that packet
+flow is dynamically controlled to mitigate load imbalance and improve
+utilization of the interconnect.
 
 Nowadays, the majority of HPC clusters employ the former static
 interconnects because of the relatively lower implementation cost than the
@@ -215,7 +215,7 @@ PFSim to simulate the packet flow generated in the interconnect.
 
 % プロファイリングを使う理由
 To capture the inter-process communication of an MPI application, either
-profiling or static analysis is often utilized. Profiling gives accurate
+profiling or static analysis is commonly utilized. Profiling gives accurate
 results but requires the user to run the application once. In contrast, static
 analysis of the source code does not require the user to run the application.
 However, the communication pattern obtained by static analysis is usually less
@@ -224,21 +224,20 @@ taken advantage of profiling because an accurate communication pattern is
 essential to obtain a simulation result with high fidelity.
 
 % PMPIの問題点
-Initially, existing MPI performance analysis tools such as
+Initially, existing MPI profilers and tracers such as
 \mbox{Score-P}~\autocite{Knupfer2012}, Vampir~\autocite{Knupfer2008} and
 TAU~\autocite{Shende2006} were considered for collecting the traffic matrices
 from MPI applications. However, these tools capture only a subset of the
 communication pattern when profiling an application that uses MPI collectives.
-The reason can be explained as follows. Existing MPI profilers replace
-the standard MPI functions provided by MPI libraries with instrumented
-functions by utilizing the MPI Profiling Interface~(PMPI). An advantage
-of this approach is that it works regardless of a specific MPI
-implementation. However, this approach fails to capture the internal
-information of the MPI library. Meanwhile, collective communication
-functions are internally implemented as a combination of point-to-point
-communication in MPI implementations. These underlying point-to-point
-communication functions are hidden from PMPI-based profilers and
-excluded from the communication patterns emitted by profilers.
+The reason can be explained as follows. Existing MPI profilers replace the
+standard MPI functions provided by MPI libraries with instrumented functions
+by utilizing the MPI Profiling Interface~(PMPI). An advantage of this approach
+is that it works regardless of a specific MPI implementation. However, this
+approach fails to capture the internal information of the MPI library.
+Meanwhile, collective communication functions are internally implemented as a
+combination of point-to-point communication in MPI implementations. These
+underlying point-to-point communication functions are hidden from PMPI-based
+profilers and excluded from the communication patterns emitted by profilers.
 
 % PERUSEを採用する理由
 To accurately capture the underlying point-to-point communication of
@@ -247,10 +246,11 @@ the MPI Performance Examination and Revealing Unexposed State Extension
 (PERUSE)~\autocite{Jones2006}. PERUSE was designed to provide the internal
 information of the MPI implementation that were not exposed through PMPI to
 applications and performance analysis tools. PERUSE delivers the internal
-information of MPI implementation through an event-driven API\@. Application
-or performance analysis tools register callback functions for each event of
-interest. After that, the registered callback function is invoked each time
-when the associated event occurs.
+information of MPI implementation to applications and performance analysis
+tools through an event-driven API\@. Application or performance analysis tools
+register callback functions for each event of interest. After that, the
+registered callback function is invoked each time when the associated event
+occurs.
 
 % アプリケーションの実行前の動作
 Figure~\ref{fig:profiler-block} illustrates how PFProf, MPI library and
@@ -309,29 +309,30 @@ flow in application-aware dynamic interconnects.
 Methodologies for simulating interconnects are roughly classified into
 packet-level simulation~\cite{Hoefler2010} and flow-level
 simulation~\cite{Schneider2009}. In a packet-level simulation, the behavior of
-each packet is precisely reproduced. Therefore, the communication time of
-applications can be predicted accurately in exchange for long execution time
-and large memory foot print. In contrast, flow-level simulation estimates the
-steady state behavior of the interconnect and does not track individual
-packets. Thus, the packet flow in the interconnect can be speedily estimated
-compared to packet-level simulation. As a trade-off, predicting the
-communication time of applications using flow-level simulation is challenging.
-As described in Section~\ref{sec:ii-objective}, this research aims at
-realizing a toolset for efficiently predicting the packet flow in the
-interconnect under diverse configurations. Therefore, PFSim is based on
-flow-level simulation for execution efficiency.
+how each packet travels through the interconnect is precisely reproduced.
+Therefore, the communication time of applications can be predicted accurately
+in exchange for long execution time and large memory foot print. In contrast,
+flow-level simulation estimates the steady state behavior of the interconnect
+and does not track individual packets. Thus, the packet flow in the
+interconnect can be speedily estimated compared to a packet-level simulation.
+As a trade-off, predicting the communication time of applications using
+flow-level simulation is challenging. As described in
+Section~\ref{sec:ii-objective}, this research aims at realizing a toolset for
+efficiently predicting the packet flow in the interconnect under diverse
+configurations. Therefore, PFSim is based on flow-level simulation for
+execution efficiency.
 
 % シミュレータの構造
-Figure~\ref{fig:pfsim-arch} shows the internal structure of PFSim. PFSim is
-based on a discrete-event simulation model. Under this model, the simulation
-is driven by events, which indicate a change in the internal state of the
-simulator. Each event holds (1) type of the event, (2) time when the event
-will occur, and (3) additional information. The event queue is a priority
-queue that stores the events according to the time it will occur. Event
-handlers are functions that are associated to a specific event type and
-invoked when an event with the associated type occurs. The dispatcher manages
+Figure~\ref{fig:pfsim-arch} shows the internal structure of PFSim. This
+simulator is based on a discrete-event simulation model. Under this model, the
+simulation is driven by events, which indicate a change in the internal state
+of the simulator. Each event holds (1) type of the event, (2) time when the
+event will occur, and (3) additional information. The event queue is a
+priority queue that stores the events according to the time it will occur.
+Event handlers are functions that are associated to a specific event type and
+invoked when an event of the associated type occurs. The dispatcher manages
 the event queue. It pops events from the event queue one by one and calls the
-corresponding event handler for each event.
+associated event handler for each event.
 
 \begin{figure}
     \centering
@@ -340,17 +341,17 @@ corresponding event handler for each event.
     \label{fig:pfsim-arch}
 \end{figure}
 
-% イベントハンドラの説明
-In PFSim, three event types exist: job-submitted, job-started and
-job-finished. In the event handler for the job-submitted event,
-% PFSimにおいて主要なイベントは，ジョブの投入，ジョブの開始，ジョブの終了の3種類
-% である．ジョブ投入イベントに対応するイベントハンドラでは，まず，ジョブキューが
-% 空であり，かつ，ジョブを実行するために十分な数の空き計算機があるか判定する．も
-% しジョブが実行可能でなければ，ジョブをジョブキューへ追加し，イベントハンドラを
-% 終了する．もしジョブが実行可能であれば，アルゴリズム\ref{alg:start-job}に示す
-% ジョブ開始準備処理へ移る．ジョブ開始準備処理では，はじめに，ジョブに対して空き
-% 計算機を割り当てる．次に，割り当てた計算機上へのプロセスの配置を決定し，プロセ
-% スと計算機を紐付ける．最後にジョブ開始イベントをイベントキューへ挿入する．
+% ジョブ到着イベントハンドラ
+In PFSim, three event types exist: job-arrived, job-started and
+job-finished. The event handler for the job-arrived event first checks if
+the job queue is empty and if there are enough unallocated compute nodes to
+run the job. If the job is not runnable at the time, the job is enqueued to
+the job queue and the event handler finishes. If the job is runnable, the
+event handler initiates the job startup routine shown in
+Algorithm~\ref{alg:start-job}. First, set of available compute nodes are
+allocated to the job. Next, the placement of processes on the allocated
+compute nodes is determined. Finally, a job-started event is inserted into the
+event queue.
 
 \begin{algorithm}
     \SetKwData{Job}{job}
@@ -364,26 +365,28 @@ job-finished. In the event handler for the job-submitted event,
     \SetKwFunction{mapProcs}{mapProcs}
 
     \Nodes $\gets$ \allocateNodes{\Job}\;
-    \Procs $\gets$ Set of processes composing Job\;
+    \Procs $\gets$ Set of processes composing \Job\;
     \Mapping $\gets$ \mapProcs{\Procs, \Nodes}\;
     \ForEach{(\Proc, \Node) $\in$ \Mapping}{%
-        Associate \Proc to \Node\;
+        Associate \Proc with \Node\;
     }
-    Insert job-started event to job queue\;
+    Insert job-started event to event queue\;
 
-    \caption{Job start}%
+    \caption{Job start routine}%
     \label{alg:start-job}
 \end{algorithm}
 
-% アルゴリズム\ref{alg:on-job-started}にジョブ開始イベントハンドラの処理概要を示
-% す．はじめに，ジョブが実行するアプリケーションのトラフィックマトリックスを取得
-% する．次に，トラフィックマトリックスに基づき，相互結合網のトラフィック負荷を更
-% 新する．更新の手順は次の通りである．まず，送信プロセス・受信プロセスそれぞれが
-% 実行されている計算機を得る．続いて，送信プロセスが実行されている計算機から，受
-% 信プロセスが実行されている計算機までの経路を計算する．最後に，計算した経路に含
-% まれる全てのリンクについて，プロセス間で送受信されるトラフィック量を，リンクの
-% トラフィック負荷へ加算する．トラフィック負荷の更新処理が完了した後，ジョブ終了
-% イベントをイベントキューへ挿入する．
+% ジョブ開始イベントハンドラ
+Algorithm~\ref{alg:on-job-started} shows the overview of the event handler for
+the job-started event. This is event handler first obtains the traffic matrix
+of the application that is executed by the job. Next, based on the traffic
+matrix, the traffic load of each link in the interconnect is updated as
+follows: first, compute nodes that accomodate the source and destionation
+processes are obtained. Subsequently, the path from the source compute node to
+destination compute node is calculated. Lastly, traffic load on each links
+along the path is increased for the traffic transferred between the source and
+destionation processes. After the traffic load is updated, the event handler
+inserts a job-finished event into the job queue.
 
 \begin{algorithm}
     \SetKwData{Job}{job}
@@ -412,33 +415,39 @@ job-finished. In the event handler for the job-submitted event,
             Increase traffic load of \Link for \Traffic\;
         }
     }
-    Insert job-finished event to job queue\;
+    Insert job-finished event to event queue\;
 
-    \caption{Event Handler for Job-started Event}
+    \caption{Event Handler for Job-started Event}%
     \label{alg:on-job-started}
 \end{algorithm}
 
-The job finished
-% ジョブ終了イベントハンドラでは，ジョブに割り当てられていた計算機を解放する．
-% そして，ジョブキューにジョブが存在すれば，ジョブを1つ選び出す．このジョブを実
-% 行するために十分な空き計算機が存在すれば，アルゴリズム\ref{alg:start-job}の
-% ジョブ開始準備処理を行う．
+% ジョブ終了イベントハンドラ
+The event handler for the job-finished event releases the compute nodes
+allocated to the job. If there are one or more jobs in the job queue, one of
+them is selected. If there are enough number of available compute nodes, the
+job startup routine shown in Algorithm~\ref{alg:start-job} is invoked.
 
+% シミュレーションシナリオファイルの概要
+PFSim aims at predicting the packet flow in the interconnect generated by
+applications under diverse cluster configurations. To allow users to easily
+edit the configuration of the simulation, the configuration is described in a
+human-readable \emph{simulation scenario} file. The simulation scenario file
+is described in a structured serialization format called YAML\@. YAML has been
+adopted for its high readability and editability compared to other
+alternatives such as JSON and XML\@.
 
-The simulation scenario file defines various configurations for a simulation
-run. This file defines the cluster configuration to use and the set of jobs.
-An example of a simulation scenario file is shown in
-Listing~\ref{lst:simulation-scenario}. The cluster configuration file defines
-the topology of the interconnect, the capacity of links, and the number of
-processing elements for each compute node. Moreover, algorithms that control
-the execution and communication of jobs are specified as shown in
-Table~\ref{tbl:simulator-algorithm}.
-
-Each configuration value can be a list of values. The simulation is executed
-multiple times, each time with a different combination of configuration values
-until all combinations are completed. In
-Listing~\ref{lst:simulation-scenario}, two node allocation algorithms
-(algorithms $\to$ node\_selector), two process placement algorithms
+% シミュレーションシナリオファイルの詳細
+Listing~\ref{lst:simulation-scenario} shows an example of a simulation
+scenario file. In this simulation scenario file, topology of the interconnect
+(topology), output directory for the simulation results (output), and set of
+jobs to simualte (jobs) are specified. Moreover, the algorithms that control
+the execution and communication of jobs, which are shown in
+Table~\ref{tbl:simulator-algorithm} are also specified. Each configuration
+value can be a list of values. The simulation is executed multiple times, each
+time with a different combination of configuration values until all
+combinations are completed. In Listing~\ref{lst:simulation-scenario}, one
+schedulng algorithm (algorithms $\to$ scheduler), two node allocation
+algorithms (algorithms $\to$ node\_selector), two process placement algorithms
 (algorithms $\to$ process\_mapper), and three routing algorithms (algorithms
 $\to$ router) are specified. When this scenario file is supplied to PFSim, 12
 simulations are executed in total.
@@ -467,7 +476,6 @@ jobs:
       params:
         lambd: 0.1
     trace: traces/cg-c-128.tar.gz
-...
 \end{lstlisting}
 
 \begin{table}
@@ -649,18 +657,20 @@ Fig.~\ref{fig:bandwidth-overhead}. For messages larger than 1KB, the
 overhead was ignorable. For messages smaller than 1KB, up to 30\% of
 overhead was incurred. Benchmark results for latency, as shown in
 Fig.~\ref{fig:latency-overhead}, suggest that there is almost no
-overhead for latency.
+overhead for latency. These results indicate that PFProf is able to extract
+the communication pattern from applications without hurting the performance of
+applications.
 
 \begin{figure}
     \centering
-    \includegraphics[width=.8\linewidth]{bandwidth_overhead}
+    \includegraphics[width=.85\linewidth]{bandwidth_overhead}
     \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:bandwidth-overhead}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=.8\linewidth]{latency_overhead}
+    \includegraphics[width=.85\linewidth]{latency_overhead}
     \caption{Latency of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:latency-overhead}
 \end{figure}
@@ -773,7 +783,8 @@ case of MILC\@. The graph reveals that dynamic routing outperforms
 \mbox{D-mod-K} routing. In this case, the reduction of the link load was
 largest when random node selection and cyclic process placement was
 adopted. When using linear node selection and block process placement,
-reduction of the maximum link load was 18\%.
+reduction of the maximum link load was 18\%. Compared to NAS CG benchmark, the
+effect of dynamic routing was smaller.
 
 To investigate the impact of traffic load on the application performance of an
 actual environment, configuration described in the previous
@@ -786,8 +797,11 @@ placement was adopted. The average execution time of 10 runs was compared when
 using \mbox{D-mod-K} routing and dynamic routing. Figure~\ref{fig:nas-cg-time}
 shows the comparison for the NAS CG benchmark. The graph indicates that the
 use of dynamic routing reduced the execution time of the benchmark to 23\%.
-Figure~\ref{fig:nersc-milc-time} shows the result for MILC\@. In this case,
-approximately 8\% was reduced in execution time.
+Figure~\ref{fig:nersc-milc-time} shows the result for MILC\@. The reduction of
+execution was approximately 8\%, which was smaller than the case of NAS CG
+benchmark. This matches the with the simulation result that predicted NAS CG
+benefits from larger reduction in maximum traffic load by using dynamic
+routing compared to MILC\@.
 
 These results suggest that application performance is actually improved
 by alleviating the traffic load on the hot spot link. This suggestion
@@ -882,3 +896,14 @@ interconnects on large-scale and highly parallel clusters. Moreover,
 application-aware node selection and process placement algorithms are planned
 to be implemented on PFSim. The impact of such application-aware algorithms on
 the performance of dynamic interconnects should be evaluated.
+
+PFAnalyzer contributes to realizing a programmable interconnect control
+adaptive to the communication pattern of application in two aspects. First,
+PFProf allows researchers to accurately extract the inter-process
+communication pattern from applications. The obtained communication pattern is
+a crucial information for understanding the communication characteristic of
+applications and adapting the interconnect control to the application. Second,
+PFSim helps researchers to design and implement effective algorithms to
+control the packet flow in the interconnect for mitigating imbalance in the
+interconnect and achieving higher communication performance between compute
+nodes.
