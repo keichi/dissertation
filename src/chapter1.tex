@@ -15,7 +15,7 @@ fundamental questions about our surrounding environment.
 
 % HPCの応用分野
 A wide spectrum of science has taken advantage of the massive computing
-capability provided by HPC\@. Various phenomena ranging from atomic scale to
+capability provided by HPC\@. Various phenomena ranged from atomic scale to
 cosmological scale are simulated on HPC systems. For instance, molecular
 dynamics simulation reveals the molecular-level structure and property of
 matter and their interaction. This knowledge is used to design better drugs
@@ -36,7 +36,7 @@ indicates the steady increase in performance over the past 20 years.
 Researchers and engineers have been striving to sustain this growth in
 performance and reach exascale~(Exa FLOPS) in the near future. To achieve this
 daunting technological challenge, every aspect of the HPC system including
-hardware, operating system, middleware and application need to be greatly
+hardware, operating system, middleware and application needs to be greatly
 improved, optimized and even redesigned.
 
 \begin{figure}
@@ -59,15 +59,15 @@ required with one another.
 % クラスタの構成要素
 Figure~\ref{fig:cluster} shows the architectural overview of a typical
 cluster. A cluster consists of multiple computers~(\emph{i.e.,\ compute
-nodes}) and a high-performance and low-latency network that
-integrates~(\emph{i.e.,\ interconnect}) them together as a single system.
-For the purpose of sharing input and output data between the compute nodes, a
+nodes}), and a high-performance and low-latency network that
+integrates~(\emph{i.e.,\ interconnect}) them together as a single system. For
+the purpose of sharing input and output data between the compute nodes, a
 shared file system is usually deployed as a part of the cluster. Since many
-users share a single cluster, a \emph{job scheduler} is also commonly deployed to
-efficiently and effectively manage the computing resources in a cluster. A job
-scheduler accepts job requests from users and determines when to run each job
-to fulfill the request. The scheduler is also responsible for allocating
-compute nodes to a job and launching the job on the allocated nodes.
+users share a single cluster, a \emph{job scheduler} is also commonly deployed
+to efficiently and effectively manage the computing resources in a cluster. A
+job scheduler accepts job requests from users and determines when to run each
+job to fulfill the request. The scheduler is also responsible for allocating
+compute nodes to the job request and launching a job on the allocated nodes.
 
 \begin{figure}
     \centering
@@ -94,18 +94,18 @@ communicate with one another during parallel computation to exchange
 intermediate results and control messages. If the communication between
 compute nodes becomes a performance bottleneck, simply adding compute nodes to
 the cluster does not increase the total performance of the cluster. Therefore,
-great effort has been put to the research and development of high-performance
-interconnects.
+great efforts have been put to the research and development of
+high-performance interconnects.
 
 \subsection{Interconnect}\label{sec:i-interconnect}
 
 % 相互結合網の目的
 The main goal of high-performance interconnects is to provide high bandwidth
 and low latency in communication between a large number of compute nodes.
-In fact, state-of-the-art interconnects provide more than 100 Gbps bandwidth
-and less than 1 $\mu$s latency between tens of thousands of compute nodes.
-While achieving such high communication performance, the monetary cost to
-build and maintain the interconnect must be reasonable.
+In fact, the state-of-the-art interconnects provide more than 100 Gbps
+bandwidth and less than 1 $\mu$s latency between tens of thousands of compute
+nodes. While achieving such high communication performance, the monetary cost
+to build and maintain the interconnect must be reasonable.
 
 % 通信規格
 Ethernet~\autocite{Trowbridge2007} and InfiniBand~\autocite{Buyya2009} are
@@ -166,7 +166,7 @@ been widely adopted as interconnect topologies in HPC systems.
 
 Mostly, the interconnects of computer cluster systems are full-bisection.
 The bisection bandwidth for an interconnect is defined as the minimum
-bandwidth between two counterparts of the interconnect. A full-bisection
+bandwidth between two halves of the interconnect. A full-bisection
 interconnect is an interconnect whose bisection bandwidth is larger or equal
 to the aggregated bandwidth between compute nodes. Interconnects that are
 not full-bisection are referred as oversubscribed. Full-bisection interconnect
@@ -177,9 +177,10 @@ This characteristic is beneficial for applications since it removes the need
 to be aware of the current contention state of the interconnect. However,
 there is a common problem with full-bisection design: the monetary cost to
 implement such a design increases superlinearly as the number of node scales
-out. Therefore, researches are ongoing to effectively utilize oversubscribed
-interconnects~\autocite{Leon2017,Michelogiannakis2017} under the assumption
-that oversubscribed interconnects become inevitable in the future.
+out. Therefore, researches have have worked on the effective utilization of
+oversubscribed interconnects~\autocite{Leon2017,Michelogiannakis2017} under
+the assumption that oversubscribed interconnects become inevitable in the
+future.
 
 \subsection{Message Passing Interface}\label{sec:i-mpi}
 
@@ -188,7 +189,7 @@ Message Passing Interface~(MPI)~\autocite{MessagePassingInterfaceForum2015} is
 a \emph{de facto} standard specification for inter-process communication
 libraries used to develop parallel applications running on distributed memory
 system such as clusters. MPI defines a suite of communication primitives that
-helps application developers to build parallel distributed applications that
+help application developers to build parallel distributed applications that
 require complex communications among compute nodes.
 
 % 相互結合網の抽象化
@@ -223,38 +224,41 @@ primitives defined in MPI\@.
 Point-to-point communication is a communication between a sender process and
 another receiver process. For example, the sender calls MPI\_Send whereas the
 receiver calls MPI\_Recv. It is similar to BSD sockets, but MPI point-to-point
-communication differs from sockets in several aspects. First, establishing a
+communication differs from sockets in three aspects. First, establishing a
 connection between the sender and receiver (\emph{i.e.,} connect, listen,
 accept, \emph{etc.}) is not necessary since the MPI library takes care of it
 internally. Second, the order of calls to MPI\_Send on the sender side and
-MPI\_Recv on the receiver side does not matter thanks to the internal
-buffering mechanism in the MPI library. In contrast, calling recv after send
-when using sockets may result in packet drops. This characteristic ensures
-deterministic behavior of applications. Finally, a \emph{tag} can be
-associated to each message to indicate the type or context of the message. In
-sockets, messages are merely binary sequences without having any context.
+MPI\_Recv on the receiver side does not matter due to the internal
+buffering mechanism in the MPI library. In contrast, calling the recv function
+after the send function when using sockets may result in packet drops. This
+characteristic ensures deterministic behavior of applications. Finally, a
+\emph{tag} can be associated to each message to indicate the type or context
+of the message. In sockets, messages are merely binary sequences without
+having any context.
 
 % 集団通信
 Collective communication involves a group of processes and provides frequently
-used communication patterns when implementing parallel algorithms such as
-broadcast, reduction, all-to-all exchange, \emph{etc.} In principle, any
-collective communication can be implemented using point-to-point
-communication. However, using collective communication primitives is generally
-a better choice because the MPI library implements each communication
-primitive based on optimized algorithms that are selected depending on the
-message size and number of processes. For instance, a naive implementation of
-broadcast where the root process sends the same data to each non-root process
-requires $O(n)$ time to complete. A more efficient implementation of broadcast
-is a tree-like data delivery where non-root processes help the root process by
-sending the received data to other processes that have not received the data
-yet. The time complexity of tree-like broadcast is $O(\log n)$.
+used communication patterns by scientists when implementing parallel
+algorithms such as broadcast, reduction, all-to-all exchange, \emph{etc.} In
+principle, any collective communication can be implemented using a combination
+of point-to-point communication. However, the use of collective communication
+over the use combinational use of point-to-point communication is generally
+preferable because the MPI library implements each communication primitive
+based on optimized algorithms that are selected depending on the message size
+and number of processes. For instance, a naive implementation of broadcast
+where the root process sends the same data to each non-root process requires
+$O(n)$ time to complete ($n$ represents the total number of processes). A more
+efficient implementation of broadcast is a tree-like data delivery where
+non-root processes help the root process by sending the received data to other
+processes that have not received the data yet. The time complexity of
+tree-like broadcast is $O(\log n)$.
 
 % 同期通信と非同期通信
 Both point-to-point communication primitives and collective communication
-primitives have blocking and non-blocking versions. Blocking
-primitives waits until the communication completes. In contrast,
-non-blocking primitives returns immediately after initiating the
-communication. A separate synchronization is prepared to complete the
+primitives have blocking and non-blocking versions. Blocking primitives waits
+until the communication completes. In contrast, non-blocking primitives
+returns immediately after initiating the corresponding communication
+operation. A separate synchronization is prepared to complete the
 communication. The advantage of non-blocking communication is that it allows
 overlapped computation and communication. In other words, computation can be
 performed while the communication is in progress. Overlapping computation and
@@ -300,7 +304,7 @@ There are multiple implementations of the MPI standard. Open
 MPI~\cite{Squyres2005}, MPICH~\cite{Gropp2002} and MVAPICH~\cite{mvapich} are
 representative examples of
 actively developed open source implementations of MPI\@.
-Furthermore, HPC system vendors such as Cray, Intel and Fujitsu develop their
+Furthermore, HPC system vendors such as Cray, Intel and Fujitsu offer their
 own proprietary MPI implementations based upon the open source
 implementations, taking the feature and characteristics of their own HPC
 systems into consideration. Vendor MPI implementations are highly optimized
@@ -311,13 +315,13 @@ launcher that allows users to quickly start MPI processes on multiple compute
 nodes.
 
 % MPIの高速化
-Until today, countless scientific applications have been developed by
-utilizing MPI\@. Accompanied by the recent scale-out of clusters, the
-execution time of MPI primitives has become a critical factor that determines
-the total performance of these applications using MPI\@. In other words, the
-total performance of MPI applications can be improved by optimizing the
-performance of MPI communications. For this reason, researchers have been
-striving to improve the communication performance of MPI from various aspects.
+Until today, countless scientific applications have been developed with MPI\@.
+Accompanied by the recent scale-out of clusters, the execution time of MPI
+primitives has become a critical factor that determines the total performance
+of these applications using MPI\@. In other words, the total performance of
+MPI applications can be improved by optimizing the performance of MPI
+communications. For this reason, researchers have been striving to improve the
+communication performance of MPI from various aspects.
 
 \subsection{Problem and Motivation}\label{sec:i-problem}
 
@@ -326,7 +330,7 @@ The inter-process communication of MPI applications shows a distinctive
 pattern. This pattern varies depending on the application and originates from
 the mathematical model, discretization method, and parallelization strategy.
 Figure~\ref{fig:stencil3d} shows the communication pattern of a
-three-dimensional finite-difference solver that performs nearest neighbor
+three-dimensional finite-difference solver that performs the nearest neighbor
 communication as an example. In this figure, the total size of messages sent
 from a process to another process is visualized using a heat map. The
 horizontal axis and vertical axis represent the sender and receiver rank,
@@ -344,8 +348,8 @@ communication required by the finite-difference method.
 % 相互結合網は通信パターンを無視している
 The design of an interconnect could be highly optimized for an
 application by taking the communication pattern of applications into account.
-For instance, an interconnect with a three-dimensional torus topology would be
-ideal for an application that performs nearest neighbor communication in
+For instance, the interconnect with a three-dimensional torus topology would
+be ideal for an application that performs nearest neighbor communication in
 three-dimensional space. However, this approach is infeasible when designing a
 real-world cluster. The reason can be explained from the fact that HPC systems
 are shared by many users where each user runs various applications on the
@@ -354,11 +358,11 @@ pattern, the interconnect is inherently application-independent.
 
 % 問題
 As a result, a concentration of packet flow in the interconnect, or the
-imbalance of packet flow, can occur under a certain combination of
+imbalance of packet flow, can take place under a certain combination of
 communication pattern and interconnect. The imbalance can lead to the
 concentration of traffic on a link in the interconnect and the slowdown of MPI
 communication that uses the link. The degraded MPI communication can
-ultimately results in serious degradation of total application performance.
+ultimately result in serious degradation of total application performance.
 
 % 関連研究
 A  number of previous studies have tried to address the mismatch between
@@ -366,15 +370,15 @@ application-dependent communication patterns and application-independent
 interconnects. Researchers have attempted to adapt the communication
 pattern of applications to the interconnect. For instance, interconnect-aware
 MPI collectives~\autocite{Kumar2016,Kumar2014,Gong2015,Adachi2013} have been
-developed to improve the performance of MPI collectives by taking into account
-the interconnect of a cluster. MPI implementation often leverages tree-based
-algorithms to aggregate or distribute messages from or to processes.
-Interconnect-aware MPI collectives use information on the interconnect, such
-as topology and link bandwidth, to build a delivery tree that matches the
-underlying interconnect of the cluster. Another approach is to optimize the
-placement of MPI processes on the compute
+developed to improve the performance of MPI collectives by taking the
+interconnect of a cluster into account. MPI implementation often leverages
+tree-based algorithms to aggregate and distribute messages from and to
+processes. Interconnect-aware MPI collectives use the information on the
+interconnect, such as topology and link bandwidth, to build a delivery tree
+that matches the underlying interconnect of the cluster. Another approach is
+to optimize the placement of MPI processes on the compute
 nodes~\autocite{Michelogiannakis2017,Hoefler2011,Choi2017}. In this
-approaches, the communication pattern of an application is considered as a
+approach, the communication pattern of an application is considered as a
 weighted graph where nodes represent processes and edges represent the volume
 of data exchanges between two processes. Various heuristic algorithms have
 been proposed to embed the communication pattern graph onto the interconnect
@@ -386,7 +390,7 @@ interconnect to the communication pattern of applications. This is mostly
 because it has been assumed that flexibly and dynamically reconfiguring the
 interconnect at run-time is infeasible. However, this assumption might not hold
 anymore with the recent emergence of programmable networking architecture that
-allows reconfiguring the interconnect on-the-fly.
+allows the on-the-fly reconfiguration of the interconnect.
 
 \subsection{Software-Defined Networking}\label{sec:i-sdn}
 
@@ -402,7 +406,7 @@ benefits:
 \begin{enumerate}
 \item
   \emph{Programmable}: The control plane can be handled by a software
-  controller. Network operators can program controllers tailored for
+  controller. Network operators develop software controllers tailored for
   their needs.
 \item
   \emph{Dynamic}: SDN allows the controller to quickly reconfigure the
@@ -426,18 +430,18 @@ benefits:
 % OpenFlowの概要とスイッチ
 \emph{OpenFlow}~\autocite{McKeown2008} is a widely accepted open standard of
 SDN\@. In an OpenFlow-enabled network, the data plane is handled by OpenFlow
-switches. Each OpenFlow switch holds a logical construct called \emph{flow
+switches. Each OpenFlow switch holds a logical construct called a \emph{flow
 table}, which is a collection of \emph{flow entries}. A flow entry defines
 what kind of packet control should be performed on what kind of packets
 (Fig.~\ref{tbl:flow-table}). Every time a packet arrives at an OpenFlow
 switch, the switch looks up a matching flow entry in its flow table using the
 header fields of the packet. Once the switch finds a matching flow entry, the
-corresponding action of the matched flow entry is applied to the incoming packet. An
-arbitrary combination of pre-defined header fields can be used for the
-matching condition. Table~\ref{tbl:flow-fields} shows the twelve header fields
-defined in OpenFlow~1.0. OpenFlow switches usually implement specialized
-hardware such as Content Addressable Memory (CAM) or Ternary Content
-Addressable Memory (TCAM) to perform the matching efficiently.
+corresponding action of the matched flow entry is applied to the incoming
+packet. An arbitrary combination of pre-defined header fields can be used for
+the matching condition. Table~\ref{tbl:flow-fields} shows the twelve header
+fields defined in OpenFlow~1.0. OpenFlow switches usually implement
+specialized hardware such as Content Addressable Memory (CAM) or Ternary
+Content Addressable Memory (TCAM) to perform the matching efficiently.
 
 \begin{figure}
 \centering
@@ -537,11 +541,11 @@ Initiator                   & Message Type     & Response     & Purpose         
 
 \clearpage
 
-\section{Research Objective}
+\section{Research Objective}\label{sec:i-objective}
 
 As discussed in Section~\ref{sec:i-problem}, the mismatch between
 application-dependent communication patterns and application-independent
-interconnects have lead to the imbalance of packet flow in the interconnect.
+interconnects have led to the imbalance of packet flow in the interconnect.
 This dissertation aims to address this imbalance problem by establishing a
 programmable interconnect control that dynamically controls the packet flow in
 the interconnect based on the communication pattern of applications.
@@ -558,28 +562,28 @@ envisioned programmable interconnect control in this dissertation. The core
 idea of this programmable interconnect control is an iteration of three steps:
 \emph{observe}, \emph{decide} and \emph{adapt}. The envisioned interconnect
 control functions as follows. First, the inter-process communication pattern
-of an application is observed and recorded. Second, the decision of how to
+of an application is observed and recorded. Second, the decision on how to
 control the packet flow in the interconnect is made based on the collected
 communication pattern of the application. The goal of this packet flow control
-is to mitigate imbalance in the interconnect and achieve higher communication
-performance between compute nodes. Third, the interconnect is adapted to
-perform the planned packet flow control using programmable networking
-architecture. These three steps are performed in synchronization with the
-execution of application.
+is to mitigate load imbalance in the interconnect and achieve higher
+communication performance between compute nodes. Third, the interconnect is
+adapted to perform the planned packet flow control using programmable
+networking architecture. These three steps are performed in synchronization
+with the execution of application.
 
-To materialize this concept, following three challenges must be achieved:
+To materialize this concept, the following three challenges must be achieved:
 
 \begin{enumerate}
 \item \emph{Analyzing the packet flow in the interconnect}:
-    To effectively control the packet flow in the interconnect, we first need
-    to carefully analyze and understand the packet flow generated in the
-    interconnect when running an application on a cluster.
+    To effectively control the packet flow in the interconnect, interconnect
+    designers first need to carefully analyze and understand the packet flow
+    generated in the interconnect when running an application on a cluster.
 \item \emph{Accelerating MPI communication by dynamically controlling the
     packet flow in the interconnect}:
     Given a communication pattern of an application and an interconnect,
-    we need to determine how to control the packet flow in the interconnect to
-    mitigate load imbalance in the interconnect and improve the performance of
-    MPI communication.
+    interconnect designers need to determine how to control the packet flow in
+    the interconnect to mitigate load imbalance in the interconnect and
+    improve the performance of MPI communication.
 \item \emph{Coordinating the execution of application and interconnect control}:
     The communication pattern of the application changes rapidly with the
     execution of the application. Therefore, the interconnect control must
@@ -591,27 +595,28 @@ To materialize this concept, following three challenges must be achieved:
 The rest of this dissertation is organized as follows.
 % アプリケーションが相互結合網内に生成するパケットフローの解析手段を実現
 Chapter~\ref{sec:ii} proposes PFAnalyzer, a toolset for analyzing the
-packet flow in the interconnect, to address the first challenge. The
-packet flow generated in the interconnect highly depends on parameters such as
-the communication pattern of application, interconnect design and cluster
-configuration. When designing and implementing an efficient programmable
-interconnect control, researchers need to conduct a systematic analysis over
-many combinations of these parameters. Since performing such analysis on a
-physical cluster is time-consuming, this dissertation utilizes simulation to
-facilitate the analysis. PFAnalyzer is a pair of two tools: PFSim, an
-interconnect simulator specialized for programmable interconnects, and PFProf,
-a profiler to collect communication pattern from MPI applications. PFSim
-allows interconnect researchers and designers to investigate congestion in the
-interconnect for an arbitrary cluster configuration and a set of communication
-patterns collected by PFProf. This dissertation evaluates the accuracy of the
-simulation results obtained from PFSim and demonstrates how PFAnalyzer can be
-used to analyze the effect of programmable interconnect control.
+packet flow in the interconnect, to address the first challenge listed in
+Section~\ref{sec:i-objective}. The packet flow generated in the interconnect
+highly depends on parameters such as the communication pattern of application,
+interconnect design and cluster configuration. When designing and implementing
+an efficient programmable interconnect control, researchers need to conduct a
+systematic analysis over many combinations of these parameters. Since
+performing such analysis on a physical cluster is time-consuming, this
+dissertation utilizes simulation to facilitate the analysis. PFAnalyzer is a
+pair of two tools: PFSim, an interconnect simulator specialized for
+programmable interconnects, and PFProf, a profiler to collect communication
+pattern from MPI applications. PFSim allows interconnect researchers and
+designers to investigate possible congestion in the interconnect for an
+arbitrary cluster configuration and a set of communication patterns collected
+by PFProf. This dissertation evaluates the accuracy of the simulation results
+obtained from PFSim and demonstrates how PFAnalyzer can be used to analyze the
+effect of programmable interconnect control.
 
 % MPI集団通信を高速化するパケットフロー制御アルゴリズムを配備可能な
 % フレームワークを構築
 Chapter~\ref{sec:iii} addresses the second challenge. Out of the communication
 primitives provided by MPI, this dissertation focuses on accelerating
-collective communication because it consumes a significant fraction of the
+collective communication because it occupies a significant fraction of the
 execution time of applications. This dissertation proposes a framework to
 accelerate MPI collectives by dynamically controlling the packet flow in the
 interconnect. The network programmability provided by Software-Defined
@@ -629,10 +634,10 @@ interconnect control in synchronization with the execution of applications.
 In a real-world application, the communication pattern changes with the
 execution of application. Therefore, a mechanism to coordinate packet flow
 control and execution of application is essential. UnisonFlow is a
-kernel-assisted mechanism that realizes such coordination in a per-packet
-basis while maintaining significantly low overhead. Evaluation verifies that the
-interconnect control can be successfully performed in synchronization with the
-execution of the application and the overhead imposed by the coordination
+kernel-assisted mechanism that realizes such coordination on a per-packet
+basis while maintaining significantly a low overhead. Evaluation verifies that
+the interconnect control can be successfully performed in synchronization with
+the execution of the application and the overhead incurred by the coordination
 mechanism is small.
 
 Chapter~\ref{sec:v} concludes this dissertation and discusses future works.

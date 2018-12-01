@@ -67,7 +67,7 @@ time-consuming, this research utilizes simulation to facilitate the analysis.
 The proposed toolset is a pair of tools: an interconnect simulator
 specialized for programmable interconnects, and a profiler to collect
 communication pattern from applications. PFSim allows researchers and
-designers working on interconnects to investigate congestion in the
+designers working on interconnects to investigate possible congestion in the
 interconnect for an arbitrary cluster configuration and a set of communication
 patterns extracted by PFProf. In the evaluation, the accuracy of the
 simulation results obtained from PFSim is assessed. Furthermore, how
@@ -81,27 +81,27 @@ interconnect. Message Passing Interface~(MPI) is a standardized inter-process
 communication library widely used to develop parallel distributed
 applications for clusters. Out of the communication primitives provided by
 MPI, this research focuses on accelerating collective communication because it
-consumes a significant fraction of the execution time of applications. The
+occupies a significant fraction of the execution time of applications. The
 network programmability provided by Software-Defined Networking is integrated
-into MPI collectives in such a way that collectives are able to effectively
-utilize the bandwidth of the interconnect. In particular, this research aims
-to reduce the execution time of MPI\_Allreduce, which is a frequently used MPI
-collective communication in many simulation codes. The speedup of
-MPI\_Allreduce when using the proposed collective acceleration framework is
-evaluated.
+into MPI collectives in such a way that MPI collectives are able to
+effectively utilize the bandwidth of the interconnect. In particular, this
+research aims to reduce the execution time of MPI\_Allreduce, which is a
+frequently used MPI collective communication in many simulation codes. The
+speedup of MPI\_Allreduce when using the proposed collective acceleration
+framework is evaluated.
 
 % 提案3
 To address the third challenge, Chapter~\ref{sec:iv} proposes UnisonFlow, a
 software-defined coordination mechanism that performs interconnect control in
-synchronization with the execution of applications. In a real-world
-application, the communication pattern changes with the execution of
+synchronization with the execution of applications. In real-world
+applications, the communication pattern changes with the execution of
 application. Therefore, a mechanism to coordinate packet flow control and
 execution of application is essential. UnisonFlow is a kernel-assisted
-mechanism that realizes such coordination in a per-packet basis while
+mechanism that realizes such coordination on a per-packet basis while
 maintaining significantly low overhead. Evaluation verifies that the
 interconnect control can be successfully performed in synchronization with the
 execution of the application and the overhead imposed by the coordination
-mechanismi is small.
+mechanism is small.
 
 Chapter~\ref{sec:v} concludes this dissertation and discusses future works.
 
