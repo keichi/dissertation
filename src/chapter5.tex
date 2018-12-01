@@ -1,74 +1,80 @@
 \chapter{Conclusion}\label{sec:v}
 
 \section{Concluding Remark}
-
 % 問題
-The inter-process communication of applications running on cluster cluster
+The inter-process communication of applications running on cluster systems
 show distinctive patterns. However, in contrast to the application-dependent
 communication pattern, the interconnect is inherently designed in an
 application-agnostic manner because a real-world cluster is usually shared by
-many users. As a result, imbalance of the packet flow in the interconnect can
-occur under a particular combination of communication pattern and
-interconnect. This imbalance can lead to traffic congestion on a link in the
-interconnect, which slows down communication and ultimately degrade the
-total application performance.
+many users and each user runs various applications. Therefore, in As a result,
+the imbalance of the packet flow in the interconnect can occur under a
+particular combination of communication pattern and interconnect. This
+imbalance can lead to traffic congestion on a link in the interconnect, which
+slows down communication and as a result degrades the total application
+performance.
 
 % 目的
-This dissertation tackled this problem by adapting the interconnect to the
-communication pattern of applications. Traditionally, such dynamic adaptation
-of the interconnect has been deemed infeasible due to the lack of a networking
-architecture that allows flexible and dynamic reconfiguration. However, the
-recent emergence of programmable networking architectures exemplified by
-Software-Defined Networking~(SDN) has opened up the possibility to realize
-such adaptation. This dissertation aimed to overcome this shortcoming of
-conventional application-agnostic interconnects by establishing a programmable
-interconnect control that dynamically controls the packet flow in the
-interconnect based on the communication pattern of applications.
+This dissertation tackled this imbalance problem by adapting the interconnect
+to the communication pattern of applications. Traditionally, such dynamic
+adaptation of the interconnect has been deemed infeasible due to the lack of a
+networking architecture, technology, or technique that allows flexible and
+dynamic reconfiguration. However, the recent emergence of programmable
+networking architecture that allows flexible and dynamic reconfiguration.
+However, the recent emergence of programmable networking architectures
+exemplified by Software-Defined Networking~(SDN) has opened up the possibility
+to realize such adaptation. This dissertation aimed to overcome this
+shortcoming of conventional application-agnostic interconnects by establishing
+a programmable interconnect control that dynamically controls the packet flow
+in the interconnect based on the communication pattern of applications.
 
 % 課題
-Following three challenges must be tackled to materialize this concept: (1)
-analyzing the packet flow in the interconnect, (2) accelerating MPI
+Following three challenges have been tackled to achieve the goal described
+above: (1) analyzing the packet flow in the interconnect, (2) accelerating MPI
 communication by dynamically controlling the packet flow in the interconnect,
 and (3) coordinating the execution of application and interconnect control.
 
 % 提案1
-In Chapter~\ref{sec:ii},  we proposed PFAnalyzer, a toolset for analyzing the
-packet flow in the interconnect to address the first challenge. When designing
-and implementing an efficient programmable interconnect control, researchers
-need to conduct a systematic analysis over many combinations of applications
-and interconnects. Since performing such analysis on a physical cluster is
-time-consuming, we utilize simulation to facilitate the analysis. Our proposed
-toolset is a pair of two tools: an interconnect simulator specialized for
-programmable interconnects, and a profiler to collect communication pattern
-from MPI applications. PFSim allows interconnect researchers and designers to
-investigate congestion in the interconnect for an arbitrary cluster
-configuration and a set of communication patterns extracted by PFProf. We
-evaluate the accuracy of the simulation results obtained from PFSim and
-demonstrate how PFAnalyzer can be used to analyze the effect of programmable
-interconnect control.
+To address the first challenge, Chapter~\ref{sec:ii} proposed PFAnalyzer, a
+toolset for analyzing the packet flow in the interconnect. When designing and
+implementing an efficient programmable interconnect control, researchers need
+to conduct a systematic analysis over many combinations of applications and
+interconnects. Since performing such an analysis on a physical cluster is
+time-consuming, this research utilizes simulation to facilitate the analysis.
+The proposed toolset is a pair of tools: an interconnect simulator
+specialized for programmable interconnects, and a profiler to collect
+communication pattern from applications. PFSim allows researchers and
+designers working on interconnects to investigate possible congestion in the
+interconnect for an arbitrary cluster configuration and a set of communication
+patterns extracted by PFProf. In the evaluation, the accuracy of the
+simulation results obtained from PFSim was assessed. Furthermore, how
+PFAnalyzer can be used to analyze the effect of programmable interconnect
+control was demonstrated.
 
 % 提案2
-In Chapter~\ref{sec:iii}, we proposed a framework that accelerates MPI
-collectives by dynamically controlling the packet flow in the interconnect to
-address the second challenge. Out of the communication primitives provided by
-MPI, we focus on accelerating collective communication because it consumes a
-significant fraction of the execution time of applications. We integrate the
-network programmability provided by Software-Defined Networking into MPI
-collectives in such a way that collectives are able to effectively utilize the
-bandwidth of the interconnect. In particular, we aim to reduce the execution
-time of MPI\_Allreduce, which is a frequently used MPI collective
-communication in many simulation codes. We evaluate the speedup of
-MPI\_Allreduce when using our collective acceleration framework.
+To address the second challenge, Chapter~\ref{sec:iii} proposed a framework to
+accelerate MPI collectives by dynamically controlling the packet flow in the
+interconnect. Message Passing Interface~(MPI) is a standardized inter-process
+communication library widely used to develop parallel distributed
+applications for clusters. Out of the communication primitives provided by
+MPI, this research focused on accelerating collective communication because it
+occupies a significant fraction of the execution time of applications. The
+network programmability provided by Software-Defined Networking was integrated
+into MPI collectives in such a way that MPI collectives are able to
+effectively utilize the bandwidth of the interconnect. In particular, this
+research aimed to reduce the execution time of MPI\_Allreduce, which is a
+frequently used MPI collective communication in many simulation codes. The
+speedup of MPI\_Allreduce when using the proposed collective acceleration
+framework was evaluated.
 
 % 提案3
-In Chpater~\ref{sec:iv}, we proposed UnisonFlow, a software-defined
-coordination mechanism that performs interconnect control in synchronization
-with the execution of applications to address the third challenge. In a
-real-world application, the communication pattern changes with the execution
-of application. Therefore, a mechanism to coordinate packet flow control and
+To address the third challenge, Chapter~\ref{sec:iv} proposed UnisonFlow, a
+software-defined coordination mechanism that performs interconnect control in
+synchronization with the execution of applications. In real-world
+applications, the communication pattern changes with the execution of
+application. Therefore, a mechanism to coordinate packet flow control and
 execution of application is essential. UnisonFlow is a kernel-assisted
-mechanism that realizes such coordination in a per-packet basis while
-maintaining significantly low overhead. We verify that the interconnect
-control can be successfully performed in synchronization with the execution of
-the application and evaluate the overhead imposed by the coordination
-mechanism.
+mechanism that realizes such coordination on a per-packet basis while
+maintaining significantly low overhead. Evaluation verified that the
+interconnect control can be successfully performed in synchronization with the
+execution of the application and the overhead imposed by the coordination
+mechanism is small.
