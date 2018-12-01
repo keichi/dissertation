@@ -238,3 +238,5 @@ TSWLatexianTemp*
 *.sta
 
 main.pdf
+*.pdf-raw
+*.pdf-cropped
