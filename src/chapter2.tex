@@ -256,7 +256,7 @@ occurs.
 Figure~\ref{fig:profiler-block} illustrates how PFProf, MPI library and
 MPI application interact with one another. PFProf hooks several MPI functions
 using PMPI\@. MPI\_Init and MPI\_Finalize are hooked to perform initialization
-and finalization when the application starts or exits (step 1 in
+and finalization when the application starts or exits (step~1 in
 Fig.~\ref{fig:profiler-block}). In addition, PFProf hooks MPI functions that
 create or destroy communicators to to maintain a mapping between global ranks
 (rank number within \lstinline!MPI_COMM_WORLD!) and local ranks (rank number
@@ -265,18 +265,16 @@ PERUSE events are reported with local ranks, while profiling results should be
 described with global ranks for the ease of analysis. During the
 initialization, PFProf subscribes to two PERUSE events:
 \lstinline!PERUSE_COMM_REQ_XFER_BEGIN! and
-\lstinline!PERUSE_COMM_REQ_XFER_END! (step 2 in
-Fig.~\ref{fig:profiler-block}). These events are emitted each time a transfer
-of a message begins and ends, respectively.
+\lstinline!PERUSE_COMM_REQ_XFER_END! (step~2). These events are emitted each
+time a transfer of a message begins and ends, respectively.
 
 % アプリケーションの実行開始後の動作
 After the application has started, PFProf receives PERUSE events from the MPI
 library every time the application calls an MPI function that causes
-inter-process communication (step 3 in Fig.~\ref{fig:profiler-block}). PERUSE
-extracts the sender, receiver and transferred bytes from each PERUSE event and
-updates the traffic matrix online. Once the application calls MPI\_Finalize,
-communication pattern is written out to disk as a JSON file (step 4 in
-Fig.~\ref{fig:profiler-block}).
+inter-process communication (step~3). PERUSE extracts the sender, receiver and
+transferred bytes from each PERUSE event and updates the traffic matrix
+online. Once the application calls MPI\_Finalize, the communication pattern is
+written out to disk as a JSON file (step~4).
 
 \begin{figure}
     \centering

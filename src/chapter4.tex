@@ -395,12 +395,12 @@ type of MPI primitive.
 Figure~\ref{fig:inter-node-flow} illustrates an example of the packet
 flow between two remote compute nodes. When the interconnect
 controller receives a packet-in message caused by an unmatched packet
-(step 1), the controller decodes the tag embedded in the packet and extracts
-the MPI context information (step 2). After that, the responsible MPI
-primitive module is invoked with the context information as its input (step
-3). The MPI primitive module determines how a set of packets carrying the same
-context information should be treated. Based on this decision, flow entries
-are generated and then installed to relevant switches (step 4).
+(step~1), the controller decodes the tag embedded in the packet and extracts
+the MPI context information (step~2). After that, the responsible MPI
+primitive module is invoked with the context information as its input
+(step~3). The MPI primitive module determines how a set of packets carrying
+the same context information should be treated. Based on this decision, flow
+entries are generated and then installed to relevant switches (step~4).
 
 \begin{figure}
     \centering

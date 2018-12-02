@@ -283,7 +283,7 @@ language. It has the following four core functionalities:
 The first functionality is topology detection. How detection is
 performed is shown in Fig.~\ref{fig:lldp}. The controller periodically
 requests every switch to send out an LLDP packet from each of their physical
-ports (step 1 in Fig.~\ref{fig:lldp}). This LLDP packet contains two kinds of
+ports (step~1 in Fig.~\ref{fig:lldp}). This LLDP packet contains two kinds of
 information: datapath ID (a number that uniquely distinguishes the switches)
 and port number (port index where the packet is sent out). Moreover, all
 compute nodes also emit LLDP packets from the LLDP daemon described in the
@@ -291,8 +291,8 @@ previous section. The controller is notified of a LLDP packet arrival at a
 switch. After that, it parses the packet to obtain the information on the
 packet's origin, and then examines whether the packet came from a compute node
 or an SDN-enabled switch, and its MAC address/Datapath ID and Interface
-index/Port number (step 2). Using this information from its neighbors, an
-adjacency list is generated (step 3). From this adjacency list, a network
+index/Port number (step~2). Using this information from its neighbors, an
+adjacency list is generated (step~3). From this adjacency list, a network
 topology graph is constructed, which is used in the route generation and
 routing. If the packet is from a compute node, the source MAC address and IP
 address are registered in a MAC/IP address translation table used in the ARP
