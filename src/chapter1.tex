@@ -329,20 +329,35 @@ communication performance of MPI from various aspects.
 The inter-process communication of MPI applications shows a distinctive
 pattern. This pattern varies depending on the application and originates from
 the mathematical model, discretization method, and parallelization strategy.
-Figure~\ref{fig:stencil3d} shows the communication pattern of a
+Figure~\ref{fig:minighost} shows the communication pattern of a
 three-dimensional finite-difference solver that performs the nearest neighbor
 communication as an example. In this figure, the total size of messages sent
 from a process to another process is visualized using a heat map. The
 horizontal axis and vertical axis represent the sender and receiver rank,
 respectively. The visual representation evidently exhibits a regular and local
 pattern along the diagonal, which originates from the nearest neighbor
-communication required by the finite-difference method.
+communication required by the finite-difference method. As another example,
+Fig.~\ref{fig:minife} shows the communication pattern of a three-dimensional
+finite-element solver. Clearly, this communication pattern differs from the
+one of a finite-difference solver shown in Fig.~\ref{fig:minighost}. The
+existence of dots apart from the diagonal suggests that distant processes
+communicate with one another in this application.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\linewidth]{stencil3d}
-    \caption{Communication Pattern of an Application}%
-    \label{fig:stencil3d}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{minighost_small_160_traffic_matrix}
+        \caption{Three-dimensional Finite-difference Solver}%
+        \label{fig:minighost}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{minife_small_160_traffic_matrix}
+        \caption{Three-dimensional Finite-element Solver}%
+        \label{fig:minife}
+    \end{subfigure}
+    \caption{Communication Pattern of Applications}
 \end{figure}
 
 % 相互結合網は通信パターンを無視している
