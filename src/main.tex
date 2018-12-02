@@ -1,6 +1,6 @@
 \documentclass[a4paper,fontsize=12pt,headsepline]{scrbook}
 
-\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[english]{babel}
@@ -54,15 +54,18 @@
   frame={tb},%
   breaklines=true,%
   columns=[l]{fullflexible},%
-  numbers=none,%
-  xrightmargin=0em,%
-  xleftmargin=0em,%
+  numbers=left,%
   numberstyle={\scriptsize},%
   stepnumber=1,%
   numbersep=1em,%
   lineskip=-0.5ex,%
-  mathescape%
+  mathescape,%
+  xleftmargin=2em,%
+  framexleftmargin=1.5em,%
 }
+
+% algorithm2e
+\SetNlSty{normalfont}{}{}
 
 % Numbering of subfigures
 \renewcommand{\thesubfigure}{~(\alph{subfigure})}
