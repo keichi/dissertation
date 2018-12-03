@@ -25,14 +25,15 @@ applications. In contrast, in the latter category, it is assumed that packet
 flow is dynamically controlled to mitigate load imbalance and improve
 utilization of the interconnect.
 
-Nowadays, the majority of HPC clusters employ the former static
-interconnects because of the relatively lower implementation cost than the
-latter category. The static interconnects are controlled without taking the
-communication patterns of individual applications into account. However, they
-are usually designed to be able to accommodate the worst-case traffic demand
-to achieve good performance for a variety of applications, each of which has a
-different communication pattern. Interconnect designers have respected such
-criteria as full bisection bandwidth and non-blocking networks.
+Nowadays, the majority of HPC clusters employ the former static interconnects
+because of their technological maturity despite the potential cost advantage
+dynamic interconnects could provide. The static interconnects are controlled
+without taking the communication patterns of individual applications into
+account. However, they are usually designed to be able to accommodate the
+worst-case traffic demand to achieve good performance for a variety of
+applications, each of which has a different communication pattern.
+Interconnect designers have respected such criteria as full bisection
+bandwidth and non-blocking networks.
 
 The continuously growing demand for computing power from academia and
 industry has inevitably forced HPC clusters to scale out more and more.
@@ -73,13 +74,13 @@ are still at their early stage. Third, network hardware such as switches may
 not support measuring traffic in the interconnect with enough high frequency
 and precision to obtain meaningful insights.
 
-To accelerate the research and development of application-aware dynamic
-interconnects that control packet flow in response to the communication
-patterns of applications, an interconnect simulator that allows users to
-conduct systematic investigation of clusters with diverse topologies and
-parameters is essentially demanded. A wide spectrum of interconnect
-simulators have been developed with different focus and purpose until
-today. However, existing simulators mostly focused on static
+From the three restrictions mentioned above, an interconnect simulator that
+allows users to conduct a systematic investigation of clusters with diverse
+topologies and parameters is essentially demanded to accelerate the research
+and development of application-aware dynamic interconnects that control packet
+flow in response to the communication patterns of applications. A wide
+spectrum of interconnect simulators have been developed with different focus
+and purpose until today. However, existing simulators mostly focused on static
 interconnects and few research has been done to simulate dynamic and
 application-aware interconnects.
 
@@ -103,7 +104,8 @@ The contributions of this chapter are summarized as follows:
   applications is presented.
 \item
   Simulation results for NAS CG benchmark and MILC on a fat-tree
-  interconnect are presented.
+  interconnect are presented to demonstrate the practicality of of the
+  proposed toolset.
 \end{itemize}
 
 The rest of this chapter is organized as follows.
@@ -135,13 +137,13 @@ utilizing simulation to facilitate the analysis.
 
 This research attempts to provide a toolset that performs a lightweight
 simulation of the interconnect and predicts the packet flow generated in the
-interconnect. Researchers supply the communication pattern of real-world
-application alongside with the interconnect design and cluster configuration
-to the simulator. The predicted packet flow can then be analyzed by
-researchers to gain an insight on the interconnect while significantly saving
-the time and cost compared to experiments on a physical cluster. Based on the
-discussion above, the toolset should be able to satisfy the following
-requirements.
+interconnect. The toolset should allow researchers to predict the packet flow
+in the interconnect by supplying the communication pattern of real-world
+application alongside with the interconnect design and cluster configuration.
+The predicted packet flow can then be analyzed by researchers to gain an
+insight on the interconnect while significantly saving the time and cost
+compared to experiments on a physical cluster. Based on the discussion above,
+the toolset should be able to satisfy the following requirements.
 
 \begin{itemize}
 \item
@@ -418,8 +420,8 @@ job-started event is inserted into the event queue (line 6).
 
 % ジョブ開始イベントハンドラ
 Algorithm~\ref{alg:on-job-started} shows the overview of the event handler for
-the job-started event. This is event handler first obtains the traffic matrix
-of the application that has started (line 1 in
+the job-started event. This event handler first obtains the traffic matrix of
+the application that has started (line 1 in
 Algorithm~\ref{alg:on-job-started}). Next, based on the traffic matrix, the
 traffic load on each link in the interconnect is updated as follows: first,
 compute nodes that accommodate the source and destination processes are
