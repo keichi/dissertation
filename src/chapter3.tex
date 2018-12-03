@@ -442,7 +442,7 @@ SDN controller. The SDN controller was developed using a SDN controller
 framework Trema~\autocite{trema} 0.4.6 and Ruby 1.9.3. The SDN
 MPI Library and the benchmark application were written in C and
 compiled with gcc 4.4.7. As a representative of a conventional MPI,
-Open MPI~\autocite{Gabriel2004} 1.5.4 was used.
+Open~MPI~\autocite{Gabriel2004} 1.5.4 was used.
 
 \begin{figure}
     \centering
@@ -456,16 +456,16 @@ Open MPI~\autocite{Gabriel2004} 1.5.4 was used.
 A micro-benchmark that repeats MPI\_Allreduce 20
 times and measures the average execution time of the function was used
 for comparing the execution time of the proposed MPI\_Allreduce
-with its Open MPI counterpart.
+with its Open~MPI counterpart.
 
 Figure~\ref{fig:evaluation-8nodes} shows the measurement results using 8
 nodes, where the horizontal axis indicates the message size and the
 vertical axis shows the average time taken to execute
 MPI\_Allreduce. The solid line and dashed line represent the
-execution time of the proposed framework and Open MPI implementation,
+execution time of the proposed framework and Open~MPI implementation,
 respectively. Figure~\ref{fig:evaluation-8nodes-normalized} shows the speedup
 of MPI\_Allreduce accelerated using the proposed framework in comparison with
-the Open MPI implementation. The maximum of performance improvement was 41\%.
+the Open~MPI implementation. The maximum of performance improvement was 41\%.
 
 \begin{figure}
     \centering
