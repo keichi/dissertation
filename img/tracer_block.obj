@@ -100,7 +100,7 @@ minilines(235,80,0,0,0,0,0,[
 mini_line(235,16,4,0,0,0,[
 str_block(0,235,16,4,0,-1,0,0,0,[
 str_seg('black','Helvetica',0,97920,235,16,4,0,-1,0,0,0,0,0,
-	"1. Hook subset of MPI functions:")])
+	"1. Intercept subset of MPI functions:")])
 ]),
 mini_line(73,16,4,0,0,0,[
 str_block(0,73,16,4,0,0,0,0,0,[
