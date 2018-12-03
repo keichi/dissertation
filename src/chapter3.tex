@@ -59,14 +59,12 @@ these redundant routes, it is possible to gain higher bisection bandwidth
 compared to a simple tree topology.
 
 The traffic load balancing algorithm becomes important on such interconnects.
-For example, suppose
-compute node 1 is sending data to node 3, and node 2 is sending
-different data to node 4 at the same moment. If those two communications
-are routed within the exact same route, link contention could happen, as
-depicted in Fig.~\ref{fig:problem-routing1}. When these two
-communications are routed so that they make use of the redundant routes
-as depicted in Fig.~\ref{fig:problem-routing2}, link contention can be
-avoided.
+For example, suppose compute node 1 is sending data to node 3, and node 2 is
+sending different data to node 4 at the same moment
+in~\ref{fig:problem-routing1}. If those two communications are routed within
+the exact same route, link contention could happen. When these two
+communications are routed so that they make use of the redundant routes as
+depicted in Fig.~\ref{fig:problem-routing2}, link contention can be avoided.
 
 \begin{figure}
     \centering
@@ -144,7 +142,7 @@ method. CG method is an iterative algorithm to solve a system of linear
 equations $Ax = b$ whose coefficient matrix $A$ is positive-definite and
 symmetric. In the parallel CG method, a significant amount of time is spent in
 MPI\_Allreduce to compute the inner product of
-vectors~\autocite{Kandalla2012}. Another user case is parallel Stochastic
+vectors~\autocite{Kandalla2012}. Another use case is parallel Stochastic
 Gradient Descent~(SGD). SGD is a continuous optimization algorithm that
 minimizes an objective function $f$ parameterized by $w$ for a given set of
 input $S$. SGD incrementally updates $w$ in the following way: $w^{t+1}=w^t-
@@ -252,7 +250,7 @@ can cooperate with the other programs composing the whole system.
 The developed daemon detects all available network interfaces installed on a
 computer and queries its interface index, MAC address and IP address.
 This information is packed into a single LLDP packet and sent out from
-each network interface periodically. The interval is set to 1 second in
+each network interface periodically. The interval is set to one second in
 this prototypical implementation to speed up the topology discovery.
 However, it can be a longer period in practical systems so that its
 topology does not change frequently.
@@ -407,9 +405,9 @@ algorithms, which means more room for optimization in terms of communication.
 Figure~\ref{fig:recursive-doubling} shows how the recursive doubling algorithm
 works. In this context, the \emph{distance} between two MPI processes is
 defined as the absolute value of the difference of rank numbers. In the first
-step, processes that are 1 distance apart exchange their data and perform the
-reduction operation between the data that the process has originally held and
-with the just exchanged data. In the second step, processes that are 2
+step, processes that are one distance apart exchange their data and perform
+the reduction operation between the data that the process has originally held
+and with the just exchanged data. In the second step, processes that are 2
 distance apart exchange their data, and in step \(p\), processes that are
 \(2^{p - 1}\) distance apart exchange their data. The SDN MPI library
 memorizes all process pairs that have to communicate and exchange data by
@@ -426,7 +424,7 @@ MPI\_Allreduce. The experimental environment is illustrated in
 Fig.~\ref{fig:experiment-environment}. This experiment was performed on
 a real cluster system consisting of 28 compute nodes and 6 SDN-enabled
 switches, which formed a two-tier fat-tree topology. The compute nodes and
-SDN-enabled switches were all connected through 1 Gigabit Ethernet links;
+SDN-enabled switches were all connected through Gigabit Ethernet links;
 hence the interconnect was oversubscribed.
 
 In addition to the network connecting the compute node and switches,
@@ -536,7 +534,8 @@ communication operations to hardware. For example, the
 \emph{K-computer}~\autocite{Yokokawa2011} has a hardware module called
 \emph{Tofu Barrier Interface}~\autocite{Ajima2012} on all nodes. This module
 executes Barrier, Broadcast, Reduce and Allreduce collective operations in
-hardware instead of software.
+hardware instead of software. However, this approach does not mitigate
+the congestion on links.
 
 Past works including existing MPI implementations have been successful in
 switching between multiple algorithms depending on message size, node number,
