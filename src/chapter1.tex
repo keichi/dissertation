@@ -220,6 +220,29 @@ communication. Table~\ref{tbl:mpi-primitives} shows several examples from each
 category. Note that this list covers only a small fraction of all the
 primitives defined in MPI\@.
 
+\begin{table}
+    \centering
+    \caption{Examples of MPI Primitives}%
+    \label{tbl:mpi-primitives}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Type           & Name        & Description \\ \midrule
+Point-to-point & Send/Recv   & Point-to-point send and receive              \\
+               & Isend/Irecv & Non-blocking point-to-point send and receive \\
+\midrule
+Collective     & Bcast       & Broadcast                                    \\
+               & Reduce      & Reduction                                    \\
+               & Allreduce   & Broadcast result of reduction                \\
+               & Ibcast      & Non-blocking Bcast                           \\
+               & Ireduce     & Non-blocking Reduce                          \\
+               & Iallreduce  & Non-blocking Allreduce                       \\
+\midrule
+One-sided      & Put         & One-sided put                                \\
+               & Get         & One-sided get                                \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 % 1対1通信
 Point-to-point communication is a communication between a sender process and
 another receiver process. For example, the sender calls MPI\_Send whereas the
@@ -275,29 +298,6 @@ involvement of its counterpart. This communication model reduces the overhead
 incurred by memory copy and synchronization points. One-sided communication is
 especially beneficial on interconnects that support Remote Direct Memory
 Access~(RDMA).
-
-\begin{table}
-    \centering
-    \caption{Examples of MPI Primitives}%
-    \label{tbl:mpi-primitives}
-\begin{tabular}{@{}lll@{}}
-\toprule
-Type           & Name        & Description \\ \midrule
-Point-to-point & Send/Recv   & Point-to-point send and receive              \\
-               & Isend/Irecv & Non-blocking point-to-point send and receive \\
-\midrule
-Collective     & Bcast       & Broadcast                                    \\
-               & Reduce      & Reduction                                    \\
-               & Allreduce   & Broadcast result of reduction                \\
-               & Ibcast      & Non-blocking Bcast                           \\
-               & Ireduce     & Non-blocking Reduce                          \\
-               & Iallreduce  & Non-blocking Allreduce                       \\
-\midrule
-One-sided      & Put         & One-sided put                                \\
-               & Get         & One-sided get                                \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 % MPIの実装
 There are multiple implementations of the MPI standard. Open
