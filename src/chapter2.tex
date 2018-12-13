@@ -700,26 +700,40 @@ the overhead incurred by the profiler. OSU Micro
 Benchmark~\autocite{omb} was used to measure the throughput and latency
 of point-to-point communication between two processes for varying
 message sizes. The comparison of throughput is shown in
-Fig.~\ref{fig:bandwidth-overhead}. For messages larger than 1KB, the
+Fig.~\ref{fig:pfprof-bw-abs}. For messages larger than 1KB, the
 overhead was ignorable. For messages smaller than 1KB, up to 30\% of
 overhead was incurred. Benchmark results for latency, as shown in
-Fig.~\ref{fig:latency-overhead}, suggest that there is almost no
+Fig.~\ref{fig:pfprof-lat-abs}, suggest that there is almost no
 overhead for latency. These results indicate that PFProf is able to extract
 the communication pattern from applications without hurting the performance of
 applications.
 
 \begin{figure}
     \centering
-    \includegraphics[width=.85\linewidth]{bandwidth_overhead}
+    \includegraphics{pfprof_bandwidth_abs}
     \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
-    \label{fig:bandwidth-overhead}
+    \label{fig:pfprof-bw-abs}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=.85\linewidth]{latency_overhead}
-    \caption{Latency of MPI\_Send/Recv Between Two Nodes}%
-    \label{fig:latency-overhead}
+    \includegraphics{pfprof_bandwidth_rel}
+    \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
+    \label{fig:pfprof-bw-rel}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{pfprof_latency_abs}
+    \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
+    \label{fig:pfprof-lat-abs}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{pfprof_latency_rel}
+    \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
+    \label{fig:pfprof-lat-rel}
 \end{figure}
 
 \subsection{Use Case of PFAnalyzer}\label{sec:ii-simulation-results}
