@@ -825,14 +825,14 @@ despite the locality of the communication pattern.
 
 \begin{figure}
     \centering
-    \includegraphics[width=.8\linewidth]{nas_cg_multi_congestion}
+    \includegraphics{nas_cg_congestion}
     \caption{Comparison of Maximum Traffic (NAS CG)}%
     \label{fig:nas-cg-multi-congestion}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=.8\linewidth]{nersc_milc_multi_congestion}
+    \includegraphics{nersc_milc_congestion}
     \caption{Comparison of Maximum Traffic (MILC)}%
     \label{fig:nersc-milc-multi-congestion}
 \end{figure}
@@ -870,20 +870,10 @@ algorithms and assess their performance improvement effect on real-world
 applications by using indicators such as maximum traffic load.
 
 \begin{figure}
-    \begin{subfigure}{.47\linewidth}
-        \centering
-        \includegraphics[scale=1.1]{nas_cg_execution_time}
-        \caption{NAS CG}%
-        \label{fig:nas-cg-time}
-    \end{subfigure}%
-    \begin{subfigure}{.47\linewidth}
-        \centering
-        \includegraphics[scale=1.1]{nersc_milc_execution_time}
-        \caption{MILC}%
-        \label{fig:nersc-milc-time}
-    \end{subfigure}
+    \centering
+    \includegraphics{pfsim_exec_time}
     \caption{Comparison of Execution Time on an Actual Cluster}%
-    \label{fig:single-job-time}
+    \label{fig:nas-cg-time}
 \end{figure}
 
 \section{Related Work}\label{sec:ii-related-work}
