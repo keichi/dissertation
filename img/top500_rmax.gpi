@@ -10,8 +10,7 @@
 #    	gnuplot home:     http://www.gnuplot.info
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
-set terminal pdfcairo  transparent enhanced fontscale 0.75 size 13.00cm, 8.00cm font ",12"
-set output "top500_rmax.pdf"
+set terminal pdfcairo  transparent enhanced fontscale 0.75 size 13.00cm, 8.00cm font ",14"
 unset clip points
 set clip one
 unset clip two
@@ -163,8 +162,11 @@ set psdir
 set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap v5
 GNUTERM = "qt"
 ## Last datafile plotted: "top500.csv"
+set output "top500_rmax.pdf"
 plot "top500.csv" u 1:($5*10**12) ti "1st" w lp, \
      "top500.csv" u 1:($6*10**12) ti "500th" w lp, \
      "top500.csv" u 1:($7*10**12) ti "Sum" w lp
 unset output
+system "pdfcrop top500_rmax.pdf"
+system "mv top500_rmax-crop.pdf top500_rmax.pdf"
 #    EOF

@@ -170,10 +170,17 @@ x = 0.0
 set output "pfprof_latency_abs.pdf"
 set bmargin 4
 plot "pfprof_latency.csv" using 1:2 ti "w/o profiler" w lp, "" using 1:3 ti "w/ profiler" w lp
+unset output
+system "pdfcrop pfprof_latency_abs.pdf"
+system "mv pfprof_latency_abs-crop.pdf pfprof_latency_abs.pdf"
 
 set output "pfprof_latency_rel.pdf"
 set ylabel "Relative Latency"
 set yrange [0.0:1.3]
+unset logscale y
 unset key
 plot "pfprof_latency.csv" using 1:($3/$2) w lp
+unset output
+system "pdfcrop pfprof_latency_rel.pdf"
+system "mv pfprof_latency_rel-crop.pdf pfprof_latency_rel.pdf"
 #    EOF

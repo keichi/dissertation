@@ -170,10 +170,16 @@ x = 0.0
 set output "pfprof_bandwidth_abs.pdf"
 set bmargin 4
 plot "pfprof_bandwidth.csv" using 1:2 ti "w/o profiler" w lp, "" using 1:3 ti "w/ profiler" w lp
+unset output
+system "pdfcrop pfprof_bandwidth_abs.pdf"
+system "mv pfprof_bandwidth_abs-crop.pdf pfprof_bandwidth_abs.pdf"
 
 set output "pfprof_bandwidth_rel.pdf"
 set ylabel "Relative Throughput"
 set yrange [0.0:1.1]
 unset key
 plot "pfprof_bandwidth.csv" using 1:($3/$2) w lp
+unset output
+system "pdfcrop pfprof_bandwidth_rel.pdf"
+system "mv pfprof_bandwidth_rel-crop.pdf pfprof_bandwidth_rel.pdf"
 #    EOF
