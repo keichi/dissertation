@@ -221,6 +221,7 @@ system "mv coll-conv-2-3072-crop.pdf coll-conv-2-3072.pdf"
 
 set xtics
 set xlabel "Time [s]"
+set terminal pdfcairo  transparent enhanced fontscale 0.75 size 8.00cm, 6.00cm font ",14"
 
 set output "coll-conv-1-3328.pdf"
 plot "coll-conv-1-3328.csv" u 1:($2 / 1000000.0) w l ti "spine1 {/Symbol \256} leaf4" ls 1,\
