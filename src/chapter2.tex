@@ -805,14 +805,14 @@ of the algorithms used in this experiment:
 
 Under this condition, the maximum traffic load observed on links through the
 simulation were measured and compared.
-Figure~\ref{fig:nas-cg-multi-congestion} shows the simulation results in
-the NAS CG benchmark. In this graph, red bars represent the results of
-\mbox{D-mod-K} routing while blue bars represent the results of dynamic
-routing. The vertical axis represents the simulated maximum traffic load
-normalized by the maximum traffic load when linear node selection, block
-process placement and \mbox{D-mod-K} routing were adopted.
+Figure~\ref{fig:nas-cg-congestion} shows the simulation results in
+the NAS CG benchmark. In this graph, the blue hatched bars represent the
+results for \mbox{D-mod-K} routing while the red crosshatched bars represent
+the results for dynamic routing. The vertical axis represents the simulated
+maximum traffic load normalized by the maximum traffic load when linear node
+selection, block process placement and \mbox{D-mod-K} routing were adopted.
 
-What stands out in Fig.~\ref{fig:nas-cg-multi-congestion} is that
+What stands out in Fig.~\ref{fig:nas-cg-congestion} is that
 dynamic routing consistently achieves lower traffic load compared to
 static \mbox{D-mod-K} routing. The reduction of traffic load was the largest
 when linear node selection and block process placement were adopted. Under
@@ -827,17 +827,17 @@ despite the locality of the communication pattern.
     \centering
     \includegraphics{nas_cg_congestion}
     \caption{Comparison of Maximum Traffic (NAS CG)}%
-    \label{fig:nas-cg-multi-congestion}
+    \label{fig:nas-cg-congestion}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics{nersc_milc_congestion}
     \caption{Comparison of Maximum Traffic (MILC)}%
-    \label{fig:nersc-milc-multi-congestion}
+    \label{fig:nersc-milc-congestion}
 \end{figure}
 
-Figure~\ref{fig:nersc-milc-multi-congestion} shows the result in the case of
+Figure~\ref{fig:nersc-milc-congestion} shows the result in the case of
 MILC\@. The graph reveals that dynamic routing outperforms \mbox{D-mod-K}
 routing. In this case, the reduction of the link load was the largest when
 random node selection and cyclic process placement was adopted. When using
@@ -853,14 +853,13 @@ equipped with switches that support OpenFlow, which is a de facto standard
 implementation of SDN\@. The routing algorithms were implemented based on
 OpenFlow. In this experiment, linear node selection and block process
 placement was adopted. The average execution time of 10 runs was compared when
-using \mbox{D-mod-K} routing and dynamic routing. Figure~\ref{fig:nas-cg-time}
-shows the comparison for the NAS CG benchmark. The graph indicates that the
-use of dynamic routing reduced the execution time of the benchmark to 23\%.
-Figure~\ref{fig:nersc-milc-time} shows the result for MILC\@. The reduction of
-execution was approximately 8\%, which was smaller than the case of NAS CG
-benchmark. This matches with the simulation result that predicted NAS CG
-benefits from larger reduction in maximum traffic load by using dynamic
-routing compared to MILC\@.
+using \mbox{D-mod-K} routing and dynamic routing. Figure~\ref{fig:cg-nersc-time}
+shows the measured execution time for both benchmarks. The use of dynamic
+routing reduced the execution time of NAS CG benchmark for 23\%. Meanwhile,
+the execution time of MILC benchmark was reduced for 8\%, which was smaller
+than the case of NAS CG benchmark. This matches with the simulation result
+that predicted NAS CG benefits from larger reduction in maximum traffic load
+by using dynamic routing compared to MILC\@.
 
 These results suggest that application performance is actually improved
 by alleviating the traffic load on the hot spot link. This suggestion
@@ -873,7 +872,7 @@ applications by using indicators such as maximum traffic load.
     \centering
     \includegraphics{pfsim_exec_time}
     \caption{Comparison of Execution Time on an Actual Cluster}%
-    \label{fig:nas-cg-time}
+    \label{fig:cg-nersc-time}
 \end{figure}
 
 \section{Related Work}\label{sec:ii-related-work}
