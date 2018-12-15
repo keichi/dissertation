@@ -166,7 +166,8 @@ GNUTERM = "qt"
 x = 0.0
 ## Last datafile plotted: "nersc_milc_congestion.csv"
 set output 'pfsim_exec_time.pdf'
-plot "pfsim_exec_time.csv" using 2:xtic(1) ti "D-mod-K" ls 1, "" using 5 ti "Dynamic" ls 2
+plot "pfsim_exec_time.csv" using 2:xtic(1) ti "D-mod-K" ls 1 fs pattern 6, \
+     "" using 5 ti "Dynamic" ls 2 fs pattern 2
 unset output
 system "pdfcrop pfsim_exec_time.pdf"
 system "mv pfsim_exec_time-crop.pdf pfsim_exec_time.pdf"

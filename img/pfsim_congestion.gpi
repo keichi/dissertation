@@ -168,13 +168,15 @@ x = 0.0
 set bmargin 3
 
 set output 'nersc_milc_congestion.pdf'
-plot "nersc_milc_congestion.csv" using 2:xtic(1) ti "D-mod-K" ls 1, "" using 3 ti "Dynamic" ls 2
+plot "nersc_milc_congestion.csv" using 2:xtic(1) ti "D-mod-K" ls 1 fs pattern 6, \
+     "" using 3 ti "Dynamic" ls 2 fs pattern 2
 unset output
 system "pdfcrop nersc_milc_congestion.pdf"
 system "mv nersc_milc_congestion-crop.pdf nersc_milc_congestion.pdf"
 
 set output 'nas_cg_congestion.pdf'
-plot "nas_cg_congestion.csv" using 2:xtic(1) ti "D-mod-K" ls 1, "" using 3 ti "Dynamic" ls 2
+plot "nas_cg_congestion.csv" using 2:xtic(1) ti "D-mod-K" ls 1 fs pattern 6, \
+     "" using 3 ti "Dynamic" ls 2 fs pattern 2
 unset output
 system "pdfcrop nas_cg_congestion.pdf"
 system "mv nas_cg_congestion-crop.pdf nas_cg_congestion.pdf"

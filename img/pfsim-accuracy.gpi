@@ -162,8 +162,8 @@ set psdir
 set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap v5
 ## Last datafile plotted: "comparison-reformatted.csv"
 set output 'pfsim-accuracy.pdf'
-plot "pfsim-accuracy.csv" every ::1 using 4:xtic(1) with histogram title "Measured on Original Cluster" ls 1, \
-     "pfsim-accuracy.csv" every ::1 using 5:xtic(1) with histogram title "Simulated with PFSim" ls 2
+plot "pfsim-accuracy.csv" every ::1 using 4:xtic(1) with histogram title "Measured on Original Cluster" ls 1 fs pattern 6, \
+     "pfsim-accuracy.csv" every ::1 using 5:xtic(1) with histogram title "Simulated with PFSim" ls 2 fs pattern 1
 unset output
 system "pdfcrop pfsim-accuracy.pdf"
 system "mv pfsim-accuracy-crop.pdf pfsim-accuracy.pdf"
