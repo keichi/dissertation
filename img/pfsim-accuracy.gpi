@@ -10,8 +10,7 @@
 #    	gnuplot home:     http://www.gnuplot.info
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
-set terminal pdfcairo  transparent enhanced fontscale 0.75 size 14.0cm, 8.0cm font ",12"
-set output 'pfsim-accuracy.pdf'
+set terminal pdfcairo  transparent enhanced fontscale 0.75 size 14.0cm, 9.0cm font ",12"
 unset clip points
 set clip one
 unset clip two
@@ -39,7 +38,7 @@ set ttics format "% h"
 set timefmt "%d/%m/%y,%H:%M"
 set angles radians
 set tics back
-unset grid
+set grid ytics
 unset raxis
 set theta counterclockwise right
 set style parallel front  lt black linewidth 2.000 dashtype solid
@@ -51,7 +50,6 @@ set key noopaque
 unset label
 unset arrow
 set style increment default
-unset style line
 unset style arrow
 set style histogram clustered gap 2 title textcolor lt -1
 unset object
@@ -163,6 +161,10 @@ set fontpath
 set psdir
 set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap v5
 ## Last datafile plotted: "comparison-reformatted.csv"
-plot "pfsim-accuracy.csv" every ::1 using 4:xtic(1) with histogram title "Measured on Original Cluster" lc rgb "black", \
-     "pfsim-accuracy.csv" every ::1 using 5:xtic(1) with histogram title "Simulated with PFSim" lc rgb "black"
+set output 'pfsim-accuracy.pdf'
+plot "pfsim-accuracy.csv" every ::1 using 4:xtic(1) with histogram title "Measured on Original Cluster" ls 1, \
+     "pfsim-accuracy.csv" every ::1 using 5:xtic(1) with histogram title "Simulated with PFSim" ls 2
+unset output
+system "pdfcrop pfsim-accuracy.pdf"
+system "mv pfsim-accuracy-crop.pdf pfsim-accuracy.pdf"
 #    EOF

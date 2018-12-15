@@ -498,26 +498,35 @@ application and the traffic change in the interconnect.
 
 \begin{figure}
     \centering
-    \begin{subfigure}{.45\linewidth}
+
+    \begin{subfigure}{.47\linewidth}
         \includegraphics{coll-conv-1-2560}
-        \caption{spine1 $\to$ leaf1}%
-        \label{fig:spine1-leaf1-conv}
     \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
+    \begin{subfigure}{.47\linewidth}
+        \includegraphics{coll-prop-1-2560}
+    \end{subfigure}
+
+    \begin{subfigure}{.47\linewidth}
         \includegraphics{coll-conv-1-2816}
-        \caption{spine1 $\to$ leaf2}%
-        \label{fig:spine1-leaf2-conv}
     \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
+    \begin{subfigure}{.47\linewidth}
+        \includegraphics{coll-prop-1-2816}
+    \end{subfigure}
+
+    \begin{subfigure}{.47\linewidth}
         \includegraphics{coll-conv-1-3072}
-        \caption{spine1 $\to$ leaf3}%
-        \label{fig:spine1-leaf3-conv}
     \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
+    \begin{subfigure}{.47\linewidth}
+        \includegraphics{coll-prop-1-3072}
+    \end{subfigure}
+
+    \begin{subfigure}{.47\linewidth}
         \includegraphics{coll-conv-1-3328}
-        \caption{spine1 $\to$ leaf4}%
-        \label{fig:spine1-leaf4-conv}
     \end{subfigure}
+    \begin{subfigure}{.47\linewidth}
+        \includegraphics{coll-prop-1-3328}
+    \end{subfigure}
+
     \caption{Throughput Measured at Ports on Switch spine1 (Conventional)}%
     \label{fig:coll-spine1-conv}
 \end{figure}
@@ -525,24 +534,32 @@ application and the traffic change in the interconnect.
 \begin{figure}
     \begin{subfigure}{.45\linewidth}
         \includegraphics{coll-conv-2-2560}
-        \caption{spine2 $\to$ leaf1}%
-        \label{fig:spine2-leaf1-conv}
     \end{subfigure}
+    \begin{subfigure}{.45\linewidth}
+        \includegraphics{coll-prop-2-2560}
+    \end{subfigure}
+
     \begin{subfigure}{.45\linewidth}
         \includegraphics{coll-conv-2-2816}
-        \caption{spine2 $\to$ leaf2}%
-        \label{fig:spine2-leaf2-conv}
     \end{subfigure}
+    \begin{subfigure}{.45\linewidth}
+        \includegraphics{coll-prop-2-2816}
+    \end{subfigure}
+
     \begin{subfigure}{.45\linewidth}
         \includegraphics{coll-conv-2-3072}
-        \caption{spine2 $\to$ leaf3}%
-        \label{fig:spine2-leaf3-conv}
     \end{subfigure}
     \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-conv-2-3328}
-        \caption{spine2 $\to$ leaf4}%
-        \label{fig:spine2-leaf4-conv}
+        \includegraphics{coll-prop-2-3072}
     \end{subfigure}
+
+    \begin{subfigure}{.45\linewidth}
+        \includegraphics{coll-conv-2-3328}
+    \end{subfigure}
+    \begin{subfigure}{.45\linewidth}
+        \includegraphics{coll-prop-2-3328}
+    \end{subfigure}
+
     \caption{Throughput Measured at Ports on Switch spine2 (Conventional)}%
     \label{fig:coll-spine2-conv}
 \end{figure}
@@ -629,58 +646,6 @@ compute nodes under leaf2, leaf3 and leaf4 to the compute nodes
 under leaf1. In contrast, RX shows the aggregated traffic from compute
 nodes under leaf1 to other compute nodes under leaf2, leaf3 and leaf4.
 
-\begin{figure}
-    \centering
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-1-2560}
-        \caption{spine1 $\to$ leaf1}%
-        \label{fig:spine1-leaf1-prop}
-    \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-1-2816}
-        \caption{spine1 $\to$ leaf2}%
-        \label{fig:spine1-leaf2-prop}
-    \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-1-3072}
-        \caption{spine1 $\to$ leaf3}%
-        \label{fig:spine1-leaf3-prop}
-    \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-1-3328}
-        \caption{spine1 $\to$ leaf4}%
-        \label{fig:spine1-leaf4-prop}
-    \end{subfigure}
-    \caption{Throughput Measured at Ports on Switch spine1 (Proposed)}%
-    \label{fig:coll-spine1-prop}
-\end{figure}
-
-\begin{figure}
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-2-2560}
-        \caption{spine2 $\to$ leaf1}%
-        \label{fig:spine2-leaf1-prop}
-    \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-2-2816}
-        \caption{spine2 $\to$ leaf2}%
-        \label{fig:spine2-leaf2-prop}
-    \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-2-3072}
-        \caption{spine2 $\to$ leaf3}%
-        \label{fig:spine2-leaf3-prop}
-    \end{subfigure}
-    \begin{subfigure}{.45\linewidth}
-        \includegraphics{coll-prop-2-3328}
-        \caption{spine2 $\to$ leaf4}%
-        \label{fig:spine2-leaf4-prop}
-    \end{subfigure}
-    \caption{Throughput Measured at Ports on Switch spine2 (Proposed)}%
-    \label{fig:coll-spine2-prop}
-\end{figure}
-
-
 Figures~\ref{fig:coll-spine1-prop} and~\ref{fig:coll-spine2-prop} show
 the change of throughput when using the proposed mechanism. In these
 plots, the time of event occurrences recorded by the MPI application are
@@ -719,7 +684,7 @@ control is synchronized with the execution of the MPI application.
 \begin{figure}
     \centering
     \includegraphics{unisonflow_overhead_lat_rel}
-    \caption{Absolute Overhead to Latency}
+    \caption{Absolute Overhead to Latency}%
     \label{fig:overhead-latency-2}
 \end{figure}
 

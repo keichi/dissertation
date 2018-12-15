@@ -38,7 +38,7 @@ set ttics format "% h"
 set timefmt "%d/%m/%y,%H:%M"
 set angles radians
 set tics back
-unset grid
+set grid ytics
 unset raxis
 set theta counterclockwise right
 set style parallel front  lt black linewidth 2.000 dashtype solid
@@ -50,7 +50,6 @@ set key noopaque
 unset label
 unset arrow
 set style increment default
-unset style line
 unset style arrow
 set style histogram clustered gap 1 title textcolor lt -1
 unset object
@@ -131,7 +130,7 @@ set ylabel "Execution Time [s]"
 set ylabel  font "" textcolor lt -1 rotate
 set y2label ""
 set y2label  font "" textcolor lt -1 rotate
-set yrange [ 0.0 : * ] noreverse writeback
+set yrange [ 0.0 : 450.0 ] noreverse writeback
 set y2range [ * : * ] noreverse writeback
 set zlabel ""
 set zlabel  font "" textcolor lt -1 norotate
@@ -167,7 +166,7 @@ GNUTERM = "qt"
 x = 0.0
 ## Last datafile plotted: "nersc_milc_congestion.csv"
 set output 'pfsim_exec_time.pdf'
-plot "pfsim_exec_time.csv" using 2:xtic(1) ti "DmodK", "" using 5 ti "Dynamic"
+plot "pfsim_exec_time.csv" using 2:xtic(1) ti "DmodK" ls 1, "" using 5 ti "Dynamic" ls 2
 unset output
 system "pdfcrop pfsim_exec_time.pdf"
 system "mv pfsim_exec_time-crop.pdf pfsim_exec_time.pdf"
