@@ -186,7 +186,8 @@ set ylabel "Relative Latency"
 set output "unisonflow_overhead_lat_rel.pdf"
 unset logscale y
 set yrange [0.0:1.2]
-plot "unisonflow_overhead_latency.csv" using 1:($3/$2) ti "w/o Proposal" w lp ls 1
+unset key
+plot "unisonflow_overhead_latency.csv" using 1:($3/$2) w lp ls 1
 unset output
 system "pdfcrop unisonflow_overhead_lat_rel.pdf"
 system "mv unisonflow_overhead_lat_rel-crop.pdf unisonflow_overhead_lat_rel.pdf"
