@@ -174,6 +174,7 @@ unset xtics
 unset ylabel
 unset xlabel
 
+set yrange [0.0:20.0]
 set output "coll-prop-1-2560.pdf"
 plot "coll-prop-1-2560.csv" u 1:($2 / 1000000.0) w l ti "spine1 {/Symbol \256} leaf1" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf1 {/Symbol \256} spine1" ls 2
@@ -181,6 +182,7 @@ unset output
 system "pdfcrop coll-prop-1-2560.pdf"
 system "mv coll-prop-1-2560-crop.pdf coll-prop-1-2560.pdf"
 
+set yrange [0.0:40.0]
 set output "coll-prop-2-2560.pdf"
 plot "coll-prop-2-2560.csv" u 1:($2 / 1000000.0) w l ti "spine2 {/Symbol \256} leaf1" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf1 {/Symbol \256} spine2" ls 2
@@ -192,6 +194,7 @@ unset label 1
 unset label 2
 unset label 3
 
+set yrange [0.0:20.0]
 set output "coll-prop-1-2816.pdf"
 plot "coll-prop-1-2816.csv" u 1:($2 / 1000000.0) w l ti "spine1 {/Symbol \256} leaf2" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf2 {/Symbol \256} spine1" ls 2
@@ -199,6 +202,7 @@ unset output
 system "pdfcrop coll-prop-1-2816.pdf"
 system "mv coll-prop-1-2816-crop.pdf coll-prop-1-2816.pdf"
 
+set yrange [0.0:20.0]
 set output "coll-prop-1-3072.pdf"
 plot "coll-prop-1-3072.csv" u 1:($2 / 1000000.0) w l ti "spine1 {/Symbol \256} leaf3" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf3 {/Symbol \256} spine1" ls 2
@@ -206,6 +210,7 @@ unset output
 system "pdfcrop coll-prop-1-3072.pdf"
 system "mv coll-prop-1-3072-crop.pdf coll-prop-1-3072.pdf"
 
+set yrange [0.0:40.0]
 set output "coll-prop-2-2816.pdf"
 plot "coll-prop-2-2816.csv" u 1:($2 / 1000000.0) w l ti "spine2 {/Symbol \256} leaf2" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf2 {/Symbol \256} spine2" ls 2
@@ -213,6 +218,7 @@ unset output
 system "pdfcrop coll-prop-2-2816.pdf"
 system "mv coll-prop-2-2816-crop.pdf coll-prop-2-2816.pdf"
 
+set yrange [0.0:40.0]
 set output "coll-prop-2-3072.pdf"
 plot "coll-prop-2-3072.csv" u 1:($2 / 1000000.0) w l ti "spine2 {/Symbol \256} leaf3" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf3 {/Symbol \256} spine2" ls 2
@@ -224,6 +230,7 @@ set xtics
 set xlabel "Time [s]"
 set terminal pdfcairo  transparent enhanced fontscale 0.75 size 8.00cm, 6.00cm font ",14"
 
+set yrange [0.0:20.0]
 set output "coll-prop-1-3328.pdf"
 plot "coll-prop-1-3328.csv" u 1:($2 / 1000000.0) w l ti "spine1 {/Symbol \256} leaf4" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf4 {/Symbol \256} spine1" ls 2
@@ -231,6 +238,7 @@ unset output
 system "pdfcrop coll-prop-1-3328.pdf"
 system "mv coll-prop-1-3328-crop.pdf coll-prop-1-3328.pdf"
 
+set yrange [0.0:40.0]
 set output "coll-prop-2-3328.pdf"
 plot "coll-prop-2-3328.csv" u 1:($2 / 1000000.0) w l ti "spine2 {/Symbol \256} leaf4" ls 1,\
                          "" u 1:($3 / 1000000.0) w l ti "leaf4 {/Symbol \256} spine2" ls 2
