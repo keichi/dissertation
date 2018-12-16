@@ -699,14 +699,15 @@ between two processes with and without PFProf were compared to inspect
 the overhead incurred by the profiler. OSU Micro
 Benchmark~\autocite{omb} was used to measure the throughput and latency
 of point-to-point communication between two processes for varying
-message sizes. The comparison of throughput is shown in
-Fig.~\ref{fig:pfprof-bw-abs}. For messages larger than 1KB, the
-overhead was ignorable. For messages smaller than 1KB, up to 30\% of
-overhead was incurred. Benchmark results for latency, as shown in
-Fig.~\ref{fig:pfprof-lat-abs}, suggest that there is almost no
-overhead for latency. These results indicate that PFProf is able to extract
-the communication pattern from applications without hurting the performance of
-applications.
+message sizes. The comparison of throughput and relative throughput are shown
+in Fig.~\ref{fig:pfprof-bw-abs} and Fig.~\ref{fig:pfprof-bw-abs},
+respectively. For messages larger than 1KB, the overhead was ignorable. For
+messages smaller than 1KB, up to 30\% of overhead was incurred. Comparison of
+latency and relative latency are shown shown in Fig.~\ref{fig:pfprof-lat-abs}
+and Fig.~\ref{fig:pfprof-lat-rel}, respectively. These plots suggest that
+there is almost no overhead for latency. These results indicate that PFProf is
+able to extract the communication pattern from applications without
+significantly hurting the performance of applications.
 
 \begin{figure}
     \centering
@@ -718,7 +719,7 @@ applications.
 \begin{figure}
     \centering
     \includegraphics{pfprof_bandwidth_rel}
-    \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
+    \caption{Relative Throughput of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:pfprof-bw-rel}
 \end{figure}
 
@@ -732,7 +733,7 @@ applications.
 \begin{figure}
     \centering
     \includegraphics{pfprof_latency_rel}
-    \caption{Throughput of MPI\_Send/Recv Between Two Nodes}%
+    \caption{Relative Throughput of MPI\_Send/Recv Between Two Nodes}%
     \label{fig:pfprof-lat-rel}
 \end{figure}
 

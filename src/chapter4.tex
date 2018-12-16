@@ -671,10 +671,10 @@ other processes, but involves communication between non-root processes. For
 instance, the first plot in Fig.~\ref{fig:unisonflow-bw-spine1-conv} indicates
 how the traffic between spine1 and leaf1 changes. In detail, spine1 $\to$
 leaf1 shows the outgoing traffic from spine1 to leaf1, which is the aggregated
-traffic from the compute nodes under leaf2, leaf3 and leaf4 to the compute
-nodes under leaf1. In contrast, leaf1 $\to$ spine1 shows the incoming traffic
-to spine1, which is the aggregated traffic from compute nodes under leaf1 to
-other compute nodes under leaf2, leaf3 and leaf4.
+traffic from the compute nodes under leaf2--leaf4 to the compute nodes under
+leaf1. In contrast, leaf1 $\to$ spine1 shows the incoming traffic to spine1,
+which is the aggregated traffic from compute nodes under leaf1 to other
+compute nodes under leaf2, leaf3 and leaf4.
 
 Figures~\ref{fig:unisonflow-bw-spine1-prop}
 and~\ref{fig:unisonflow-bw-spine2-prop} reveal the change of throughput when
@@ -710,8 +710,8 @@ with the execution of the MPI application.
 \begin{figure}
     \centering
     \includegraphics{unisonflow_overhead_lat_rel}
-    \caption{Absolute Overhead to Latency}%
-    \label{fig:overhead-latency-2}
+    \caption{Relative Latency}%
+    \label{fig:overhead-latency-rel}
 \end{figure}
 
 The primary source of the overhead incurred by the proposed mechanism is
@@ -733,20 +733,19 @@ respectively.
 
 Figure~\ref{fig:overhead-bandwidth} shows a comparison of the throughput
 observed between node01 and node02. Figure~\ref{fig:overhead-latency} shows
-the comparison result of latency for the same compute node pair. The plots in
+the comparison of latency for the same compute node pair. The plots in
 Figs.~\ref{fig:overhead-bandwidth} and~\ref{fig:overhead-latency} represent
 the average of 500 measurements and 50,000 measurements, respectively.
-Fig.~\ref{fig:overhead-latency-2} shows the overhead imposed to latency by the
-proposed mechanism. These plots indicate that performance degradation imposed
-by the proposed mechanism is practically negligible for both bandwidth and
-latency.
+Figure~\ref{fig:overhead-latency-rel} shows the relative latency when using
+the proposed mechanism compared to the latency without using the proposed
+mechanism. These plots indicate that performance degradation imposed by the
+proposed mechanism is practically negligible for both bandwidth and latency.
 
 This experiment only evaluated the performance of point-to-point
 primitives. However, the fact that collective primitives are often
 implemented using multiple point-to-point
-primitives~\autocite{Squyres2005,mvapich} implies that the overhead
-of the proposed mechanism is negligible for collective primitives as
-well.
+primitives~\autocite{Squyres2005,mvapich} implies that the overhead of the
+proposed mechanism is negligible for collective primitives as well.
 
 \section{Related Work}\label{sec:iv-related-work}
 
