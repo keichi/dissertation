@@ -525,16 +525,18 @@ application and the traffic change in the interconnect.
 
     \begin{subfigure}{.47\linewidth}
         \includegraphics{coll-conv-1-3328}
-        \caption{Conventional}
+        \caption{Conventional}%
+        \label{fig:unisonflow-bw-spine1-conv}
     \end{subfigure}
     \hfill
     \begin{subfigure}{.47\linewidth}
         \includegraphics{coll-prop-1-3328}
-        \caption{Proposed}
+        \caption{Proposed}%
+        \label{fig:unisonflow-bw-spine1-prop}
     \end{subfigure}
 
     \caption{Throughput Measured at Ports on Switch spine1}%
-    \label{fig:coll-spine1-conv}
+    \label{fig:unisonflow-bw-spine1}
 \end{figure}
 
 \begin{figure}
@@ -564,16 +566,18 @@ application and the traffic change in the interconnect.
 
     \begin{subfigure}{.48\linewidth}
         \includegraphics{coll-conv-2-3328}
-        \caption{Conventional}
+        \caption{Conventional}%
+        \label{fig:unisonflow-bw-spine2-conv}
     \end{subfigure}
     \hfill
     \begin{subfigure}{.48\linewidth}
         \includegraphics{coll-prop-2-3328}
-        \caption{Proposed}
+        \caption{Proposed}%
+        \label{fig:unisonflow-bw-spine2-prop}
     \end{subfigure}
 
     \caption{Throughput Measured at Ports on Switch spine2}%
-    \label{fig:coll-spine2-conv}
+    \label{fig:unisonflow-bw-spine2}
 \end{figure}
 
 Each MPI primitive is repetitively executed because a single invocation
@@ -636,12 +640,25 @@ port was integrated into the interconnect controller. Based on these port
 counter values, the throughput of the transmitted traffic and the received
 traffic of each port was calculated.
 
-Figures~\ref{fig:coll-spine1-conv} and \ref{fig:coll-spine2-conv} show
-the change of throughput observed at the ports of switches spine1 and
-spine2 when using ECMP\@. Both spine1 and spine2 were utilized during the
-execution of MPI\_Bcast and MPI\_Reduce as a result of load balancing.
-However, there is some inequality in the utilization of two spine
-switches. This inequality is because ECMP distributes the traffic
+Figure~\ref{fig:unisonflow-bw-spine1} shows the change of throughput observerd
+at the ports of switch spine1. The four plots on the left column
+(Fig.~\ref{fig:unisonflow-bw-spine1-conv}) show the observed throughput when
+using ECMP, where as the four plots on the right column
+(Fig.~\ref{fig:unisonflow-bw-spine1-prop}) show the throughput when using the
+proposed mechanism. Each row corresponds to a port of switch spine1. For
+example, the plots in the first row show the throughput measured at the port
+connected to switch leaf1. In these plots, the time of event occurrences
+recorded by the MPI application ($t_1$--$t_3$) are marked with vertical dotted
+black lines. The temporal synchronization between throughput change and event
+occurrences was made by using timestamps.
+Figure~\ref{fig:unisonflow-bw-spine2} shows the observed throughput at switch
+spine2 in the same manner as Fig.~\ref{fig:unisonflow-bw-spine1}.
+
+When using ECMP, Figs.~\ref{fig:unisonflow-bw-spine1-conv}
+and~\ref{fig:unisonflow-bw-spine1-conv} indicate that both spine1 and spine2
+were utilized during the execution of MPI\_Bcast and MPI\_Reduce as a result
+of load balancing. However, there is some inequality in the utilization of two
+spine switches. This inequality is because ECMP distributes the traffic
 workload not on the basis of not packets, but on flows.
 
 MPICH, which is the MPI library used in UnisonFlow, has optimized
@@ -650,32 +667,29 @@ In particular, under the environment of this experiment, MPI\_Bcast uses
 the binomial tree algorithm while MPI\_Reduce uses the Rabenseifner's reduce
 algorithm~\autocite{Rabenseifner2004}. As a result, MPI\_Bcast is not a
 simple repeated point-to-point communication from the root process to
-other processes, but involves communication between non-root processes.
-For instance, Fig.~\ref{fig:spine1-leaf1-conv} indicates how the traffic
-between spine1 and leaf1 changes. In detail, TX shows the outgoing
-traffic from spine1 to leaf1, which is the aggregated traffic from the
-compute nodes under leaf2, leaf3 and leaf4 to the compute nodes
-under leaf1. In contrast, RX shows the aggregated traffic from compute
-nodes under leaf1 to other compute nodes under leaf2, leaf3 and leaf4.
+other processes, but involves communication between non-root processes. For
+instance, the first plot in Fig.~\ref{fig:unisonflow-bw-spine1-conv} indicates
+how the traffic between spine1 and leaf1 changes. In detail, spine1 $\to$
+leaf1 shows the outgoing traffic from spine1 to leaf1, which is the aggregated
+traffic from the compute nodes under leaf2, leaf3 and leaf4 to the compute
+nodes under leaf1. In contrast, leaf1 $\to$ spine1 shows the incoming traffic
+to spine1, which is the aggregated traffic from compute nodes under leaf1 to
+other compute nodes under leaf2, leaf3 and leaf4.
 
-Figures~\ref{fig:coll-spine1-prop} and~\ref{fig:coll-spine2-prop} show
-the change of throughput when using the proposed mechanism. In these
-plots, the time of event occurrences recorded by the MPI application are
-marked with vertical solid black lines. The time synchronization between
-throughput change and event occurrences was made on the basis of the
-timestamp. At \(t_1\) where MPI\_Bcast started, both RX and TX
-throughput observed at the ports of spine1 rise steeply and then
-maintain the amount of approximately 14~Mbps and 9~Mbps, respectively,
-while there is no clear growth of throughput at the ports of spine2.
-This result indicates that only spine1 was utilized during the execution of
-MPI\_Bcast. When MPI\_Bcast finished and then MPI\_Reduce started at
-\(t_2\), a sharp fall of throughput at spine1 was observed, whereas a
-rapid uptake in the throughput at spine2 was observed. After that, a
-sharp drop of throughput at the ports of spine2 was observed immediately
-when MPI\_Reduce finished (\(t_3\)). This measurement result indicates
-that only spine2 was utilized during the execution of MPI\_Reduce. Based
-on these observations, it is confirmed and verified that the network
-control is synchronized with the execution of the MPI application.
+Figures~\ref{fig:unisonflow-bw-spine1-prop}
+and~\ref{fig:unisonflow-bw-spine2-prop} reveal the change of throughput when
+using the proposed mechanism. At \(t_1\) where MPI\_Bcast started, both
+incoming and outgoing traffic observed at the ports of spine1 rise steeply,
+while there is no clear growth of throughput at the ports of spine2. This
+result indicates that only spine1 was utilized during the execution of
+MPI\_Bcast. When MPI\_Bcast finished and then MPI\_Reduce started at \(t_2\),
+a sharp fall of throughput at spine1 was observed, whereas a rapid uptake in
+the throughput at spine2 was observed. After that, a sharp drop of throughput
+at the ports of spine2 was observed immediately when MPI\_Reduce finished
+(\(t_3\)). This measurement result indicates that only spine2 was utilized
+during the execution of MPI\_Reduce. Based on these observations, it is
+confirmed and verified that the network control is successfully synchronized
+with the execution of the MPI application.
 
 \subsection{Evaluation of Overhead}
 
