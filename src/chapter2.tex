@@ -192,13 +192,12 @@ represented using the traffic matrix of the application. The reason why this
 research has adopt traffic matrix as representation of communication pattern
 is explained below.
 
-For an application composed of \(n\) processes, its traffic matrix is defined
-as a \(n \times n\) square matrix \(T\) of which element \(T_{ij}\) is equal
-to the volume of traffic sent from rank \(i\) to rank \(j\). Here, the volume
-of traffic between processes is approximated as being constant during the
-execution of a job. In other words, The traffic volume between a process pair
-is assumed to be the total bytes transferred divided by the duration of the
-application.
+The traffic matrix of an application is defined as a matrix of which element
+is equal to the traffic volume exchanged between two processes in the
+application. Here, the volume of traffic between processes is approximated as
+being constant during the execution of a job. In other words, The traffic
+volume between a process pair is assumed to be the total bytes transferred
+divided by the duration of the application.
 
 This approximation is introduced to reduce the size of the communication
 pattern as well as to simplify and to speed up the simulation. The idea behind
