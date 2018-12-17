@@ -741,6 +741,17 @@ the proposed mechanism compared to the latency without using the proposed
 mechanism. These plots indicate that performance degradation imposed by the
 proposed mechanism is practically negligible for both bandwidth and latency.
 
+It should be noted, however, that Fig.~\ref{fig:overhead-latency-rel} reveals
+a fluctuation in the latency. In particular, using the proposed mechanism
+resulted in a smaller latency than not using the proposed mechanism when the
+message size was 50--100 bytes. This is considered to be arising from the high
+jitter (\emph{i.e.} variation of latency) caused by the network stack. Unlike
+InfiniBand that employs aggressive hardware offloading and kernel bypassing to
+reduce the latency and jitter of communication, TCP/IP over Ethernet is mostly
+implemented in the kernel. Therefore, the latency of TCP/IP communication is
+affected by the context switching and task scheduling of the kernel, which
+results in high jitter.
+
 This experiment only evaluated the performance of point-to-point
 primitives. However, the fact that collective primitives are often
 implemented using multiple point-to-point
