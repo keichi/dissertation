@@ -208,8 +208,8 @@ repetitive loop and thus their communication patterns do not significantly
 change over time. Therefore, omitting the temporal change of the communication
 pattern and assuming the traffic volume between processes as being constant is
 a good approximation. In the future, trace segmentation~\autocite{Alawneh2016}
-techniques can be applied on the communication trace. This technique will
-segment a trace into multiple communication phases, which could then be
+techniques can be applied on the communication trace. This technique
+segments a trace into multiple communication phases, which could then be
 simulated individually to further improve the accuracy of simulation for
 applications with significantly time-varying communication patterns.
 
@@ -289,24 +289,25 @@ To accurately capture the underlying point-to-point communication of
 collective communication, this research has taken the strategy of utilizing
 the MPI Performance Examination and Revealing Unexposed State Extension
 (PERUSE)~\autocite{Jones2006}. PERUSE was designed to provide the internal
-information of an MPI implementation that were not exposed through PMPI to
+information of an MPI implementation that was not exposed through PMPI to
 applications and performance analysis tools. PERUSE delivers the internal
-information of MPI implementation to applications and performance analysis
+information of an MPI implementation to applications and performance analysis
 tools through an event-driven API\@.
 
 % アプリケーションの実行前の動作
-Figure~\ref{fig:profiler-block} illustrates how PFProf, MPI library and MPI
-application interact with one another. PFProf intercepts the function calls
-from the application to several MPI functions using PMPI\@. MPI\_Init and
-MPI\_Finalize are intercepted to perform initialization and finalization when
-the application starts or exits (step~1 in Fig.~\ref{fig:profiler-block}). In
-addition, PFProf intercepts MPI functions that create or destroy communicators
-to maintain a mapping between global ranks (rank number within
-\lstinline!MPI_COMM_WORLD!) and local ranks (rank number within a communicator
-created by the user). This mapping is necessary because PERUSE events are
-reported with local ranks, while profiling results should be described with
-global ranks for the ease of analysis. During the initialization, PFProf
-subscribes to two PERUSE events: \lstinline!PERUSE_COMM_REQ_XFER_BEGIN! and
+Figure~\ref{fig:profiler-block} illustrates how PFProf, the MPI library and an
+MPI application interact with one another. PFProf intercepts the function
+calls from the application to several MPI functions using PMPI\@. MPI\_Init
+and MPI\_Finalize are intercepted to perform initialization and finalization
+when the application starts or exits (step~1 in
+Fig.~\ref{fig:profiler-block}). In addition, PFProf intercepts MPI functions
+that create or destroy communicators to maintain a mapping between global
+ranks (rank number within \lstinline!MPI_COMM_WORLD!) and local ranks (rank
+number within a communicator created by the user). This mapping is necessary
+because PERUSE events are reported with local ranks, while profiling results
+should be described with global ranks for the ease of analysis. During the
+initialization, PFProf subscribes to two PERUSE events:
+\lstinline!PERUSE_COMM_REQ_XFER_BEGIN! and
 \lstinline!PERUSE_COMM_REQ_XFER_END! (step~2). These events are emitted each
 time a transfer of a message begins and ends, respectively.
 
@@ -327,7 +328,7 @@ written out to disk as a JSON file (step~4).
 
 % 共有ライブラリ
 Finally, PFProf is designed to be provided in the form of a shared library so
-that users do not need to modify the source code of their application. Users
+that users do not need to modify the source code of their applications. Users
 can either use the \lstinline!LD_PRELOAD! environment variable to load the
 shared library at run-time or dynamically link the shared library with their
 application at build-time.
@@ -336,7 +337,7 @@ application at build-time.
 
 % PFSimの概要
 PFSim uses a set of communication patterns of applications and a cluster
-configuration as its input and then simulates the packet flows generated
+configuration as its input and then simulates the packet flow generated
 by the applications. The packet flow is aggregated per link to compute
 the traffic load on each link. The simulated traffic load of links can
 be summarized into statistics for quantitative analysis or visualized.
@@ -359,20 +360,20 @@ simulation. As a trade-off, predicting the communication time of applications
 using flow-level simulation is challenging. As described in
 Section~\ref{sec:ii-objective}, this research aims at realizing a toolset for
 efficiently predicting the packet flow in the interconnect under diverse
-configurations. Therefore, PFSim is based on flow-level simulation for
+configurations. Therefore, PFSim is based on the flow-level simulation for
 execution efficiency.
 
 % シミュレータの構造
 Figure~\ref{fig:pfsim-arch} shows the internal structure of PFSim. This
 simulator is based on a discrete-event simulation model. Under this model, the
-simulation is driven by events, which indicate a change in the internal state
-of the simulator. Each event holds (1) type of the event, (2) time when the
-event will occur, and (3) additional information. The event queue is a
-priority queue that stores the events according to the time it will occur.
-Event handlers are functions that are associated to a specific event type and
-invoked when an event of the associated type occurs. The dispatcher manages
-the event queue. It pops events from the event queue one by one and calls the
-associated event handler for each event.
+simulation is driven by events, each of which indicates a change in the
+internal state of the simulator. Each event holds (1) type of the event, (2)
+time when the event will occur, and (3) additional information. An event
+queue is a priority queue that stores the events according to the time it will
+occur. Event handlers are functions that are associated to a specific event
+type and invoked when an event of the associated type occurs. The dispatcher
+manages the event queue. It pops events from the event queue one by one and
+calls the associated event handler for each event.
 
 \begin{figure}
     \centering

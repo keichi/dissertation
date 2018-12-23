@@ -248,7 +248,7 @@ nodes is assumed to be Linux.
 \end{figure}
 
 Three major software modules that constitute this architecture (bold
-rectangles in Fig.~\ref{fig:overall-arch}) has been developed. The first
+rectangles in Fig.~\ref{fig:overall-arch}) have been developed. The first
 module is the \emph{Interconnect Controller}, which is basically an
 OpenFlow controller responsible for installing flow entries into
 OpenFlow switches. The interconnect controller was developed based on
@@ -293,7 +293,7 @@ flexibility, the user space program has the full responsibility to handle the
 network protocol correctly. Protocol handlers are used to implement new
 network protocols to the Linux kernel. The network stack of Linux kernel is
 designed to be extensible so that new network protocols can be added
-relatively easily. New protocols can be implemented as a protocol handler,
+relatively easily. New protocols can be implemented by protocol handlers,
 which is essentially a call back function that is invoked when a packet is
 sent or received. When implemented in a loadable kernel module, protocol
 handlers can be added without recompiling the kernel.

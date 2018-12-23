@@ -42,7 +42,7 @@ challenges for further improving the practicality of our proposed framework.
 \section{Research Objective}\label{sec:iii-background}
 
 MPI collective operations require much simultaneous communication among
-multiple process pairs., while some compute node pairs communicate less, and
+multiple process pairs, while some compute node pairs communicate less, and
 other pairs have to communicate much more. When the underlying network of the
 cluster system that interconnects with the compute nodes has a full-bisection
 bandwidth, the imbalance of source and destination in communication would not
@@ -112,10 +112,10 @@ which recognizes the communication pattern needed by MPI collectives is
 essential. Also, the mechanism must effectively utilize the bandwidth of each
 link by distributing the traffic among redundant routes. Therefore, this
 research leverage Software-Defined Networking (SDN) to enable such dynamic
-control of packet control depending on the communication pattern of MPI
+control of packet flow depending on the communication pattern of MPI
 applications.
 
-In particular, this research focus on accelerating MPI\_Allreduce.
+In particular, this research focuses on accelerating MPI\_Allreduce.
 MPI\_Allreduce is one of the most frequently used and time-consuming
 collective communication functions of MPI\@~\cite{Chunduri2018}.
 This collective communication reduces values from all
@@ -270,8 +270,8 @@ framework designed for easily developing OpenFlow controllers in the Ruby
 language. It has the following four core functionalities:
 
 \begin{itemize}
-\item Generating routing for MPI collectives to mitigate link contention and
-    installing generated routing to SDN-enabled switches
+\item Generating routes for MPI collectives to mitigate link contention and
+    installing generated routes to SDN-enabled switches
 \item Detecting the topology and usage of the interconnect using LLDP
 \item Responding to Address Resolution Protocol~(ARP) requests from compute
     nodes to avoid broadcast storms
@@ -288,13 +288,14 @@ compute nodes also emit LLDP packets from the LLDP daemon described in the
 previous section. The controller is notified of a LLDP packet arrival at a
 switch. After that, it parses the packet to obtain the information on the
 packet's origin, and then examines whether the packet came from a compute node
-or an SDN-enabled switch, and its MAC address/Datapath ID and Interface
-index/Port number (step~2). Using this information from its neighbors, an
-adjacency list is generated (step~3). From this adjacency list, a network
-topology graph is constructed, which is used in the route generation and
-routing. If the packet is from a compute node, the source MAC address and IP
-address are registered in a MAC/IP address translation table used in the ARP
-responding functionality.
+or an SDN-enabled switch. If the sender is a compute node, its MAC address and
+interface index is acquired. Otherwise if the sender is a switch, its datapath
+ID and port number is acquired (step~2). Using this information from its
+neighbors, an adjacency list is generated (step~3). From this adjacency list,
+a network topology graph is constructed, which is used in the route generation
+and routing. If the packet is from a compute node, the source MAC address and
+IP address are registered in a MAC/IP address translation table used in the
+ARP responding functionality.
 
 \begin{figure}
     \centering
@@ -304,8 +305,8 @@ responding functionality.
 \end{figure}
 
 The second functionality is replying to ARP requests. An ARP request is
-a L2 broadcast packet, so it causes a \emph{broadcast storm} problem
-inside a network that contains a loop inside it. Since the target of
+a L2 broadcast packet, and thus it causes a \emph{broadcast storm}
+in a network that contains a loop inside of it. Since the target of
 this chapter is a network that has redundant routes, it always has a loop
 in it. Thus, the controller instructs the switches to reply to the
 received ARP request, instead of the compute node that has the
@@ -377,7 +378,7 @@ and installs them on demand.
 
 An MPI application that wants to use the proposed framework must be linked
 with the SDN MPI library. This library contains two classes of functions:
-SDN\_MPI\_Init, which is the initialization function for the library, and
+SDN\_MPI\_Init, which is an initialization function for the library, and
 MPI collective functions prefixed with SDN\_MPI\_, which replace the
 conventional MPI collectives with their SDN-enhanced versions.
 
