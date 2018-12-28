@@ -14,11 +14,12 @@ collective communication~\autocite{Chunduri2018}. This fact clearly indicates
 that reducing the time of collective communication is of great importance.
 
 MPI collectives require intensive communication among multiple compute node
-pairs. However, some compute node pairs communicate less, and other pairs have
-to communicate much more. Because of this imbalance, even in the case where
-the interconnect of a cluster system has multiple redundant routes between
-compute nodes, the packet flow generated from MPI collectives could collide on
-a single link of the interconnect without any control of packet flow.
+pairs. However, some compute node pairs communicate less, whereas other pairs
+have to communicate much more. Because of this imbalance, even in the case
+where the interconnect of a cluster system has multiple redundant routes
+between compute nodes, the packet flow generated from MPI collectives could
+collide on a single link of the interconnect without any control of packet
+flow.
 
 This chapter aims at accelerating MPI collectives by dynamically
 controlling the packet flow in the interconnect. In particular, a
@@ -41,15 +42,16 @@ challenges for further improving the practicality of our proposed framework.
 
 \section{Research Objective}\label{sec:iii-background}
 
-MPI collective operations require much simultaneous communication among
-multiple process pairs, while some compute node pairs communicate less, and
-other pairs have to communicate much more. When the underlying network of the
-cluster system that interconnects with the compute nodes has a full-bisection
-bandwidth, the imbalance of source and destination in communication would not
-be a problem although structuring this type of a network is hard to scale out
-due to economic and physical restrictions~\autocite{Al-Fares2008}. Under the
-assumption that the network is oversubscribed, the shortage of available
-bandwidth could give rise to a serious problem.
+MPI collective operations require a large number of simultaneous communication
+among multiple process pairs. However, some compute node pairs communicate
+less, whereas other pairs have to communicate much more. When the underlying
+network of the cluster system that interconnects with the compute nodes has a
+full-bisection bandwidth, the imbalance of source and destination in
+communication would not be a problem although structuring this type of a
+network is hard to scale out due to economic and physical
+restrictions~\autocite{Al-Fares2008}. Under the assumption that the network is
+oversubscribed, the shortage of available bandwidth could give rise to a
+serious problem.
 
 Suppose a cluster system of four compute nodes interconnected with a
 two-tier fat-tree topology as illustrated in Fig.~\ref{fig:problem-routing1}.
@@ -60,8 +62,8 @@ compared to a simple tree topology.
 
 The traffic load balancing algorithm becomes important on such interconnects.
 For example, suppose compute node 1 is sending data to node 3, and node 2 is
-sending different data to node 4 at the same moment
-in~\ref{fig:problem-routing1}. If those two communications are routed within
+sending different data to node 4 at the same moment in
+Fig.~\ref{fig:problem-routing1}. If those two communications are routed within
 the exact same route, link contention could happen. When these two
 communications are routed so that they make use of the redundant routes as
 depicted in Fig.~\ref{fig:problem-routing2}, link contention can be avoided.
@@ -155,7 +157,7 @@ computed by all processes.
 
 This research attempts to accelerate MPI\_Allreduce on a cluster system with a
 fat-tree interconnect. The dynamic network controllability of SDN is
-integrated with MPI in order to avoid link contention. The speedup of
+integrated with MPI in order to mitigate link contention. The speedup of
 MPI\_Allreduce based on the proposed framework is evaluated.
 
 \section{Proposal}\label{sec:iii-proposal}
@@ -166,15 +168,14 @@ the design and implementation of the framework is described in detail.
 
 \subsection{Basic Idea}
 
-The basic idea behind the proposed framework is to improve the inefficient
-communication in MPI in order to enhance the performance of MPI applications.
-The fact that the MPI application cannot retrieve the usage information of the
-underlying network results in a potential inefficiency in terms of
-communication. One of such inefficiencies is the inequality of link usage
-among links. Since the bandwidth of a link is limited, an inequality of link
-usage can cause congestion in heavy-loaded links. Therefore, this research
-focuses on the inequality of the link usage among the interconnect of a
-cluster system.
+The motivation behind the proposed framework is to improve the inefficient communication
+in MPI in order to enhance the performance of MPI applications. The fact that
+MPI applications are unable to retrieve the usage of the underlying network
+results in a potential inefficiency in terms of communication. One of such
+inefficiencies is the inequality of link usage among links. Since the
+bandwidth of a link is limited, an inequality of link usage can cause
+congestion in heavy-loaded links. Therefore, this research focuses on the
+inequality of the link usage among the interconnect of a cluster system.
 
 In this chapter, redundant routes in the interconnect are used to mitigate the
 inequality of link usage, based on an assumption that the cluster system has a
@@ -188,13 +189,19 @@ SDN controller, LLDP~(Link Layer Discovery Protocol)~\autocite{lldp}
 daemon and SDN MPI library. They are deployed onto a
 cluster system as illustrated in Fig.~\ref{fig:proposal-placement}.
 The SDN controller is designed to be deployed onto the management node. The
-management node is is used for controlling the whole cluster system such as
+management node is used for controlling the whole cluster system such as
 deploying jobs to the system. The LLDP daemon is designed to run in the
-background on all compute nodes. The SDN MPI library is not a stand-alone
-application, but a static library that must be linked to MPI applications at
-compile time. Although each compute node can run one or more MPI processes, in
-this chapter, it is assumed that each compute node runs only a single MPI
-process.
+background on all compute nodes. The SDN MPI library is a library that needs
+be statically linked to MPI applications at compile time.
+
+Although each compute node can run one or more MPI processes, in this chapter,
+it is assumed that each compute node runs only a single MPI process. This is a
+reasonable assumption since many applications nowadays leverage \emph{hybrid
+parallelism}, which combines distributed memory programming and shared memory
+programming. Under the hybrid parallelism model, the application starts a
+single MPI process per node and then spawns a thread for each socket or core
+on the node. After that, the application uses MPI for intra-node communication
+and threading frameworks such as OpenMP for intra-node communication.
 
 \begin{figure}
     \centering
@@ -209,8 +216,8 @@ MPI collective call. Figure~\ref{fig:proposal-sequence} is a UML sequence
 diagram that illustrates how these modules cooperate with each other.
 MPI\_Init is the MPI function that initializes the MPI execution environment,
 which must be called on the application startup. After MPI\_Init finishes, all
-MPI processes notify their own IP address and MPI \emph{rank} number to the
-SDN controller. This information obtained from MPI processes is held by the
+MPI processes notify their own IP address and MPI rank number to the SDN
+controller. This information obtained from MPI processes is held by the
 controller until the execution of the MPI application finishes.
 
 \begin{figure}
@@ -221,8 +228,8 @@ controller until the execution of the MPI application finishes.
 \end{figure}
 
 When an MPI collective is called, the rank 0 process generates the
-\emph{communication pattern} of the MPI collective. This communication pattern is
-a set of sender process and receiver process pairs during the MPI collective
+communication pattern of the MPI collective. This communication pattern is a
+set of sender process and receiver process pairs during the MPI collective
 communication. After the communication pattern is generated, this set is sent
 to the SDN controller by the rank 0 process. As soon as the SDN controller
 receives the communication pattern, it generates a route for each
@@ -271,7 +278,7 @@ language. It has the following four core functionalities:
 
 \begin{itemize}
 \item Generating routes for MPI collectives to mitigate link contention and
-    installing generated routes to SDN-enabled switches
+    installing the generated routes to SDN-enabled switches
 \item Detecting the topology and usage of the interconnect using LLDP
 \item Responding to Address Resolution Protocol~(ARP) requests from compute
     nodes to avoid broadcast storms
@@ -320,29 +327,29 @@ each MPI collective.
 
 Since this research focuses on accelerating MPI\_Allreduce, a route generation
 algorithm for MPI\_Allreduce has been designed and implemented. This algorithm
-controls the packet flow of MPI\_Allreduce so that other MPI communication is
-not affected. When an MPI application calls MPI\_Allreduce, the rank 0 process
-computes the \emph{communication pattern} of MPI\_Allreduce.
+controls the packet flow of MPI\_Allreduce to mitigate the interference with
+other MPI communication. When an MPI application calls MPI\_Allreduce, the
+rank 0 process computes the communication pattern of MPI\_Allreduce.
 
 The route searching algorithm used here for its speed and simplicity is the
 \emph{Dijkstra} algorithm. The Dijkstra algorithm solves the shortest route
 problem for a graph with non-negative link weights. In this algorithm, link
-weights are considered the number of total routes that go through that link.
-Under this assumption, the shortest route means a route that shares links with
-other routes. For each pair of sender processes and receiver processes, a
-route is generated with the Dijkstra algorithm. After that, the weight of all
-links contained in the generated route is incremented. This procedure is
-repeated for all sender and receiver process pairs. This algorithm selects the
-route that shares links with other routes from multiple possible routes, which
-results in a distribution of routes.
+weights are considered as the number of total routes that go through that link.
+Under this assumption, the shortest route means a route that shares links
+least with other routes. For each pair of a sender process and a receiver
+process, a route is generated by the Dijkstra algorithm. After that, the
+weight of all links contained in the generated route is incremented. This
+procedure is repeated for all sender and receiver process pairs. This
+algorithm selects the route that shares links with other routes from multiple
+possible routes, which results in a distribution of routes.
 
 Algorithm~\ref{lst:code-generate-route} is a pseudo-code for the algorithm.
 First, an empty array \emph{routes} is initialized. After that, the
 route search is performed for each sender-receiver pair. The resulting
 route is added to \emph{routes} and the link weight (which is the number
 of total routes that use that link) of each link is incremented. After
-all routes have been generated, these routes are installed to the
-SDN-enabled switches.
+all routes are generated, these routes are installed to the SDN-enabled
+switches.
 
 \begin{algorithm}
     \SetKwData{Routes}{routes}

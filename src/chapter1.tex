@@ -130,8 +130,8 @@ Therefore, various topologies have been proposed to balance the trade-off
 between cost and performance. Figure~\ref{fig:topology} illustrates some of
 the popular topologies. For example, fat-tree~\autocite{Leiserson1985},
 dragonfly~\autocite{Kim2008}, multi-dimensional
-torus~\autocite{Alverson2010,Ajima2012}, and hypercube~\autocite{Dally2003} have
-been widely adopted as interconnect topologies in HPC systems.
+torus~\autocite{Alverson2010,Ajima2012}, and hypercube~\autocite{Dally2003}
+have been widely adopted as interconnect topologies in HPC systems.
 
 \begin{figure}
     \centering
@@ -607,10 +607,10 @@ To materialize this concept, the following three challenges must be achieved:
 
 \section{Organization of the Dissertation}
 
-The rest of this dissertation is organized as follows.
 % アプリケーションが相互結合網内に生成するパケットフローの解析手段を実現
+The rest of this dissertation is organized as follows.
 Chapter~\ref{sec:ii} proposes PFAnalyzer, a toolset for analyzing the
-packet flow in the interconnect, to address the first challenge listed in
+packet flow in an interconnect, to address the first challenge listed in
 Section~\ref{sec:i-objective}. The packet flow generated in the interconnect
 highly depends on parameters such as the communication pattern of application,
 interconnect design and cluster configuration. When designing and implementing

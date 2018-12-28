@@ -68,13 +68,12 @@ towards SDN-enhanced MPI has demonstrated that the acceleration of collective
 MPI communication is feasible.
 
 However, a technical challenge still remains in this research; namely,
-applying the research achievements to real-world MPI applications.
-The preliminary stage of the research so far has mainly focused on
-verifying the feasibility of the idea by investigating whether
-individual MPI collective communications could be accelerated or not.
-Therefore, how MPI communication accelerated with SDN could be
-synchronized with the execution of an MPI application remains a
-question that required a new technical innovation.
+applying the research achievements to real-world MPI applications. The
+preliminary stage of this research has mainly focused on verifying the
+feasibility of the idea by investigating whether individual MPI collective
+communications could be accelerated or not. How MPI communication
+accelerated with SDN could be synchronized with the execution of an MPI
+application remains a question that requires a new technical innovation.
 
 To this end, this research proposes \emph{UnisonFlow}, a mechanism for
 SDN-enhanced MPI to perform network control in synchronization with the
@@ -291,10 +290,10 @@ write TCP/UDP payloads, whereas raw sockets allows programs to read and write
 TCP/UDP, IP and Ethernet protocol headers. In exchange for the high
 flexibility, the user space program has the full responsibility to handle the
 network protocol correctly. Protocol handlers are used to implement new
-network protocols to the Linux kernel. The network stack of Linux kernel is
+network protocols in the Linux kernel. The network stack of Linux kernel is
 designed to be extensible so that new network protocols can be added
 relatively easily. New protocols can be implemented by protocol handlers,
-which is essentially a call back function that is invoked when a packet is
+which are essentially callback functions that are invoked when a packet is
 sent or received. When implemented in a loadable kernel module, protocol
 handlers can be added without recompiling the kernel.
 

@@ -53,10 +53,10 @@ communication patterns of applications can increase the utilization of the
 interconnect and then improve application performance. The goal of
 SDN-enhanced MPI is to accelerate individual MPI collectives by dynamically
 optimizing the packet flow in the interconnect. Several MPI collectives have
-been successfully accelerated in the previous works so far. One of the core
-challenges in the research on SDN-enhanced MPI lies in the design of an
-algorithm to effectively control the packet flow in the interconnect for each
-MPI collective called by the application.
+been successfully accelerated in the previous works up to this time. One of
+the core challenges in the research on SDN-enhanced MPI lies in the design of
+an algorithm to effectively control the packet flow in the interconnect for
+each MPI collective called by the application.
 
 More generally, an algorithm that takes the communication patterns of
 applications as its input and then determines how to manage the packet flow
@@ -188,16 +188,16 @@ simulating application-aware dynamic interconnects.
 \subsection{Representation of a Communication Pattern}
 
 In this dissertation, the communication pattern of an application is
-represented using the traffic matrix of the application. The reason why this
+represented using a traffic matrix of the application. The reason why this
 research has adopt traffic matrix as representation of communication pattern
 is explained below.
 
 The traffic matrix of an application is defined as a matrix of which element
 is equal to the traffic volume exchanged between two processes in the
 application. Here, the volume of traffic between processes is approximated as
-being constant during the execution of a job. In other words, The traffic
+being constant during the execution of a job. In other words, the traffic
 volume between a process pair is assumed to be the total bytes transferred
-divided by the duration of the application.
+divided by the runtime of the application.
 
 This approximation is introduced to reduce the size of the communication
 pattern as well as to simplify and to speed up the simulation. The idea behind
@@ -216,8 +216,8 @@ applications with significantly time-varying communication patterns.
 \subsection{PFProf (MPI Profiler)}\label{sec:ii-pfprof}
 
 % PFProfの概要
-PFProf is a profiler that extracts the inter-process communication pattern
-from MPI applications. The collected communication pattern is later fed into
+PFProf is a profiler that extracts the inter-process communication patterns
+from MPI applications. The collected communication patterns are later fed into
 PFSim to simulate the packet flow generated in the interconnect.
 
 % プロファイリングを使う理由
@@ -225,10 +225,11 @@ To capture the inter-process communication of an MPI application, either
 profiling or static analysis is commonly utilized. Profiling gives accurate
 results but requires the user to run the application once. In contrast, static
 analysis of the source code does not require the user to run the application.
-However, the communication pattern obtained through the use of static analysis
-is usually less accurate compared to the one obtained by profiling. This
-research takes the profiling approach because an accurate communication
-pattern is essential to obtain a simulation result with high fidelity.
+However, the communication patterns obtained through the use of static
+analysis are usually less accurate compared to the patterns obtained by
+profiling. This research takes the profiling approach because an accurate
+communication pattern is essential to obtain a simulation result with high
+fidelity.
 
 % PMPIの問題点
 Initially, existing MPI profilers and tracers such as
@@ -239,26 +240,26 @@ communication pattern when profiling an application that uses MPI collectives.
 The reason can be explained from the following technological aspect. Existing
 MPI profilers replace the standard MPI functions provided by MPI libraries
 with instrumented functions by utilizing the MPI Profiling Interface~(PMPI).
-Although an advantage of this approach is that it works regardless of a
-specific MPI implementation, this approach fails to capture the internal
-information of the MPI library. Meanwhile, collective communication functions
-are internally implemented as a combination of point-to-point communication in
-MPI implementations. These underlying point-to-point communication functions
-are hidden from PMPI-based profilers and excluded from the communication
-patterns emitted by profilers.
+Although this approach works regardless of a specific MPI implementation, it
+fails to capture the function calls made within the MPI library. Meanwhile,
+collective communication functions are internally implemented as a combination
+of point-to-point communication in MPI implementations. These underlying
+point-to-point communication functions are hidden from PMPI-based profilers
+and excluded from the communication patterns emitted by profilers.
 
 % 集団通信を実現するアルゴリズムによっても変わる
 Furthermore, the combination of point-to-point communication that composes a
-collective communication is unknown until the execution of the application.
-This is because MPI libraries usually implement multiple algorithms for each
-MPI collective that are selected depending on the message size and number of
-processes. For example, Open~MPI~\cite{Gabriel2004} implements three
-algorithms to realize MPI\_Allgather: the recursive doubling algorithm, the
-Bruck algorithm, and the ring algorithm~\cite{Rabenseifner2004}.
-Figure~\ref{fig:allgather-algorithms} illustrates the underlying point-to-point
-communication of MPI\_Allgather for each algorithm. It is evident that the
-point-to-point communication of MPI\_Allgather is significantly different
-depending on the algorithm being used.
+collective communication is unknown until the collective communication
+function is called during the execution of the application. This is because
+MPI libraries usually implement multiple algorithms for each MPI collective
+that are selected depending on the message size and number of processes. For
+example, Open~MPI~\cite{Gabriel2004} implements three algorithms to realize
+MPI\_Allgather: the recursive doubling algorithm, the Bruck algorithm, and the
+ring algorithm~\cite{Rabenseifner2004}. Figure~\ref{fig:allgather-algorithms}
+illustrates the underlying point-to-point communication of MPI\_Allgather for
+each algorithm. It is evident that the point-to-point communication of
+MPI\_Allgather is significantly different depending on the algorithm being
+used.
 
 \begin{figure}
     \centering
@@ -370,7 +371,7 @@ simulation is driven by events, each of which indicates a change in the
 internal state of the simulator. Each event holds (1) type of the event, (2)
 time when the event will occur, and (3) additional information. An event
 queue is a priority queue that stores the events according to the time it will
-occur. Event handlers are functions that are associated to a specific event
+occur. An event handler is a function that is associated to a specific event
 type and invoked when an event of the associated type occurs. The dispatcher
 manages the event queue. It pops events from the event queue one by one and
 calls the associated event handler for each event.
