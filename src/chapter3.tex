@@ -121,9 +121,9 @@ In particular, this research focuses on accelerating MPI\_Allreduce.
 MPI\_Allreduce is one of the most frequently used and time-consuming
 collective communication functions of MPI\@~\cite{Chunduri2018}.
 This collective communication reduces values from all
-processes with an operator and broadcasts the result to every process.
-More specifically, suppose there are $n$ processes in a communicator and
-each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
+processes with an operator and broadcasts the result of the reduction to every
+process. More specifically, suppose there are $n$ processes in a communicator
+and each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
 \dots, x_i^l$. After MPI\_Allreduce is completed, all processes have values
 $y^0, y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j \oplus \dots \oplus
 x_{n-1}^j$ and $\oplus$ is the operator used for reduction. The operator can
@@ -422,21 +422,24 @@ SDN controller.
     \label{fig:recursive-doubling}
 \end{figure}
 
-Several algorithms to realize the Allreduce operation have been proposed.
+Several algorithms to realize the Allreduce operation have been
+proposed~\autocite{Rabenseifner2004,Thakur2005,Kandalla2012,Ruefenacht2017}.
 This research focuses on \emph{recursive doubling}~\autocite{Thakur2005},
 since it requires more inter-node communication compared with other
 algorithms, which means more room for optimization in terms of communication.
-Figure~\ref{fig:recursive-doubling} shows how the recursive doubling algorithm
-works. In this context, the \emph{distance} between two MPI processes is
-defined as the absolute value of the difference of rank numbers. In the first
-step, processes that are one distance apart exchange their data and perform
-the reduction operation between the data that the process has originally held
-and with the just exchanged data. In the second step, processes that are 2
-distance apart exchange their data, and in step \(p\), processes that are
-\(2^{p - 1}\) distance apart exchange their data. The SDN MPI library
-memorizes all process pairs that have to communicate and exchange data by
-following each step of the recursive doubling algorithm. For each of those
-pairs, the library notifies the SDN controller to prepare each route.
+Figure~\ref{fig:recursive-doubling} illustrates how the recursive doubling
+algorithm works. The recursive doubling algorithm requires $\log p$
+communication steps where $p$ denotes the number of processes. For explanatory
+purposes, the \emph{distance} between two MPI processes is defined as the
+absolute difference of their rank numbers here. In the first step, processes
+that are one distance apart exchange their data and perform the reduction
+operation between the data that the process has originally held and with the
+just exchanged data. In the second step, processes that are 2 distance apart
+exchange their data, and in the $i$-th step, processes that are $2^{i - 1}$
+distance apart exchange their data. The SDN MPI library memorizes all process
+pairs that have to communicate and exchange data by following each step of the
+recursive doubling algorithm. For each of those pairs, the library notifies
+the SDN controller to prepare each route.
 
 \section{Evaluation}\label{sec:iii-evaluation}
 
