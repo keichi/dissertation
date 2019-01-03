@@ -21,13 +21,15 @@ between compute nodes, the packet flow generated from MPI collectives could
 collide on a single link of the interconnect without any control of packet
 flow.
 
-This chapter aims at accelerating MPI collectives by dynamically
-controlling the packet flow in the interconnect. In particular, a
-cluster system with interconnect that contains multiple redundant routes is
-targeted. Specifically, this research focuses on fat-tree interconnects. This
-research designs and implements a framework that effectively makes use of
-redundant routes by dynamically controlling the packet flow in the
-interconnect using SDN described in Section~\ref{sec:i-sdn}.
+This chapter aims at accelerating MPI collectives by dynamically controlling
+the packet flow in the interconnect. In particular, a cluster system deployed
+with an interconnect that contains multiple redundant routes is targeted. This
+is because the majority of interconnects today are provisioned with redundant
+routes to improve the bisection bandwidth and fault tolerance. Specifically,
+this research specifically focuses on fat-tree. This research designs and
+implements a framework that effectively makes use of redundant routes by
+dynamically controlling the packet flow in the interconnect using SDN
+described in Section~\ref{sec:i-sdn}.
 
 The rest of this chapter is organized as follows.
 Section~\ref{sec:iii-background} reviews conventional traffic balancing
@@ -60,13 +62,14 @@ upper layer switches and lower layer switches. By distributing traffic among
 these redundant routes, it is possible to gain higher bisection bandwidth
 compared to a simple tree topology.
 
-The traffic load balancing algorithm becomes important on such interconnects.
-For example, suppose compute node 1 is sending data to node 3, and node 2 is
-sending different data to node 4 at the same moment in
-Fig.~\ref{fig:problem-routing1}. If those two communications are routed within
-the exact same route, link contention could happen. When these two
-communications are routed so that they make use of the redundant routes as
-depicted in Fig.~\ref{fig:problem-routing2}, link contention can be avoided.
+The traffic load balancing algorithm deployed on the interconnect becomes
+important on such an interconnect. For example, suppose compute node 1 is
+sending data to node 3, and node 2 is sending different data to node 4 at the
+same moment in Fig.~\ref{fig:problem-routing1}. If those two communications
+are routed within the exact same route, link contention could happen. When
+these two communications are routed so that they make use of the redundant
+routes as depicted in Fig.~\ref{fig:problem-routing2}, link contention can be
+avoided.
 
 \begin{figure}
     \centering
@@ -82,9 +85,9 @@ depicted in Fig.~\ref{fig:problem-routing2}, link contention can be avoided.
     \label{fig:problem-routing2}
 \end{figure}
 
-Various algorithms for balancing traffic in a network with redundant
-routes have been proposed. Equal-Cost Multi-Path routing (ECMP)~\autocite{ecmp} is
-a standardized load balancing strategy mainly used in L3 switches. For each
+Various algorithms for balancing traffic in a network with redundant routes
+have been proposed. Equal-Cost Multi-Path routing (ECMP)~\autocite{ecmp} is a
+standardized load balancing strategy mainly used in L3 switches. For each
 communication between two compute nodes, if multiple equal cost routes are
 available, ECMP selects one route from among them. The decision on which route
 to use is based on the header fields (\emph{e.g.} source and destination
@@ -103,18 +106,19 @@ usage among links is equalized.
 The problem of these existing conventional load balancing mechanisms is
 that they never consider the communication pattern of MPI applications. In
 general, MPI applications cannot retrieve the usage information of the
-underlying network nor control it. MPI communication does not occur evenly
-among compute nodes, and its sources and destinations are biased. This trend
-may cause an inequality of link usage that decreases available bandwidth
-between compute nodes. Ultimately, this decrease of available bandwidth can
-lead to the performance degradation of MPI applications.
+underlying network nor control it. Meanwhile, MPI communication in an MPI
+application usually shows a strong locality where each process communicates
+with a limited number of processes. This non-uniform communication pattern may
+cause an inequality of link usage that decreases available bandwidth between
+compute nodes. Ultimately, this decrease of available bandwidth can lead to
+the performance degradation of MPI applications.
 
 From the observations above, an application-aware network control mechanism
 which recognizes the communication pattern needed by MPI collectives is
 essential. Also, the mechanism must effectively utilize the bandwidth of each
 link by distributing the traffic among redundant routes. Therefore, this
 research leverage Software-Defined Networking (SDN) to enable such dynamic
-control of packet flow depending on the communication pattern of MPI
+control of packet flow depending on the communication patterns of MPI
 applications.
 
 In particular, this research focuses on accelerating MPI\_Allreduce.
@@ -186,14 +190,14 @@ links is expected to be alleviated, which as a result speeds up communication.
 \label{sec:iii-design}
 
 The proposed framework is composed of three modules. These three modules are
-SDN controller, LLDP~(Link Layer Discovery Protocol)~\autocite{lldp}
-daemon and SDN MPI library. They are deployed onto a
-cluster system as illustrated in Fig.~\ref{fig:proposal-placement}.
-The SDN controller is designed to be deployed onto the management node. The
-management node is used for controlling the whole cluster system such as
-deploying jobs to the system. The LLDP daemon is designed to run in the
-background on all compute nodes. The SDN MPI library is a library that needs
-be statically linked to MPI applications at compile time.
+SDN controller, LLDP~(Link Layer Discovery Protocol)~\autocite{lldp} daemon
+and SDN MPI library. They are deployed onto a cluster system as illustrated in
+Fig.~\ref{fig:proposal-placement}. The SDN controller is designed to be
+deployed onto the management node of a cluster system. The management node is
+used for controlling the whole cluster system such as deploying jobs to the
+system. The LLDP daemon is designed to run in the background on all compute
+nodes. The SDN MPI library is a library that needs be statically linked to MPI
+applications at compile time.
 
 Although each compute node can run one or more MPI processes, in this chapter,
 it is assumed that each compute node runs only a single MPI process. This is a
@@ -312,14 +316,14 @@ ARP responding functionality.
     \label{fig:lldp}
 \end{figure}
 
-The second functionality is replying to ARP requests. An ARP request is
-a L2 broadcast packet, and thus it causes a \emph{broadcast storm}
-in a network that contains a loop inside of it. Since the target of
-this chapter is a network that has redundant routes, it always has a loop
-in it. Thus, the controller instructs the switches to reply to the
-received ARP request, instead of the compute node that has the
-corresponding IP address. The IP address that corresponds to the MAC
-address is obtained from the MAC/IP address translation table described above.
+The second functionality is replying to ARP requests. ARP requests are L2
+broadcast packet and therefore causes a \emph{broadcast storm} in a network
+that contains a cycle. Since this chapter targets a network that has redundant
+routes, the topology of the network is not a tree. Therefore, the network is
+always cyclic. Thus, the controller instructs the switches to reply to the
+received ARP request, instead of the compute node that has the corresponding
+IP address. The IP address that corresponds to the MAC address is obtained
+from the MAC/IP address translation table described above.
 
 The third functionality is route generation and installation for MPI
 collective communication. The route generation algorithm is implemented as a
@@ -592,7 +596,7 @@ research focuses on a commodity Ethernet network.
 Furthermore, there have been many research reports focusing on adaptive
 use of networks for high-performance computing. Geoffray \emph{et
 al.}~\autocite{Geoffray2008} proposed an adaptive routing method on Myrinet
-and the above mentioned literature~\autocite{Jiuxing2004} explored the
+and the above-mentioned literature~\autocite{Jiuxing2004} explored the
 adaptive use of multiple independent networks on InfiniBand. This research also
 aims for a dynamic use of the underlying interconnection network, but differs
 in the fact that this research attempted to use a different interconnection

@@ -369,9 +369,9 @@ Figure~\ref{fig:pfsim-arch} shows the internal structure of PFSim. This
 simulator is based on a discrete-event simulation model. Under this model, the
 simulation is driven by events, each of which indicates a change in the
 internal state of the simulator. Each event holds (1) type of the event, (2)
-time when the event will occur, and (3) additional information. An event
-queue is a priority queue that stores the events according to the time it will
-occur. An event handler is a function that is associated to a specific event
+time when the event will occur, and (3) additional information. An event queue
+is a priority queue that stores the events prioritized by the time each event
+occurs. An event handler is a function that is associated to a specific event
 type and invoked when an event of the associated type occurs. The dispatcher
 manages the event queue. It pops events from the event queue one by one and
 calls the associated event handler for each event.
