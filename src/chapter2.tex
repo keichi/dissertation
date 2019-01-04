@@ -75,13 +75,13 @@ not support measuring traffic in the interconnect with enough high frequency
 and precision to obtain meaningful insights.
 
 From the three restrictions mentioned above, an interconnect simulator that
-allows users to conduct a systematic investigation of clusters with diverse
-topologies and parameters is essentially demanded to accelerate the research
-and development of application-aware dynamic interconnects that control packet
-flow in response to the communication patterns of applications. A wide
-spectrum of interconnect simulators have been developed with different focus
-and purpose until today. However, existing simulators mostly focused on static
-interconnects and few research has been done to simulate dynamic and
+allows researchers to conduct a systematic investigation of clusters with
+diverse topologies and parameters is essentially demanded to accelerate the
+research and development of application-aware dynamic interconnects that
+control packet flow in response to the communication patterns of applications.
+A wide spectrum of interconnect simulators have been developed with different
+focus and purpose until today. However, existing simulators mostly focused on
+static interconnects and few research has been done to simulate dynamic and
 application-aware interconnects.
 
 This chapter describes the design and implementation of PFAnalyzer, a
@@ -223,10 +223,10 @@ PFSim to simulate the packet flow generated in the interconnect.
 % プロファイリングを使う理由
 To capture the inter-process communication of an MPI application, either
 profiling or static analysis is commonly utilized. Profiling gives accurate
-results but requires the user to run the application once. In contrast, static
-analysis of the source code does not require the user to run the application.
-However, the communication patterns obtained through the use of static
-analysis are usually less accurate compared to the patterns obtained by
+results but requires the users to run their application once. In contrast,
+static analysis of the source code does not require the users to run their
+application. However, the communication patterns obtained through the use of
+static analysis are usually less accurate compared to the patterns obtained by
 profiling. This research takes the profiling approach because an accurate
 communication pattern is essential to obtain a simulation result with high
 fidelity.
@@ -330,7 +330,7 @@ written out to disk as a JSON file (step~4).
 % 共有ライブラリ
 Finally, PFProf is designed to be provided in the form of a shared library so
 that users do not need to modify the source code of their applications. Users
-can either use the \lstinline!LD_PRELOAD! environment variable to load the
+can either set the \lstinline!LD_PRELOAD! environment variable to load the
 shared library at run-time or dynamically link the shared library with their
 application at build-time.
 
@@ -369,12 +369,13 @@ Figure~\ref{fig:pfsim-arch} shows the internal structure of PFSim. This
 simulator is based on a discrete-event simulation model. Under this model, the
 simulation is driven by events, each of which indicates a change in the
 internal state of the simulator. Each event holds (1) type of the event, (2)
-time when the event will occur, and (3) additional information. An event queue
-is a priority queue that stores the events prioritized by the time each event
-occurs. An event handler is a function that is associated to a specific event
-type and invoked when an event of the associated type occurs. The dispatcher
-manages the event queue. It pops events from the event queue one by one and
-calls the associated event handler for each event.
+time when the event will occur, and (3) additional information indicating what
+kind of state change the event will cause. An event queue is a priority queue
+that stores the events prioritized by the time each event occurs. An event
+handler is a function that is associated to a specific event type and invoked
+when an event of the associated type occurs. The dispatcher manages the event
+queue. It pops events from the event queue one by one and calls the associated
+event handler for each event.
 
 \begin{figure}
     \centering

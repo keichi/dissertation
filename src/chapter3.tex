@@ -317,13 +317,14 @@ ARP responding functionality.
 \end{figure}
 
 The second functionality is replying to ARP requests. ARP requests are L2
-broadcast packet and therefore causes a \emph{broadcast storm} in a network
+broadcast packets and therefore cause a \emph{broadcast storm} in a network
 that contains a cycle. Since this chapter targets a network that has redundant
 routes, the topology of the network is not a tree. Therefore, the network is
-always cyclic. Thus, the controller instructs the switches to reply to the
-received ARP request, instead of the compute node that has the corresponding
-IP address. The IP address that corresponds to the MAC address is obtained
-from the MAC/IP address translation table described above.
+always cyclic and affected by the broadcast problem. To eliminate broadcast
+storms, the controller instructs the switches to reply to the received ARP
+requests on behalf of the compute node that has the corresponding IP address.
+The IP address that corresponds to the MAC address is obtained from the
+above-described MAC/IP address translation table.
 
 The third functionality is route generation and installation for MPI
 collective communication. The route generation algorithm is implemented as a
