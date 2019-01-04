@@ -168,16 +168,16 @@ x = 0.0
 set ylabel "Throughput [MB/s]"
 set output "unisonflow_overhead_bw_abs.pdf"
 set bmargin 4
-plot "unisonflow_overhead_bw.csv" using 1:2 ti "w/o Proposal" w lp ls 1, \
-     "" using 1:4 ti "w/ Proposal" w lp ls 2
+plot "unisonflow_overhead_bw.csv" using 1:2 ti "w/o UnisonFlow" w lp ls 1, \
+     "" using 1:4 ti "w/ UnisonFlow" w lp ls 2
 unset output
 system "pdfcrop unisonflow_overhead_bw_abs.pdf"
 system "mv unisonflow_overhead_bw_abs-crop.pdf unisonflow_overhead_bw_abs.pdf"
 
 set ylabel "Latency [{/Symbol m}s]"
 set output "unisonflow_overhead_lat_abs.pdf"
-plot "unisonflow_overhead_latency.csv" using 1:2 ti "w/o Proposal" w lp ls 1, \
-     "" using 1:3 ti "w/ Proposal" w lp ls 2
+plot "unisonflow_overhead_latency.csv" using 1:2 ti "w/o UnisonFlow" w lp ls 1, \
+     "" using 1:3 ti "w/ UnisonFlow" w lp ls 2
 unset output
 system "pdfcrop unisonflow_overhead_lat_abs.pdf"
 system "mv unisonflow_overhead_lat_abs-crop.pdf unisonflow_overhead_lat_abs.pdf"
