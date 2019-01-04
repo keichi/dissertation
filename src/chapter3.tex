@@ -496,7 +496,11 @@ MPI\_Allreduce. The solid line and dashed line represent the
 execution time of the proposed framework and Open~MPI implementation,
 respectively. Figure~\ref{fig:evaluation-8nodes-normalized} shows the speedup
 of MPI\_Allreduce accelerated using the proposed framework in comparison with
-the Open~MPI implementation. The maximum of performance improvement was 41\%.
+the Open~MPI implementation. The maximal speedup was 41\%.
+Figure~\ref{fig:evaluation-16nodes} shows the result in the case of using 16
+nodes. Figure~\ref{fig:evaluation-16nodes-normalized} indicates the speedup of
+the proposed MPI\_Allreduce. It shows that the proposed framework succeeded to
+realize a 56\% speedup at maximum.
 
 \begin{figure}
     \centering
@@ -512,11 +516,6 @@ the Open~MPI implementation. The maximum of performance improvement was 41\%.
     \label{fig:evaluation-8nodes-normalized}
 \end{figure}
 
-Figure~\ref{fig:evaluation-16nodes} shows the result in the case of using 16
-nodes. Figure~\ref{fig:evaluation-16nodes-normalized} indicates the speedup of
-the proposed MPI\_Allreduce. It shows how the proposed framework succeeded
-to reduce the execution time of MPI\_Allreduce for 56\% at most.
-
 \begin{figure}
     \centering
     \includegraphics{allreduce_16nodes}
@@ -530,6 +529,19 @@ to reduce the execution time of MPI\_Allreduce for 56\% at most.
     \caption{Speedup of Proposed MPI\_Allreduce (16 Compute Nodes)}%
     \label{fig:evaluation-16nodes-normalized}
 \end{figure}
+
+Both Figs.~\ref{fig:evaluation-8nodes-normalized}
+and~\ref{fig:evaluation-16nodes-normalized} clearly show that MPI\_Allreduce
+accelerated with the proposed framework is consistently faster than the Open
+MPI implementation. However, some fluctuation of the speedup is also observed.
+This fluctuation of performance is considered to be caused by the
+non-deterministic aspect of the network. For example, queueing and scheduling
+of packets at compute nodes and switches, TCP congestion control, and OS noise
+heavily affect the time it takes for each packet to travel through the
+network. Such variation in the latency of each point-to-point communication
+significantly impacts the execution time of a collective communication. A
+larger number of benchmark runs is expected to exhibit a constant speedup
+ratio.
 
 \section{Related Work}\label{sec:iii-related-work}
 
