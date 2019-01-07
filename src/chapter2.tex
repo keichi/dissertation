@@ -826,20 +826,6 @@ placement always increased maximum traffic load compared to block process
 placement because neighboring ranks were placed on different compute nodes
 despite the locality of the communication pattern.
 
-\begin{figure}
-    \centering
-    \includegraphics{nas_cg_congestion}
-    \caption{Comparison of Maximum Traffic (NAS CG)}%
-    \label{fig:nas-cg-congestion}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics{nersc_milc_congestion}
-    \caption{Comparison of Maximum Traffic (MILC)}%
-    \label{fig:nersc-milc-congestion}
-\end{figure}
-
 Figure~\ref{fig:nersc-milc-congestion} shows the result in the case of
 MILC\@. The graph reveals that dynamic routing outperforms \mbox{D-mod-K}
 routing. In this case, the reduction of the link load was the largest when
@@ -847,6 +833,20 @@ random node selection and cyclic process placement was adopted. When using
 linear node selection and block process placement, the reduction of the
 maximum link load was 18\%. Compared to NAS CG benchmark, the effect of
 dynamic routing was smaller.
+
+\begin{figure}
+    \centering
+    \includegraphics{nas_cg_congestion}
+    \caption{Comparison of Maximum Traffic (NAS CG)}%
+    \label{fig:nas-cg-congestion}
+
+    \vspace*{\floatsep}
+
+    \centering
+    \includegraphics{nersc_milc_congestion}
+    \caption{Comparison of Maximum Traffic (MILC)}%
+    \label{fig:nersc-milc-congestion}
+\end{figure}
 
 To investigate the impact of traffic load on the application performance of an
 actual environment, the configuration described in the previous
@@ -856,20 +856,13 @@ equipped with switches that support OpenFlow, which is a de facto standard
 implementation of SDN\@. The routing algorithms were implemented based on
 OpenFlow. In this experiment, linear node selection and block process
 placement was adopted. The average execution time of 10 runs was compared when
-using \mbox{D-mod-K} routing and dynamic routing. Figure~\ref{fig:cg-nersc-time}
-shows the measured execution time for both benchmarks. The use of dynamic
-routing reduced the execution time of NAS CG benchmark for 23\%. Meanwhile,
-the execution time of MILC benchmark was reduced for 8\%, which was smaller
-than the case of NAS CG benchmark. This matches with the simulation result
-that predicted NAS CG benefits from larger reduction in maximum traffic load
-by using dynamic routing compared to MILC\@.
-
-These results suggest that application performance is actually improved
-by alleviating the traffic load on the hot spot link. This suggestion
-implies that researchers working on dynamic interconnects can take advantage
-of the proposed toolset to simulate different packet flow controlling
-algorithms and assess their performance improvement effect on real-world
-applications by using indicators such as maximum traffic load.
+using \mbox{D-mod-K} routing and dynamic routing.
+Figure~\ref{fig:cg-nersc-time} shows the measured execution time for both
+benchmarks. The use of dynamic routing reduced the execution time of NAS CG
+benchmark for 23\%. Meanwhile, the execution time of MILC benchmark was
+reduced for 8\%, which was smaller than the case of NAS CG benchmark. This
+matches with the simulation result that predicted NAS CG benefits from larger
+reduction in maximum traffic load by using dynamic routing compared to MILC\@.
 
 \begin{figure}
     \centering
@@ -877,6 +870,13 @@ applications by using indicators such as maximum traffic load.
     \caption{Comparison of Execution Time on an Actual Cluster}%
     \label{fig:cg-nersc-time}
 \end{figure}
+
+These results suggest that application performance is actually improved
+by alleviating the traffic load on the hot spot link. This suggestion
+implies that researchers working on dynamic interconnects can take advantage
+of the proposed toolset to simulate different packet flow controlling
+algorithms and assess their performance improvement effect on real-world
+applications by using indicators such as maximum traffic load.
 
 \section{Related Work}\label{sec:ii-related-work}
 
