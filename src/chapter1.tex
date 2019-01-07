@@ -615,17 +615,18 @@ Section~\ref{sec:i-objective}. The packet flow generated in the interconnect
 highly depends on parameters such as the communication pattern of application,
 interconnect design and cluster configuration. When designing and implementing
 an efficient programmable interconnect control, researchers need to conduct a
-systematic analysis over many combinations of these parameters. Since
+systematic analysis over many combinations of these parameters. Because
 performing such analysis on a physical cluster is time-consuming, this
 dissertation utilizes simulation to facilitate the analysis. PFAnalyzer is a
-pair of two tools: PFSim, an interconnect simulator specialized for
-programmable interconnects, and PFProf, a profiler to collect communication
-pattern from MPI applications. PFSim allows interconnect researchers and
-designers to investigate possible congestion in the interconnect for an
-arbitrary cluster configuration and a set of communication patterns collected
-by PFProf. This dissertation evaluates the accuracy of the simulation results
-obtained from PFSim and demonstrates how PFAnalyzer can be used to analyze the
-effect of programmable interconnect control.
+pair of two tools: PFSim, an interconnect simulator capable of simulating
+programmable interconnects, and PFProf, a profiler to accurately collect
+communication patterns from MPI applications. PFSim allows interconnect
+researchers and designers to rapidly investigate possible congestion in a
+programmable interconnect for a wide variety of cluster configurations and
+communication patterns collected by PFProf. This dissertation evaluates the
+accuracy of the simulation results obtained from PFSim and demonstrates how
+PFAnalyzer can be used to analyze the effect of programmable interconnect
+control.
 
 % MPI集団通信を高速化するパケットフロー制御アルゴリズムを配備可能な
 % フレームワークを構築

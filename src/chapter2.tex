@@ -245,7 +245,9 @@ fails to capture the function calls made within the MPI library. Meanwhile,
 collective communication functions are internally implemented as a combination
 of point-to-point communication in MPI implementations. These underlying
 point-to-point communication functions are hidden from PMPI-based profilers
-and excluded from the communication patterns emitted by profilers.
+and excluded from the communication patterns emitted by profilers. Therefore,
+an instrumentation mechanism other than PMPI is required to capture the hidden
+point-to-point communication.
 
 % 集団通信を実現するアルゴリズムによっても変わる
 Furthermore, the combination of point-to-point communication that composes a
@@ -259,7 +261,9 @@ ring algorithm~\cite{Rabenseifner2004}. Figure~\ref{fig:allgather-algorithms}
 illustrates the underlying point-to-point communication of MPI\_Allgather for
 each algorithm. It is evident that the point-to-point communication of
 MPI\_Allgather is significantly different depending on the algorithm being
-used.
+used. For the reason, the mapping between a collective communication and its
+corresponding underlying point-to-point communication cannot be statically
+generated before executing the application.
 
 \begin{figure}
     \centering
@@ -287,13 +291,13 @@ used.
 
 % PERUSEを採用する理由
 To accurately capture the underlying point-to-point communication of
-collective communication, this research has taken the strategy of utilizing
+collective communication, this research has taken the strategy of combining
 the MPI Performance Examination and Revealing Unexposed State Extension
-(PERUSE)~\autocite{Jones2006}. PERUSE was designed to provide the internal
-information of an MPI implementation that was not exposed through PMPI to
-applications and performance analysis tools. PERUSE delivers the internal
-information of an MPI implementation to applications and performance analysis
-tools through an event-driven API\@.
+(PERUSE)~\autocite{Jones2006} with PMPI\@. PERUSE was designed to provide the
+internal information of an MPI implementation that was not exposed through
+PMPI to applications and performance analysis tools. PERUSE delivers the
+internal information of an MPI implementation to applications and performance
+analysis tools through an event-driven API\@.
 
 % アプリケーションの実行前の動作
 Figure~\ref{fig:profiler-block} illustrates how PFProf, the MPI library and an
@@ -557,8 +561,8 @@ Based on the requirements above, PFSim is designed to use
 GraphML~\autocite{Brandes2013}, an XML-based markup language for graphs, as
 its input and output format of the interconnect. Popular graph visualization
 tools such as Cytoscape and Gephi can be used to view and edit GraphML files.
-Users can use these tools to visually and intuitively locate bottleneck links
-and load imbalance in the simulated interconnect.
+Users can use these tools to visually and intuitively locate bottlenecks and
+load imbalance in the interconnect.
 
 \section{Evaluation}\label{sec:ii-evaluation}
 
@@ -879,6 +883,14 @@ algorithms and assess their performance improvement effect on real-world
 applications by using indicators such as maximum traffic load.
 
 \section{Related Work}\label{sec:ii-related-work}
+
+The novelty of PFAnalyzer is three-fold. First, PFProf can record the
+underlying point-to-point communication of a collective communication, which
+conventional MPI profilers failed to capture. Second, PFSim rapidly simulates
+the traffic and identify load imbalance in an interconnect owing to an
+adequate approximation of the communication pattern. Third, PFSim is capable
+of simulating programmable interconnects, which were not targeted by
+conventional interconnect simulators.
 
 Several interconnect simulators have been proposed in the past research.
 PSINS~\autocite{Tikir2009} is a trace-driven simulator for HPC

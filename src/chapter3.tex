@@ -96,22 +96,23 @@ generate the corresponding hash value for the header fields, where every value
 in the hash value space are evenly assigned to one of the equal cost routes.
 
 InfiniBand~\autocite{Buyya2009} is a computer network communication link
-commonly used in the area of HPC and a data center. InfiniBand supports
+commonly used in the area of HPC and data centers. InfiniBand supports
 multiple routing methods. One of those methods is a min-hop routing
 algorithm, which calculates the minimum hop route between every
 compute node pair. If multiple minimum hop routes for a single
 compute node pair are available, the algorithm assigns a route so that
 usage among links is equalized.
 
-The problem of these existing conventional load balancing mechanisms is
-that they never consider the communication pattern of MPI applications. In
-general, MPI applications cannot retrieve the usage information of the
-underlying network nor control it. Meanwhile, MPI communication in an MPI
-application usually shows a strong locality where each process communicates
-with a limited number of processes. This non-uniform communication pattern may
-cause an inequality of link usage that decreases available bandwidth between
-compute nodes. Ultimately, this decrease of available bandwidth can lead to
-the performance degradation of MPI applications.
+The problem of these existing conventional load balancing mechanisms is that
+they are application-agnostic and never consider the communication pattern of
+MPI applications. In general, MPI applications cannot retrieve the usage
+information of the underlying network nor control it. Meanwhile, MPI
+communication in an MPI application usually shows a strong locality where each
+process communicates with a limited number of processes. This non-uniform
+communication pattern combined with application-agnostic network control
+causes unequal link usage that decreases available bandwidth between compute
+nodes. Ultimately, this decrease in available bandwidth can lead to the
+performance degradation of MPI applications.
 
 From the observations above, an application-aware network control mechanism
 which recognizes the communication pattern needed by MPI collectives is
@@ -123,18 +124,21 @@ applications.
 
 In particular, this research focuses on accelerating MPI\_Allreduce.
 MPI\_Allreduce is one of the most frequently used and time-consuming
-collective communication functions of MPI\@~\cite{Chunduri2018}.
-This collective communication reduces values from all
-processes with an operator and broadcasts the result of the reduction to every
-process. More specifically, suppose there are $n$ processes in a communicator
-and each process with rank $i$ ($0 \leq i < n$) has $l$ values $x_i^0, x_i^1,
-\dots, x_i^l$. After MPI\_Allreduce is completed, all processes have values
-$y^0, y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j \oplus \dots \oplus
-x_{n-1}^j$ and $\oplus$ is the operator used for reduction. The operator can
-be any user-defined associative operator or one of the pre-defined operators
-such as sum, product, or maximum. Figure~\ref{fig:mpi-allreduce} shows an
-example where four processes each having five values call MPI\_Allreduce with
-the sum operator.
+collective communication functions of MPI\@. In fact, an analysis of 100K jobs
+executed on a large-scale production HPC system has revealed that
+MPI\_Allreduce accounts for 19.4\% of the total core-hours spent in MPI, and
+is the most significant among all MPI collectives regarding both core-hours
+and number of calls~\cite{Chunduri2018}. This collective communication reduces
+values from all processes with an operator and broadcasts the result of the
+reduction to every process. More specifically, suppose there are $n$ processes
+in a communicator and each process with rank $i$ ($0 \leq i < n$) has $l$
+values $x_i^0, x_i^1, \dots, x_i^l$. After MPI\_Allreduce is completed, all
+processes have values $y^0, y^1, \dots, y^l$ where $y^j = x_0^j \oplus x_1^j
+\oplus \dots \oplus x_{n-1}^j$ and $\oplus$ is the operator used for
+reduction. The operator can be any user-defined associative operator or one of
+the pre-defined operators such as sum, product, or maximum.
+Figure~\ref{fig:mpi-allreduce} shows an example where four processes each
+having five values call MPI\_Allreduce with the sum operator.
 
 \begin{figure}
     \centering
@@ -320,11 +324,11 @@ The second functionality is replying to ARP requests. ARP requests are L2
 broadcast packets and therefore cause a \emph{broadcast storm} in a network
 that contains a cycle. Since this chapter targets a network that has redundant
 routes, the topology of the network is not a tree. Therefore, the network is
-always cyclic and affected by the broadcast problem. To eliminate broadcast
-storms, the controller instructs the switches to reply to the received ARP
-requests on behalf of the compute node that has the corresponding IP address.
-The IP address that corresponds to the MAC address is obtained from the
-above-described MAC/IP address translation table.
+always cyclic and affected by the broadcast storm problem. To eliminate
+broadcast storms, the controller instructs the switches to reply to the
+received ARP requests on behalf of the compute node that has the corresponding
+IP address. The IP address that corresponds to the MAC address is obtained
+from the above-described MAC/IP address translation table.
 
 The third functionality is route generation and installation for MPI
 collective communication. The route generation algorithm is implemented as a
