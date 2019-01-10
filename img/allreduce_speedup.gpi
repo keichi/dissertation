@@ -10,7 +10,7 @@
 #    	gnuplot home:     http://www.gnuplot.info
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
-set terminal pdfcairo  transparent enhanced fontscale 0.75 size 13.00cm, 8.00cm font ",12"
+set terminal pdfcairo  transparent enhanced fontscale 0.75 size 13.00cm, 9.00cm font ",12"
 unset clip points
 set clip one
 unset clip two
@@ -165,6 +165,7 @@ set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap 
 GNUTERM = "qt"
 x = 0.0
 ## Last datafile plotted: "allreduce_16nodes.dat"
+set bmargin 4
 set output "allreduce_8nodes_speedup.pdf"
 plot "allreduce_8nodes.dat" u 1:($2/$3) w lp notitle ls 1
 unset output
