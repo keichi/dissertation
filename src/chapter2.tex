@@ -819,6 +819,20 @@ the results for dynamic routing. The vertical axis represents the simulated
 maximum traffic load normalized by the maximum traffic load when linear node
 selection, block process placement and \mbox{D-mod-K} routing were adopted.
 
+\begin{figure}
+    \centering
+    \includegraphics{nas_cg_congestion}
+    \caption{Comparison of Maximum Traffic (NAS CG)}%
+    \label{fig:nas-cg-congestion}
+
+    \vspace*{\floatsep}
+
+    \centering
+    \includegraphics{nersc_milc_congestion}
+    \caption{Comparison of Maximum Traffic (MILC)}%
+    \label{fig:nersc-milc-congestion}
+\end{figure}
+
 What stands out in Fig.~\ref{fig:nas-cg-congestion} is that
 dynamic routing consistently achieves lower traffic load compared to
 static \mbox{D-mod-K} routing. The reduction of traffic load was the largest
@@ -837,20 +851,6 @@ random node selection and cyclic process placement was adopted. When using
 linear node selection and block process placement, the reduction of the
 maximum link load was 18\%. Compared to NAS CG benchmark, the effect of
 dynamic routing was smaller.
-
-\begin{figure}
-    \centering
-    \includegraphics{nas_cg_congestion}
-    \caption{Comparison of Maximum Traffic (NAS CG)}%
-    \label{fig:nas-cg-congestion}
-
-    \vspace*{\floatsep}
-
-    \centering
-    \includegraphics{nersc_milc_congestion}
-    \caption{Comparison of Maximum Traffic (MILC)}%
-    \label{fig:nersc-milc-congestion}
-\end{figure}
 
 To investigate the impact of traffic load on the application performance of an
 actual environment, the configuration described in the previous
