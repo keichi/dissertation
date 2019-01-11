@@ -16,7 +16,7 @@ all: main.pdf
 	pdfcrop $< $@
 
 %.pdf: %.pdf-cropped
-	gs -q -dNOPAUSE -dBATCH -dPDFSETTINGS=/prepress -sDEVICE=pdfwrite -sOutputFile=$@ $<
+	gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -sOutputFile=$@ -f $<
 
 main.pdf: $(MAIN) $(SOURCES) $(IMAGES) $(REFERENCES)
 	latexmk -pdf $(MAIN)
@@ -31,4 +31,4 @@ watch: main.pdf
 	latexmk -pdf -pvc $(MAIN)
 
 release: main.pdf
-	gs -q -dNOPAUSE -dBATCH -dPDFSETTINGS=/printer -sDEVICE=pdfwrite -dCompressFonts=true -dSubsetFonts=true -sOutputFile=dissertation-$(shell date +"%m%d").pdf main.pdf
+	gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/printer -dEmbedAllFonts=true -sOutputFile=dissertation-$(shell date +"%m%d").pdf main.pdf
